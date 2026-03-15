@@ -2,1035 +2,1056 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multifamiliar Las Limas — Pagos y Deudas</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --verde: #2d6a4f;
-      --verde-md: #40916c;
-      --verde-lt: #74c69d;
-      --verde-xs: #d8f3dc;
-      --lima: #b7e4c7;
-      --tierra: #c0392b;
-      --tierra-lt: #fde8e7;
-      --amber: #856404;
-      --amber-lt: #fff3cd;
-      --bg: #f4f9f6;
-      --bg2: #ffffff;
-      --txt: #1b2e24;
-      --txt2: #4a6358;
-      --border: #c3dfd0;
-      --shadow: 0 2px 16px rgba(45, 106, 79, .10);
-      --radius: 14px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--txt);
-      min-height: 100vh;
-    }
-
-    /* NAV */
-    header {
-      background: var(--verde);
-      color: #fff;
-      padding: 0 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--verde-lt);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-text {
-      font-family: 'DM Serif Display', serif;
-      font-size: 17px;
-      line-height: 1.2;
-    }
-
-    .logo-sub {
-      font-size: 10px;
-      font-weight: 300;
-      opacity: .75;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 4px;
-    }
-
-    .nav-tab {
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      background: rgba(255, 255, 255, .1);
-      color: rgba(255, 255, 255, .75);
-      transition: all .15s;
-    }
-
-    .nav-tab:hover {
-      background: rgba(255, 255, 255, .2);
-      color: #fff;
-    }
-
-    .nav-tab.active {
-      background: #fff;
-      color: var(--verde);
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 28px 20px 60px;
-    }
-
-    /* STATS ROW */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--txt2);
-      margin-bottom: 6px;
-    }
-
-    .stat-value {
-      font-family: 'DM Serif Display', serif;
-      font-size: 26px;
-      color: var(--verde);
-    }
-
-    .stat-value.red {
-      color: var(--tierra);
-    }
-
-    .stat-value.amber {
-      color: var(--amber);
-    }
-
-    .stat-sub {
-      font-size: 11px;
-      color: var(--txt2);
-      margin-top: 3px;
-    }
-
-    /* FILTROS */
-    .filtros {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .filtros label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--txt2);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .filtros select,
-    .filtros input {
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 7px 10px;
-      font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--txt);
-      background: var(--bg);
-      outline: none;
-      transition: border-color .15s;
-    }
-
-    .filtros select:focus,
-    .filtros input:focus {
-      border-color: var(--verde-md);
-    }
-
-    /* TABLA PRINCIPAL */
-    .card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .card-header {
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--verde-md);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title::before {
-      content: '';
-      width: 3px;
-      height: 14px;
-      background: var(--verde-md);
-      border-radius: 2px;
-      display: inline-block;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    thead tr {
-      background: var(--bg);
-      border-bottom: 1.5px solid var(--border);
-    }
-
-    thead th {
-      padding: 10px 14px;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--txt2);
-      text-align: left;
-    }
-
-    thead th.r {
-      text-align: right;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background .12s;
-    }
-
-    tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: var(--verde-xs);
-    }
-
-    tbody td {
-      padding: 11px 14px;
-      font-size: 13px;
-      vertical-align: middle;
-    }
-
-    .depto-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 16px;
-      color: var(--verde);
-    }
-
-    .depto-prop {
-      font-size: 11px;
-      color: var(--txt2);
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-
-    .badge-ok {
-      background: var(--verde-xs);
-      color: var(--verde);
-    }
-
-    .badge-deuda {
-      background: var(--tierra-lt);
-      color: var(--tierra);
-    }
-
-    .badge-par {
-      background: var(--amber-lt);
-      color: var(--amber);
-    }
-
-    .amount {
-      font-size: 13px;
-      font-weight: 500;
-      text-align: right;
-    }
-
-    .amount.cobrado {
-      color: var(--verde);
-    }
-
-    .amount.pendiente {
-      color: var(--tierra);
-    }
-
-    .amount.neutral {
-      color: var(--txt);
-    }
-
-    /* BARRA DE PROGRESO DEUDA */
-    .prog-bar {
-      height: 5px;
-      border-radius: 3px;
-      background: var(--border);
-      overflow: hidden;
-      min-width: 80px;
-    }
-
-    .prog-fill {
-      height: 100%;
-      border-radius: 3px;
-      background: var(--verde-lt);
-      transition: width .3s;
-    }
-
-    .prog-fill.warn {
-      background: #f9c74f;
-    }
-
-    .prog-fill.danger {
-      background: var(--tierra);
-    }
-
-    /* BOTÓN PAGAR */
-    .btn-pagar {
-      padding: 5px 12px;
-      border-radius: 7px;
-      font-size: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      background: var(--verde);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: all .15s;
-      white-space: nowrap;
-    }
-
-    .btn-pagar:hover {
-      background: var(--verde-md);
-    }
-
-    .btn-ver {
-      padding: 5px 10px;
-      border-radius: 7px;
-      font-size: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      color: var(--txt2);
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .btn-ver:hover {
-      border-color: var(--verde-md);
-      color: var(--verde);
-    }
-
-    /* MODAL REGISTRAR PAGO */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .45);
-      z-index: 500;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal {
-      background: #fff;
-      border-radius: var(--radius);
-      width: 90%;
-      max-width: 480px;
-      padding: 28px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
-    }
-
-    .modal h2 {
-      font-family: 'DM Serif Display', serif;
-      color: var(--verde);
-      margin-bottom: 4px;
-      font-size: 22px;
-    }
-
-    .modal .modal-sub {
-      font-size: 13px;
-      color: var(--txt2);
-      margin-bottom: 20px;
-    }
-
-    .modal-close {
-      float: right;
-      background: none;
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-      color: var(--txt2);
-      margin-top: -4px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .form-grid.full {
-      grid-template-columns: 1fr;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .field label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--txt2);
-    }
-
-    .field input,
-    .field select,
-    .field textarea {
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 9px 12px;
-      font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--txt);
-      background: var(--bg);
-      outline: none;
-      transition: border-color .15s, box-shadow .15s;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: var(--verde-md);
-      box-shadow: 0 0 0 3px rgba(64, 145, 108, .12);
-      background: #fff;
-    }
-
-    .field textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-
-    .monto-preview {
-      background: var(--verde-xs);
-      border: 1.5px solid var(--lima);
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin: 12px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .monto-preview .mp-label {
-      font-size: 12px;
-      color: var(--txt2);
-    }
-
-    .monto-preview .mp-val {
-      font-family: 'DM Serif Display', serif;
-      font-size: 20px;
-      color: var(--verde);
-    }
-
-    /* MODAL HISTORIAL */
-    .hist-item {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .hist-item:last-child {
-      border-bottom: none;
-    }
-
-    .hist-info .hi-fecha {
-      font-size: 12px;
-      color: var(--txt2);
-    }
-
-    .hist-info .hi-metodo {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--txt);
-    }
-
-    .hist-info .hi-ref {
-      font-size: 11px;
-      color: var(--txt2);
-      font-style: italic;
-    }
-
-    .hist-monto {
-      font-family: 'DM Serif Display', serif;
-      font-size: 18px;
-      color: var(--verde);
-      white-space: nowrap;
-    }
-
-    /* TOAST */
-    #toast {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      background: var(--verde);
-      color: #fff;
-      padding: 13px 22px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
-      z-index: 999;
-    }
-
-    #toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    #toast.error {
-      background: var(--tierra);
-    }
-
-    /* PANEL TESORERIA */
-    .teso-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .teso-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .teso-card h3 {
-      font-size: 13px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: var(--txt2);
-      margin-bottom: 12px;
-    }
-
-    .teso-total {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px;
-    }
-
-    .teso-total.ing {
-      color: var(--verde);
-    }
-
-    .teso-total.egr {
-      color: var(--tierra);
-    }
-
-    .teso-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    @media(max-width:640px) {
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .nav-tabs {
-        display: none;
-      }
-
-      .teso-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multifamiliar Las Limas — Pagos y Deudas</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --verde: #2d6a4f;
+            --verde-md: #40916c;
+            --verde-lt: #74c69d;
+            --verde-xs: #d8f3dc;
+            --lima: #b7e4c7;
+            --tierra: #c0392b;
+            --tierra-lt: #fde8e7;
+            --amber: #856404;
+            --amber-lt: #fff3cd;
+            --bg: #f4f9f6;
+            --bg2: #ffffff;
+            --txt: #1b2e24;
+            --txt2: #4a6358;
+            --border: #c3dfd0;
+            --shadow: 0 2px 16px rgba(45, 106, 79, .10);
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh;
+        }
+
+        /* NAV */
+        header {
+            background: var(--verde);
+            color: #fff;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--verde-lt);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            font-weight: 300;
+            opacity: .75;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: rgba(255, 255, 255, .1);
+            color: rgba(255, 255, 255, .75);
+            transition: all .15s;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, .2);
+            color: #fff;
+        }
+
+        .nav-tab.active {
+            background: #fff;
+            color: var(--verde);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+
+        /* STATS ROW */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--txt2);
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 26px;
+            color: var(--verde);
+        }
+
+        .stat-value.red {
+            color: var(--tierra);
+        }
+
+        .stat-value.amber {
+            color: var(--amber);
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: var(--txt2);
+            margin-top: 3px;
+        }
+
+        /* FILTROS */
+        .filtros {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .filtros label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--txt2);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .filtros select,
+        .filtros input {
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 10px;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--txt);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .filtros select:focus,
+        .filtros input:focus {
+            border-color: var(--verde-md);
+        }
+
+        /* TABLA PRINCIPAL */
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--verde-md);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 3px;
+            height: 14px;
+            background: var(--verde-md);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            background: var(--bg);
+            border-bottom: 1.5px solid var(--border);
+        }
+
+        thead th {
+            padding: 10px 14px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--txt2);
+            text-align: left;
+        }
+
+        thead th.r {
+            text-align: right;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background .12s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--verde-xs);
+        }
+
+        tbody td {
+            padding: 11px 14px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .depto-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 16px;
+            color: var(--verde);
+        }
+
+        .depto-prop {
+            font-size: 11px;
+            color: var(--txt2);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .badge-ok {
+            background: var(--verde-xs);
+            color: var(--verde);
+        }
+
+        .badge-deuda {
+            background: var(--tierra-lt);
+            color: var(--tierra);
+        }
+
+        .badge-par {
+            background: var(--amber-lt);
+            color: var(--amber);
+        }
+
+        .amount {
+            font-size: 13px;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .amount.cobrado {
+            color: var(--verde);
+        }
+
+        .amount.pendiente {
+            color: var(--tierra);
+        }
+
+        .amount.neutral {
+            color: var(--txt);
+        }
+
+        /* BARRA DE PROGRESO DEUDA */
+        .prog-bar {
+            height: 5px;
+            border-radius: 3px;
+            background: var(--border);
+            overflow: hidden;
+            min-width: 80px;
+        }
+
+        .prog-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--verde-lt);
+            transition: width .3s;
+        }
+
+        .prog-fill.warn {
+            background: #f9c74f;
+        }
+
+        .prog-fill.danger {
+            background: var(--tierra);
+        }
+
+        /* BOTÓN PAGAR */
+        .btn-pagar {
+            padding: 5px 12px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            background: var(--verde);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+
+        .btn-pagar:hover {
+            background: var(--verde-md);
+        }
+
+        .btn-ver {
+            padding: 5px 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            color: var(--txt2);
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-ver:hover {
+            border-color: var(--verde-md);
+            color: var(--verde);
+        }
+
+        /* MODAL REGISTRAR PAGO */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 480px;
+            padding: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+        }
+
+        .modal h2 {
+            font-family: 'DM Serif Display', serif;
+            color: var(--verde);
+            margin-bottom: 4px;
+            font-size: 22px;
+        }
+
+        .modal .modal-sub {
+            font-size: 13px;
+            color: var(--txt2);
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--txt2);
+            margin-top: -4px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--txt2);
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--txt);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--verde-md);
+            box-shadow: 0 0 0 3px rgba(64, 145, 108, .12);
+            background: #fff;
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .monto-preview {
+            background: var(--verde-xs);
+            border: 1.5px solid var(--lima);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .monto-preview .mp-label {
+            font-size: 12px;
+            color: var(--txt2);
+        }
+
+        .monto-preview .mp-val {
+            font-family: 'DM Serif Display', serif;
+            font-size: 20px;
+            color: var(--verde);
+        }
+
+        /* MODAL HISTORIAL */
+        .hist-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .hist-item:last-child {
+            border-bottom: none;
+        }
+
+        .hist-info .hi-fecha {
+            font-size: 12px;
+            color: var(--txt2);
+        }
+
+        .hist-info .hi-metodo {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--txt);
+        }
+
+        .hist-info .hi-ref {
+            font-size: 11px;
+            color: var(--txt2);
+            font-style: italic;
+        }
+
+        .hist-monto {
+            font-family: 'DM Serif Display', serif;
+            font-size: 18px;
+            color: var(--verde);
+            white-space: nowrap;
+        }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--verde);
+            color: #fff;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+            z-index: 999;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #toast.error {
+            background: var(--tierra);
+        }
+
+        /* PANEL TESORERIA */
+        .teso-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .teso-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .teso-card h3 {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--txt2);
+            margin-bottom: 12px;
+        }
+
+        .teso-total {
+            font-family: 'DM Serif Display', serif;
+            font-size: 28px;
+        }
+
+        .teso-total.ing {
+            color: var(--verde);
+        }
+
+        .teso-total.egr {
+            color: var(--tierra);
+        }
+
+        .teso-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        @media(max-width:640px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-tabs {
+                display: none;
+            }
+
+            .teso-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">
-      <div class="logo-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2e24" stroke-width="2"
-          stroke-linecap="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-      </div>
-      <div>
-        <div class="logo-text">Multifamiliar Las Limas</div>
-        <div class="logo-sub">Sistema de Gestión</div>
-      </div>
-    </div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" onclick="showPanel('pagos')">Pagos y Deudas</button>
-      <button class="nav-tab" onclick="showPanel('tesoreria')">Tesorería</button>
-    </div>
-  </header>
-
-  <div class="container">
-
-    <!-- PERIODO SELECTOR -->
-    <div class="filtros" style="margin-bottom:20px">
-      <label>Periodo:
-        <select id="f-mes">
-          <option value="1">Enero</option>
-          <option value="2">Febrero</option>
-          <option value="3">Marzo</option>
-          <option value="4">Abril</option>
-          <option value="5">Mayo</option>
-          <option value="6">Junio</option>
-          <option value="7">Julio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Septiembre</option>
-          <option value="10">Octubre</option>
-          <option value="11">Noviembre</option>
-          <option value="12">Diciembre</option>
-        </select>
-      </label>
-      <label><select id="f-anio">
-          <option>2025</option>
-          <option>2026</option>
-        </select></label>
-      <button class="btn-pagar" onclick="cargarDatos()" style="padding:8px 18px">Cargar</button>
-      <label style="margin-left:auto">
-        <input type="text" id="f-search" placeholder="Buscar departamento..." oninput="filtrarTabla()"
-          style="width:200px">
-      </label>
-    </div>
-
-    <!-- ═══ PANEL PAGOS ═══ -->
-    <div id="panel-pagos">
-
-      <!-- STATS -->
-      <div class="stats">
-        <div class="stat-card">
-          <div class="stat-label">Total cargado</div>
-          <div class="stat-value" id="s-total">S/. —</div>
-          <div class="stat-sub" id="s-deptos">— departamentos</div>
+    <header>
+        <a href="https://joseluisgch.github.io/multifam_laslimas/" class="logo"
+            style="text-decoration: none; color: inherit;">
+            <div class="logo-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2e24" stroke-width="2"
+                    stroke-linecap="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+            </div>
+            <div>
+                <div class="logo-text">Multifamiliar Las Limas</div>
+                <div class="logo-sub">Sistema de Gestión</div>
+            </div>
+        </a>
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showPanel('pagos')">Pagos y Deudas</button>
+            <button class="nav-tab" onclick="showPanel('tesoreria')">Tesorería</button>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Total cobrado</div>
-          <div class="stat-value" id="s-cobrado">S/. —</div>
-          <div class="stat-sub" id="s-pct">—% recaudado</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Deuda pendiente</div>
-          <div class="stat-value red" id="s-deuda">S/. —</div>
-          <div class="stat-sub" id="s-morosos">— con deuda</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Al día</div>
-          <div class="stat-value" id="s-aldia">—</div>
-          <div class="stat-sub">departamentos pagados</div>
-        </div>
-      </div>
+    </header>
 
-      <!-- TABLA DEUDAS -->
-      <div class="card">
-        <div class="card-header">
-          <div class="section-title">Estado de cuenta por departamento</div>
-          <div style="display:flex;gap:8px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt2);cursor:pointer">
-              <input type="checkbox" id="solo-deudores" onchange="filtrarTabla()" style="accent-color:var(--verde)">
-              Solo con deuda
+    <div class="container">
+
+        <!-- PERIODO SELECTOR -->
+        <div class="filtros" style="margin-bottom:20px">
+            <label>Periodo:
+                <select id="f-mes">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
             </label>
-          </div>
+            <label><select id="f-anio">
+                    <option>2025</option>
+                    <option>2026</option>
+                </select></label>
+            <button class="btn-pagar" onclick="cargarDatos()" style="padding:8px 18px">Cargar</button>
+            <label style="margin-left:auto">
+                <input type="text" id="f-search" placeholder="Buscar departamento..." oninput="filtrarTabla()"
+                    style="width:200px">
+            </label>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Depto.</th>
-              <th>Propietario</th>
-              <th class="r">Cargo agua</th>
-              <th class="r">Pagado</th>
-              <th class="r">Saldo</th>
-              <th>Estado / Avance</th>
-              <th style="text-align:center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-pagos"></tbody>
-        </table>
-      </div>
+
+        <!-- ═══ PANEL PAGOS ═══ -->
+        <div id="panel-pagos">
+
+            <!-- STATS -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-label">Total cargado</div>
+                    <div class="stat-value" id="s-total">S/. —</div>
+                    <div class="stat-sub" id="s-deptos">— departamentos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total cobrado</div>
+                    <div class="stat-value" id="s-cobrado">S/. —</div>
+                    <div class="stat-sub" id="s-pct">—% recaudado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Deuda pendiente</div>
+                    <div class="stat-value red" id="s-deuda">S/. —</div>
+                    <div class="stat-sub" id="s-morosos">— con deuda</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Al día</div>
+                    <div class="stat-value" id="s-aldia">—</div>
+                    <div class="stat-sub">departamentos pagados</div>
+                </div>
+            </div>
+
+            <!-- TABLA DEUDAS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-title">Estado de cuenta por departamento</div>
+                    <div style="display:flex;gap:8px">
+                        <label
+                            style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt2);cursor:pointer">
+                            <input type="checkbox" id="solo-deudores" onchange="filtrarTabla()"
+                                style="accent-color:var(--verde)">
+                            Solo con deuda
+                        </label>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Depto.</th>
+                            <th>Propietario</th>
+                            <th class="r">Cargo agua+mante</th>
+                            <th class="r">Pagado</th>
+                            <th class="r">Saldo</th>
+                            <th>Estado / Avance</th>
+                            <th style="text-align:center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-pagos"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ═══ PANEL TESORERÍA ═══ -->
+        <div id="panel-tesoreria" style="display:none">
+
+            <div class="teso-grid">
+                <div class="teso-card">
+                    <h3>Ingresos del mes</h3>
+                    <div class="teso-total ing" id="t-ingresos">S/. 0.00</div>
+                    <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="t-ing-count">— movimientos</div>
+                </div>
+                <div class="teso-card">
+                    <h3>Egresos del mes</h3>
+                    <div class="teso-total egr" id="t-egresos">S/. 0.00</div>
+                    <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="t-egr-count">— movimientos</div>
+                </div>
+            </div>
+
+            <!-- Formulario rápido -->
+            <div class="card" style="margin-bottom:20px">
+                <div class="card-header">
+                    <div class="section-title">Registrar movimiento</div>
+                </div>
+                <div style="padding:20px">
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 2fr 1fr;gap:12px;align-items:end">
+                        <div class="field">
+                            <label>Tipo</label>
+                            <select id="t-tipo">
+                                <option value="ingreso">Ingreso</option>
+                                <option value="egreso">Egreso</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Fecha</label>
+                            <input type="date" id="t-fecha">
+                        </div>
+                        <div class="field">
+                            <label>Monto (S/.)</label>
+                            <input type="number" id="t-monto" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <div class="field">
+                            <label>Concepto</label>
+                            <input type="text" id="t-concepto" placeholder="Ej: Pago recibo agua SEDAPAL">
+                        </div>
+                        <div class="field">
+                            <label>Categoría</label>
+                            <select id="t-categoria">
+                                <option value="agua">Agua</option>
+                                <option value="limpieza">Limpieza</option>
+                                <option value="reparacion">Reparación</option>
+                                <option value="seguridad">Seguridad</option>
+                                <option value="admin">Administración</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:14px">
+                        <button class="btn-pagar" onclick="guardarMovimiento()"
+                            style="padding:10px 24px;font-size:14px">
+                            + Registrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla movimientos -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="section-title">Movimientos del mes</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Categoría</th>
+                            <th>Concepto</th>
+                            <th class="r">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-teso"></tbody>
+                </table>
+                <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:24px">
+                    <div><span
+                            style="font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em">Balance</span>
+                        <span style="font-family:'DM Serif Display',serif;font-size:18px;margin-left:10px"
+                            id="t-balance">S/.
+                            0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ═══ PANEL TESORERÍA ═══ -->
-    <div id="panel-tesoreria" style="display:none">
+    <!-- MODAL REGISTRAR PAGO -->
+    <div class="modal-overlay" id="modal-pago" onclick="if(event.target===this)cerrarModal()">
+        <div class="modal">
+            <button class="modal-close" onclick="cerrarModal()">✕</button>
+            <h2>Registrar pago</h2>
+            <div class="modal-sub" id="modal-depto-info">Departamento —</div>
 
-      <div class="teso-grid">
-        <div class="teso-card">
-          <h3>Ingresos del mes</h3>
-          <div class="teso-total ing" id="t-ingresos">S/. 0.00</div>
-          <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="t-ing-count">— movimientos</div>
-        </div>
-        <div class="teso-card">
-          <h3>Egresos del mes</h3>
-          <div class="teso-total egr" id="t-egresos">S/. 0.00</div>
-          <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="t-egr-count">— movimientos</div>
-        </div>
-      </div>
+            <div class="monto-preview">
+                <span class="mp-label">Saldo pendiente</span>
+                <span class="mp-val" id="mp-saldo">S/. 0.00</span>
+            </div>
 
-      <!-- Formulario rápido -->
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-header">
-          <div class="section-title">Registrar movimiento</div>
+            <div class="form-grid">
+                <div class="field">
+                    <label>Fecha de pago</label>
+                    <input type="date" id="p-fecha">
+                </div>
+                <div class="field">
+                    <label>Monto (S/.)</label>
+                    <input type="number" id="p-monto" placeholder="0.00" step="0.01" min="0.01">
+                </div>
+                <div class="field">
+                    <label>Método</label>
+                    <select id="p-metodo">
+                        <option value="efectivo">Efectivo</option>
+                        <option value="transferencia">Transferencia</option>
+                        <option value="yape">Yape</option>
+                        <option value="plin">Plin</option>
+                        <option value="deposito">Depósito</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>N° Referencia (opcional)</label>
+                    <input type="text" id="p-ref" placeholder="Código operación">
+                </div>
+            </div>
+            <div class="field form-grid full" style="margin-top:10px">
+                <label>Observación</label>
+                <textarea id="p-obs" placeholder="Notas adicionales..."></textarea>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
+                <button class="btn-ver" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-pagar" onclick="confirmarPago()" style="padding:10px 22px;font-size:14px">Confirmar
+                    pago</button>
+            </div>
         </div>
-        <div style="padding:20px">
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 2fr 1fr;gap:12px;align-items:end">
-            <div class="field">
-              <label>Tipo</label>
-              <select id="t-tipo">
-                <option value="ingreso">Ingreso</option>
-                <option value="egreso">Egreso</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Fecha</label>
-              <input type="date" id="t-fecha">
-            </div>
-            <div class="field">
-              <label>Monto (S/.)</label>
-              <input type="number" id="t-monto" placeholder="0.00" step="0.01" min="0">
-            </div>
-            <div class="field">
-              <label>Concepto</label>
-              <input type="text" id="t-concepto" placeholder="Ej: Pago recibo agua SEDAPAL">
-            </div>
-            <div class="field">
-              <label>Categoría</label>
-              <select id="t-categoria">
-                <option value="agua">Agua</option>
-                <option value="limpieza">Limpieza</option>
-                <option value="reparacion">Reparación</option>
-                <option value="seguridad">Seguridad</option>
-                <option value="admin">Administración</option>
-                <option value="otro">Otro</option>
-              </select>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:flex-end;margin-top:14px">
-            <button class="btn-pagar" onclick="guardarMovimiento()" style="padding:10px 24px;font-size:14px">
-              + Registrar
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tabla movimientos -->
-      <div class="card">
-        <div class="card-header">
-          <div class="section-title">Movimientos del mes</div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Categoría</th>
-              <th>Concepto</th>
-              <th class="r">Monto</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-teso"></tbody>
-        </table>
-        <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:24px">
-          <div><span
-              style="font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em">Balance</span>
-            <span style="font-family:'DM Serif Display',serif;font-size:18px;margin-left:10px" id="t-balance">S/.
-              0.00</span>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- MODAL REGISTRAR PAGO -->
-  <div class="modal-overlay" id="modal-pago" onclick="if(event.target===this)cerrarModal()">
-    <div class="modal">
-      <button class="modal-close" onclick="cerrarModal()">✕</button>
-      <h2>Registrar pago</h2>
-      <div class="modal-sub" id="modal-depto-info">Departamento —</div>
-
-      <div class="monto-preview">
-        <span class="mp-label">Saldo pendiente</span>
-        <span class="mp-val" id="mp-saldo">S/. 0.00</span>
-      </div>
-
-      <div class="form-grid">
-        <div class="field">
-          <label>Fecha de pago</label>
-          <input type="date" id="p-fecha">
+    <!-- MODAL HISTORIAL -->
+    <div class="modal-overlay" id="modal-hist" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="modal">
+            <button class="modal-close"
+                onclick="document.getElementById('modal-hist').classList.remove('open')">✕</button>
+            <h2>Historial de pagos</h2>
+            <div class="modal-sub" id="hist-depto-info"></div>
+            <div id="hist-lista"></div>
         </div>
-        <div class="field">
-          <label>Monto (S/.)</label>
-          <input type="number" id="p-monto" placeholder="0.00" step="0.01" min="0.01">
-        </div>
-        <div class="field">
-          <label>Método</label>
-          <select id="p-metodo">
-            <option value="efectivo">Efectivo</option>
-            <option value="transferencia">Transferencia</option>
-            <option value="yape">Yape</option>
-            <option value="plin">Plin</option>
-            <option value="deposito">Depósito</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>N° Referencia (opcional)</label>
-          <input type="text" id="p-ref" placeholder="Código operación">
-        </div>
-      </div>
-      <div class="field form-grid full" style="margin-top:10px">
-        <label>Observación</label>
-        <textarea id="p-obs" placeholder="Notas adicionales..."></textarea>
-      </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
-        <button class="btn-ver" onclick="cerrarModal()">Cancelar</button>
-        <button class="btn-pagar" onclick="confirmarPago()" style="padding:10px 22px;font-size:14px">Confirmar
-          pago</button>
-      </div>
     </div>
-  </div>
 
-  <!-- MODAL HISTORIAL -->
-  <div class="modal-overlay" id="modal-hist" onclick="if(event.target===this)this.classList.remove('open')">
-    <div class="modal">
-      <button class="modal-close" onclick="document.getElementById('modal-hist').classList.remove('open')">✕</button>
-      <h2>Historial de pagos</h2>
-      <div class="modal-sub" id="hist-depto-info"></div>
-      <div id="hist-lista"></div>
-    </div>
-  </div>
+    <div id="toast"></div>
 
-  <div id="toast"></div>
+    <script>
+        // ═══════════════════════════════════════════════
+        // CONFIG SUPABASE
+        // ═══════════════════════════════════════════════
+        const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
+        const MESES = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-  <script>
-    // ═══════════════════════════════════════════════
-    // CONFIG SUPABASE
-    // ═══════════════════════════════════════════════
-    const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
-    const MESES = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const formatSoles = (val) => {
+            const num = Number(val) || 0;
+            return num % 1 === 0 ? num.toString() : num.toFixed(2);
+        };
 
-    // Estado local
-    let periodoActual = null;
-    let filasData = [];
-    let pagoModal = {};
-    let tesoData = [];
+        // Estado local
+        let periodoActual = null;
+        let filasData = [];
+        let pagoModal = {};
+        let tesoData = [];
 
-    // ═══════════════════════════════════════════════
-    // INIT
-    // ═══════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', () => {
-      const now = new Date();
-      document.getElementById('f-mes').value = now.getMonth() + 1;
-      document.getElementById('t-fecha').value = now.toISOString().slice(0, 10);
-      document.getElementById('p-fecha').value = now.toISOString().slice(0, 10);
-      cargarDatos();
-    });
+        // ═══════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            document.getElementById('f-mes').value = now.getMonth() + 1;
 
-    // ═══════════════════════════════════════════════
-    // CARGA DE DATOS
-    // ═══════════════════════════════════════════════
-    async function cargarDatos() {
-      const mes = +document.getElementById('f-mes').value;
-      const anio = +document.getElementById('f-anio').value;
+            const fAnio = document.getElementById('f-anio');
+            const anioActual = now.getFullYear().toString();
+            const opcionesAnio = Array.from(fAnio.options).map(opt => opt.value || opt.text);
+            if (opcionesAnio.includes(anioActual)) {
+                fAnio.value = anioActual;
+            } else {
+                fAnio.selectedIndex = fAnio.options.length - 1;
+            }
 
-      if (SUPABASE_URL.includes('TU_PROYECTO')) {
-        cargarMock(mes, anio);
-        return;
-      }
+            document.getElementById('t-fecha').value = now.toISOString().slice(0, 10);
+            document.getElementById('p-fecha').value = now.toISOString().slice(0, 10);
+            cargarDatos();
+        });
 
-      try {
-        // Obtener periodo
-        const periodos = await sbGet(`periodos?mes=eq.${mes}&anio=eq.${anio}`);
-        if (!periodos.length) { showToast('No hay periodo cargado para ese mes', true); return; }
-        periodoActual = periodos[0];
+        // ═══════════════════════════════════════════════
+        // CARGA DE DATOS
+        // ═══════════════════════════════════════════════
+        async function cargarDatos() {
+            const mes = +document.getElementById('f-mes').value;
+            const anio = +document.getElementById('f-anio').value;
 
-        // Estado de cuenta desde vista
-        const estado = await sbGet(
-          `v_estado_cuenta?mes=eq.${mes}&anio=eq.${anio}&select=*`
-        );
-        filasData = estado;
-        renderTabla();
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                cargarMock(mes, anio);
+                return;
+            }
 
-        // Tesorería
-        const teso = await sbGet(
-          `tesoreria?periodo_id=eq.${periodoActual.id}&order=fecha.desc`
-        );
-        tesoData = teso;
-        renderTesoreria();
+            try {
+                // Obtener periodo
+                const periodos = await sbGet(`periodos?mes=eq.${mes}&anio=eq.${anio}`);
+                if (!periodos.length) { showToast('No hay periodo cargado para ese mes', true); return; }
+                periodoActual = periodos[0];
 
-        actualizarStats();
-      } catch (e) {
-        showToast('Error cargando datos: ' + e.message, true);
-      }
-    }
+                // Estado de cuenta desde vista
+                const estado = await sbGet(
+                    `v_estado_cuenta?mes=eq.${mes}&anio=eq.${anio}&select=*`
+                );
+                filasData = estado;
+                renderTabla();
 
-    function cargarMock(mes, anio) {
-      periodoActual = { id: 1, mes, anio, monto_recibo: 850 };
-      filasData = [
-        { departamento_id: 1, numero: '101', propietario: 'García Ríos, Luis', total_cargado: 85.40, total_pagado: 85.40, saldo: 0 },
-        { departamento_id: 2, numero: '102', propietario: 'Torres Vega, Ana', total_cargado: 72.10, total_pagado: 72.10, saldo: 0 },
-        { departamento_id: 3, numero: '103', propietario: 'Mamani Quispe, Pedro', total_cargado: 91.80, total_pagado: 0, saldo: 91.80 },
-        { departamento_id: 4, numero: '104', propietario: 'Flores Huanca, Rosa', total_cargado: 68.50, total_pagado: 40.00, saldo: 28.50 },
-        { departamento_id: 5, numero: '201', propietario: 'Ccopa Lazo, Jorge', total_cargado: 79.20, total_pagado: 79.20, saldo: 0 },
-        { departamento_id: 6, numero: '202', propietario: 'Sánchez Lima, María', total_cargado: 110.60, total_pagado: 0, saldo: 110.60 },
-        { departamento_id: 7, numero: '203', propietario: 'Vargas Díaz, Carlos', total_cargado: 88.30, total_pagado: 88.30, saldo: 0 },
-        { departamento_id: 8, numero: '204', propietario: 'Huamán Tito, Silvia', total_cargado: 95.70, total_pagado: 95.70, saldo: 0 },
-        { departamento_id: 9, numero: '301', propietario: 'Quispe Apaza, Raúl', total_cargado: 77.00, total_pagado: 77.00, saldo: 0 },
-        { departamento_id: 10, numero: '302', propietario: 'Castro Neyra, Elena', total_cargado: 83.20, total_pagado: 0, saldo: 83.20 },
-        { departamento_id: 11, numero: '303', propietario: 'Bedoya Meza, Tomás', total_cargado: 65.40, total_pagado: 65.40, saldo: 0 },
-        { departamento_id: 12, numero: '304', propietario: 'Alarcón Ruiz, Patricia', total_cargado: 88.80, total_pagado: 50.00, saldo: 38.80 },
-      ];
-      tesoData = [
-        { id: 1, fecha: '2025-06-05', tipo: 'ingreso', concepto: 'Pago agua - depto 101', categoria: 'agua', monto: 85.40 },
-        { id: 2, fecha: '2025-06-06', tipo: 'ingreso', concepto: 'Pago agua - depto 102', categoria: 'agua', monto: 72.10 },
-        { id: 3, fecha: '2025-06-10', tipo: 'egreso', concepto: 'Recibo SEDAPAL junio', categoria: 'agua', monto: 850.00 },
-        { id: 4, fecha: '2025-06-12', tipo: 'egreso', concepto: 'Servicio limpieza áreas', categoria: 'limpieza', monto: 120.00 },
-        { id: 5, fecha: '2025-06-15', tipo: 'ingreso', concepto: 'Pago agua - depto 205', categoria: 'agua', monto: 79.20 },
-      ];
-      renderTabla();
-      renderTesoreria();
-      actualizarStats();
-      showToast('⚠ Mostrando datos de ejemplo — configura Supabase', true);
-    }
+                // Tesorería
+                const teso = await sbGet(
+                    `tesoreria?periodo_id=eq.${periodoActual.id}&order=fecha.desc`
+                );
+                tesoData = teso;
+                renderTesoreria();
 
-    // ═══════════════════════════════════════════════
-    // RENDER TABLA PAGOS
-    // ═══════════════════════════════════════════════
-    function renderTabla() {
-      const soloDeud = document.getElementById('solo-deudores').checked;
-      const q = document.getElementById('f-search').value.toLowerCase();
-      const tbody = document.getElementById('tbody-pagos');
+                actualizarStats();
+            } catch (e) {
+                showToast('Error cargando datos: ' + e.message, true);
+            }
+        }
 
-      const filas = filasData.filter(f =>
-        (!soloDeud || f.saldo > 0) &&
-        (!q || f.numero?.includes(q) || f.propietario?.toLowerCase().includes(q))
-      );
+        function cargarMock(mes, anio) {
+            periodoActual = { id: 1, mes, anio, monto_recibo: 850 };
+            filasData = [
+                { departamento_id: 1, numero: '101', propietario: 'García Ríos, Luis', total_cargado: 85.40, total_pagado: 85.40, saldo: 0 },
+                { departamento_id: 2, numero: '102', propietario: 'Torres Vega, Ana', total_cargado: 72.10, total_pagado: 72.10, saldo: 0 },
+                { departamento_id: 3, numero: '103', propietario: 'Mamani Quispe, Pedro', total_cargado: 91.80, total_pagado: 0, saldo: 91.80 },
+                { departamento_id: 4, numero: '104', propietario: 'Flores Huanca, Rosa', total_cargado: 68.50, total_pagado: 40.00, saldo: 28.50 },
+                { departamento_id: 5, numero: '201', propietario: 'Ccopa Lazo, Jorge', total_cargado: 79.20, total_pagado: 79.20, saldo: 0 },
+                { departamento_id: 6, numero: '202', propietario: 'Sánchez Lima, María', total_cargado: 110.60, total_pagado: 0, saldo: 110.60 },
+                { departamento_id: 7, numero: '203', propietario: 'Vargas Díaz, Carlos', total_cargado: 88.30, total_pagado: 88.30, saldo: 0 },
+                { departamento_id: 8, numero: '204', propietario: 'Huamán Tito, Silvia', total_cargado: 95.70, total_pagado: 95.70, saldo: 0 },
+                { departamento_id: 9, numero: '301', propietario: 'Quispe Apaza, Raúl', total_cargado: 77.00, total_pagado: 77.00, saldo: 0 },
+                { departamento_id: 10, numero: '302', propietario: 'Castro Neyra, Elena', total_cargado: 83.20, total_pagado: 0, saldo: 83.20 },
+                { departamento_id: 11, numero: '303', propietario: 'Bedoya Meza, Tomás', total_cargado: 65.40, total_pagado: 65.40, saldo: 0 },
+                { departamento_id: 12, numero: '304', propietario: 'Alarcón Ruiz, Patricia', total_cargado: 88.80, total_pagado: 50.00, saldo: 38.80 },
+            ];
+            tesoData = [
+                { id: 1, fecha: '2025-06-05', tipo: 'ingreso', concepto: 'Pago agua - depto 101', categoria: 'agua', monto: 85.40 },
+                { id: 2, fecha: '2025-06-06', tipo: 'ingreso', concepto: 'Pago agua - depto 102', categoria: 'agua', monto: 72.10 },
+                { id: 3, fecha: '2025-06-10', tipo: 'egreso', concepto: 'Recibo SEDAPAL junio', categoria: 'agua', monto: 850.00 },
+                { id: 4, fecha: '2025-06-12', tipo: 'egreso', concepto: 'Servicio limpieza áreas', categoria: 'limpieza', monto: 120.00 },
+                { id: 5, fecha: '2025-06-15', tipo: 'ingreso', concepto: 'Pago agua - depto 205', categoria: 'agua', monto: 79.20 },
+            ];
+            renderTabla();
+            renderTesoreria();
+            actualizarStats();
+            showToast('⚠ Mostrando datos de ejemplo — configura Supabase', true);
+        }
 
-      if (!filas.length) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--txt2)">No hay datos para mostrar</td></tr>`;
-        return;
-      }
+        // ═══════════════════════════════════════════════
+        // RENDER TABLA PAGOS
+        // ═══════════════════════════════════════════════
+        function renderTabla() {
+            const soloDeud = document.getElementById('solo-deudores').checked;
+            const q = document.getElementById('f-search').value.toLowerCase();
+            const tbody = document.getElementById('tbody-pagos');
 
-      tbody.innerHTML = filas.map(f => {
-        const cargado = f.total_cargado || 0;
-        const pagado = f.total_pagado || 0;
-        const saldo = f.saldo || 0;
-        const pct = cargado > 0 ? Math.min(100, (pagado / cargado) * 100) : 0;
-        const progClass = pct === 100 ? '' : pct >= 50 ? 'warn' : 'danger';
-        let badgeHTML;
-        if (saldo <= 0) badgeHTML = `<span class="badge badge-ok">Al día</span>`;
-        else if (pagado > 0) badgeHTML = `<span class="badge badge-par">Parcial</span>`;
-        else badgeHTML = `<span class="badge badge-deuda">Debe</span>`;
+            const filas = filasData.filter(f =>
+                (!soloDeud || f.saldo > 0) &&
+                (!q || f.numero?.includes(q) || f.propietario?.toLowerCase().includes(q))
+            );
 
-        return `<tr>
+            if (!filas.length) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--txt2)">No hay datos para mostrar</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filas.map(f => {
+                const cargado = f.total_cargado || 0;
+                const pagado = f.total_pagado || 0;
+                const saldo = f.saldo || 0;
+                const pct = cargado > 0 ? Math.min(100, (pagado / cargado) * 100) : 0;
+                const progClass = pct === 100 ? '' : pct >= 50 ? 'warn' : 'danger';
+                let badgeHTML;
+                if (saldo <= 0) badgeHTML = `<span class="badge badge-ok">Al día</span>`;
+                else if (pagado > 0) badgeHTML = `<span class="badge badge-par">Parcial</span>`;
+                else badgeHTML = `<span class="badge badge-deuda">Debe</span>`;
+
+                return `<tr>
       <td><div class="depto-num">${f.numero}</div></td>
       <td><span style="font-size:13px">${f.propietario}</span></td>
-      <td class="amount neutral">S/. ${cargado.toFixed(2)}</td>
-      <td class="amount cobrado">S/. ${pagado.toFixed(2)}</td>
-      <td class="amount ${saldo > 0 ? 'pendiente' : 'cobrado'}">S/. ${saldo.toFixed(2)}</td>
+      <td class="amount neutral">S/. ${formatSoles(cargado)}</td>
+      <td class="amount cobrado">S/. ${formatSoles(pagado)}</td>
+      <td class="amount ${saldo > 0 ? 'pendiente' : 'cobrado'}">S/. ${formatSoles(saldo)}</td>
       <td style="min-width:130px">
         <div style="display:flex;align-items:center;gap:8px">
           ${badgeHTML}
@@ -1043,117 +1064,117 @@
       <td style="text-align:center">
         <div style="display:flex;gap:6px;justify-content:center">
           ${saldo > 0
-            ? `<button class="btn-pagar" onclick="abrirModalPago(${JSON.stringify(f).replace(/"/g, '&quot;')})">Pagar</button>`
-            : `<span style="font-size:12px;color:var(--verde)">✓</span>`}
+                        ? `<button class="btn-pagar" onclick="abrirModalPago(${JSON.stringify(f).replace(/"/g, '&quot;')})">Pagar</button>`
+                        : `<span style="font-size:12px;color:var(--verde)">✓</span>`}
           <button class="btn-ver" onclick="verHistorial(${JSON.stringify(f).replace(/"/g, '&quot;')})">Historial</button>
         </div>
       </td>
     </tr>`;
-      }).join('');
-    }
+            }).join('');
+        }
 
-    function filtrarTabla() { renderTabla(); }
+        function filtrarTabla() { renderTabla(); }
 
-    // ═══════════════════════════════════════════════
-    // STATS
-    // ═══════════════════════════════════════════════
-    function actualizarStats() {
-      let total = 0, cobrado = 0, deuda = 0, aldia = 0, morosos = 0;
-      filasData.forEach(f => {
-        total += f.total_cargado || 0;
-        cobrado += f.total_pagado || 0;
-        deuda += f.saldo || 0;
-        if (f.saldo <= 0) aldia++;
-        else morosos++;
-      });
-      const pct = total > 0 ? ((cobrado / total) * 100).toFixed(1) : 0;
-      document.getElementById('s-total').textContent = `S/. ${total.toFixed(2)}`;
-      document.getElementById('s-cobrado').textContent = `S/. ${cobrado.toFixed(2)}`;
-      document.getElementById('s-deuda').textContent = `S/. ${deuda.toFixed(2)}`;
-      document.getElementById('s-aldia').textContent = aldia;
-      document.getElementById('s-deptos').textContent = `${filasData.length} departamentos`;
-      document.getElementById('s-pct').textContent = `${pct}% recaudado`;
-      document.getElementById('s-morosos').textContent = `${morosos} con deuda`;
-    }
+        // ═══════════════════════════════════════════════
+        // STATS
+        // ═══════════════════════════════════════════════
+        function actualizarStats() {
+            let total = 0, cobrado = 0, deuda = 0, aldia = 0, morosos = 0;
+            filasData.forEach(f => {
+                total += parseFloat(f.total_cargado) || 0;
+                cobrado += parseFloat(f.total_pagado) || 0;
+                deuda += parseFloat(f.saldo) || 0;
+                if (f.saldo <= 0) aldia++;
+                else morosos++;
+            });
+            const pct = total > 0 ? ((cobrado / total) * 100).toFixed(1) : 0;
+            document.getElementById('s-total').textContent = `S/. ${formatSoles(total)}`;
+            document.getElementById('s-cobrado').textContent = `S/. ${formatSoles(cobrado)}`;
+            document.getElementById('s-deuda').textContent = `S/. ${formatSoles(deuda)}`;
+            document.getElementById('s-aldia').textContent = aldia;
+            document.getElementById('s-deptos').textContent = `${filasData.length} departamentos`;
+            document.getElementById('s-pct').textContent = `${pct}% recaudado`;
+            document.getElementById('s-morosos').textContent = `${morosos} con deuda`;
+        }
 
-    // ═══════════════════════════════════════════════
-    // MODAL PAGO
-    // ═══════════════════════════════════════════════
-    function abrirModalPago(fila) {
-      pagoModal = fila;
-      document.getElementById('modal-depto-info').textContent =
-        `Depto. ${fila.numero} — ${fila.propietario}`;
-      document.getElementById('mp-saldo').textContent = `S/. ${(fila.saldo || 0).toFixed(2)}`;
-      document.getElementById('p-monto').value = (fila.saldo || 0).toFixed(2);
-      document.getElementById('p-ref').value = '';
-      document.getElementById('p-obs').value = '';
-      document.getElementById('modal-pago').classList.add('open');
-    }
-    function cerrarModal() { document.getElementById('modal-pago').classList.remove('open'); }
+        // ═══════════════════════════════════════════════
+        // MODAL PAGO
+        // ═══════════════════════════════════════════════
+        function abrirModalPago(fila) {
+            pagoModal = fila;
+            document.getElementById('modal-depto-info').textContent =
+                `Depto. ${fila.numero} — ${fila.propietario}`;
+            document.getElementById('mp-saldo').textContent = `S/. ${formatSoles(fila.saldo)}`;
+            document.getElementById('p-monto').value = formatSoles(fila.saldo);
+            document.getElementById('p-ref').value = '';
+            document.getElementById('p-obs').value = '';
+            document.getElementById('modal-pago').classList.add('open');
+        }
+        function cerrarModal() { document.getElementById('modal-pago').classList.remove('open'); }
 
-    async function confirmarPago() {
-      const monto = parseFloat(document.getElementById('p-monto').value);
-      if (!monto || monto <= 0) { showToast('Ingresa un monto válido', true); return; }
+        async function confirmarPago() {
+            const monto = parseFloat(document.getElementById('p-monto').value);
+            if (!monto || monto <= 0) { showToast('Ingresa un monto válido', true); return; }
 
-      const pago = {
-        departamento_id: pagoModal.departamento_id,
-        periodo_id: periodoActual.id,
-        fecha_pago: document.getElementById('p-fecha').value,
-        monto,
-        metodo: document.getElementById('p-metodo').value,
-        referencia: document.getElementById('p-ref').value || null,
-        observacion: document.getElementById('p-obs').value || null,
-        registrado_por: 'tesorero'
-      };
+            const pago = {
+                departamento_id: pagoModal.departamento_id,
+                periodo_id: periodoActual.id,
+                fecha_pago: document.getElementById('p-fecha').value,
+                monto,
+                metodo: document.getElementById('p-metodo').value,
+                referencia: document.getElementById('p-ref').value || null,
+                observacion: document.getElementById('p-obs').value || null,
+                registrado_por: 'tesorero'
+            };
 
-      if (SUPABASE_URL.includes('TU_PROYECTO')) {
-        // Mock: actualizar localmente
-        const f = filasData.find(x => x.departamento_id === pagoModal.departamento_id);
-        if (f) { f.total_pagado = (f.total_pagado || 0) + monto; f.saldo = Math.max(0, f.saldo - monto); }
-        // Agregar a tesorería mock
-        tesoData.unshift({
-          id: Date.now(), fecha: pago.fecha_pago, tipo: 'ingreso',
-          concepto: `Pago agua - depto ${pagoModal.numero}`, categoria: 'agua', monto
-        });
-        renderTabla(); actualizarStats(); renderTesoreria();
-        cerrarModal();
-        showToast(`✓ Pago de S/. ${monto.toFixed(2)} registrado (demo)`);
-        return;
-      }
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                // Mock: actualizar localmente
+                const f = filasData.find(x => x.departamento_id === pagoModal.departamento_id);
+                if (f) { f.total_pagado = (f.total_pagado || 0) + monto; f.saldo = Math.max(0, f.saldo - monto); }
+                // Agregar a tesorería mock
+                tesoData.unshift({
+                    id: Date.now(), fecha: pago.fecha_pago, tipo: 'ingreso',
+                    concepto: `Pago agua - depto ${pagoModal.numero}`, categoria: 'agua', monto
+                });
+                renderTabla(); actualizarStats(); renderTesoreria();
+                cerrarModal();
+                showToast(`✓ Pago de S/. ${formatSoles(monto)} registrado (demo)`);
+                return;
+            }
 
-      try {
-        await sbPost('pagos', pago);
-        // Registrar en tesorería automáticamente
-        await sbPost('tesoreria', {
-          fecha: pago.fecha_pago, tipo: 'ingreso',
-          concepto: `Pago agua depto ${pagoModal.numero}`,
-          categoria: 'agua', monto, periodo_id: periodoActual.id
-        });
-        cerrarModal();
-        showToast(`✓ Pago de S/. ${monto.toFixed(2)} registrado`);
-        await cargarDatos();
-      } catch (e) { showToast('Error: ' + e.message, true); }
-    }
+            try {
+                await sbPost('pagos', pago);
+                // Registrar en tesorería automáticamente
+                await sbPost('tesoreria', {
+                    fecha: pago.fecha_pago, tipo: 'ingreso',
+                    concepto: `Pago agua depto ${pagoModal.numero}`,
+                    categoria: 'agua', monto, periodo_id: periodoActual.id
+                });
+                cerrarModal();
+                showToast(`✓ Pago de S/. ${formatSoles(monto)} registrado`);
+                await cargarDatos();
+            } catch (e) { showToast('Error: ' + e.message, true); }
+        }
 
-    // ═══════════════════════════════════════════════
-    // MODAL HISTORIAL
-    // ═══════════════════════════════════════════════
-    async function verHistorial(fila) {
-      document.getElementById('hist-depto-info').textContent =
-        `Depto. ${fila.numero} — ${fila.propietario}`;
+        // ═══════════════════════════════════════════════
+        // MODAL HISTORIAL
+        // ═══════════════════════════════════════════════
+        async function verHistorial(fila) {
+            document.getElementById('hist-depto-info').textContent =
+                `Depto. ${fila.numero} — ${fila.propietario}`;
 
-      let pagos = [];
-      if (!SUPABASE_URL.includes('TU_PROYECTO')) {
-        pagos = await sbGet(`pagos?departamento_id=eq.${fila.departamento_id}&order=fecha_pago.desc`);
-      } else {
-        pagos = [{ fecha_pago: '2025-06-10', monto: fila.total_pagado || 0, metodo: 'Yape', referencia: 'OP-1234' }];
-      }
+            let pagos = [];
+            if (!SUPABASE_URL.includes('TU_PROYECTO')) {
+                pagos = await sbGet(`pagos?departamento_id=eq.${fila.departamento_id}&order=fecha_pago.desc`);
+            } else {
+                pagos = [{ fecha_pago: '2025-06-10', monto: fila.total_pagado || 0, metodo: 'Yape', referencia: 'OP-1234' }];
+            }
 
-      const lista = document.getElementById('hist-lista');
-      if (!pagos.length) {
-        lista.innerHTML = '<p style="color:var(--txt2);font-size:13px;padding:12px 0">Sin pagos registrados.</p>';
-      } else {
-        lista.innerHTML = pagos.map(p => `
+            const lista = document.getElementById('hist-lista');
+            if (!pagos.length) {
+                lista.innerHTML = '<p style="color:var(--txt2);font-size:13px;padding:12px 0">Sin pagos registrados.</p>';
+            } else {
+                lista.innerHTML = pagos.map(p => `
       <div class="hist-item">
         <div class="hist-info">
           <div class="hi-fecha">${p.fecha_pago}</div>
@@ -1161,103 +1182,103 @@
           ${p.referencia ? `<div class="hi-ref">Ref: ${p.referencia}</div>` : ''}
           ${p.observacion ? `<div class="hi-ref">${p.observacion}</div>` : ''}
         </div>
-        <div class="hist-monto">S/. ${parseFloat(p.monto).toFixed(2)}</div>
+        <div class="hist-monto">S/. ${formatSoles(p.monto)}</div>
       </div>`).join('');
-      }
-      document.getElementById('modal-hist').classList.add('open');
-    }
+            }
+            document.getElementById('modal-hist').classList.add('open');
+        }
 
-    // ═══════════════════════════════════════════════
-    // TESORERÍA
-    // ═══════════════════════════════════════════════
-    function renderTesoreria() {
-      let ingresos = 0, egresos = 0;
-      const tbody = document.getElementById('tbody-teso');
-      tbody.innerHTML = tesoData.map(m => {
-        if (m.tipo === 'ingreso') ingresos += m.monto;
-        else egresos += m.monto;
-        return `<tr>
+        // ═══════════════════════════════════════════════
+        // TESORERÍA
+        // ═══════════════════════════════════════════════
+        function renderTesoreria() {
+            let ingresos = 0, egresos = 0;
+            const tbody = document.getElementById('tbody-teso');
+            tbody.innerHTML = tesoData.map(m => {
+                if (m.tipo === 'ingreso') ingresos += m.monto;
+                else egresos += m.monto;
+                return `<tr>
       <td>${m.fecha}</td>
       <td><span class="badge ${m.tipo === 'ingreso' ? 'badge-ok' : 'badge-deuda'}">${m.tipo}</span></td>
       <td style="font-size:12px;color:var(--txt2)">${m.categoria || '—'}</td>
       <td>${m.concepto}</td>
-      <td class="amount ${m.tipo === 'ingreso' ? 'cobrado' : 'pendiente'}">S/. ${parseFloat(m.monto).toFixed(2)}</td>
+      <td class="amount ${m.tipo === 'ingreso' ? 'cobrado' : 'pendiente'}">S/. ${formatSoles(m.monto)}</td>
     </tr>`;
-      }).join('');
-      document.getElementById('t-ingresos').textContent = `S/. ${ingresos.toFixed(2)}`;
-      document.getElementById('t-egresos').textContent = `S/. ${egresos.toFixed(2)}`;
-      document.getElementById('t-ing-count').textContent = `${tesoData.filter(m => m.tipo === 'ingreso').length} movimientos`;
-      document.getElementById('t-egr-count').textContent = `${tesoData.filter(m => m.tipo === 'egreso').length} movimientos`;
-      const balance = ingresos - egresos;
-      const el = document.getElementById('t-balance');
-      el.textContent = (balance >= 0 ? '+' : '') + `S/. ${balance.toFixed(2)}`;
-      el.style.color = balance >= 0 ? 'var(--verde)' : 'var(--tierra)';
-    }
+            }).join('');
+            document.getElementById('t-ingresos').textContent = `S/. ${formatSoles(ingresos)}`;
+            document.getElementById('t-egresos').textContent = `S/. ${formatSoles(egresos)}`;
+            document.getElementById('t-ing-count').textContent = `${tesoData.filter(m => m.tipo === 'ingreso').length} movimientos`;
+            document.getElementById('t-egr-count').textContent = `${tesoData.filter(m => m.tipo === 'egreso').length} movimientos`;
+            const balance = ingresos - egresos;
+            const el = document.getElementById('t-balance');
+            el.textContent = (balance >= 0 ? '+' : '') + `S/. ${formatSoles(Math.abs(balance))}`;
+            el.style.color = balance >= 0 ? 'var(--verde)' : 'var(--tierra)';
+        }
 
-    async function guardarMovimiento() {
-      const mov = {
-        fecha: document.getElementById('t-fecha').value,
-        tipo: document.getElementById('t-tipo').value,
-        monto: parseFloat(document.getElementById('t-monto').value),
-        concepto: document.getElementById('t-concepto').value,
-        categoria: document.getElementById('t-categoria').value,
-        periodo_id: periodoActual?.id || null
-      };
-      if (!mov.monto || !mov.concepto || !mov.fecha) {
-        showToast('Completa fecha, monto y concepto', true); return;
-      }
-      if (SUPABASE_URL.includes('TU_PROYECTO')) {
-        tesoData.unshift({ ...mov, id: Date.now() });
-      } else {
-        await sbPost('tesoreria', mov);
-      }
-      renderTesoreria();
-      document.getElementById('t-monto').value = '';
-      document.getElementById('t-concepto').value = '';
-      showToast('✓ Movimiento registrado');
-    }
+        async function guardarMovimiento() {
+            const mov = {
+                fecha: document.getElementById('t-fecha').value,
+                tipo: document.getElementById('t-tipo').value,
+                monto: parseFloat(document.getElementById('t-monto').value),
+                concepto: document.getElementById('t-concepto').value,
+                categoria: document.getElementById('t-categoria').value,
+                periodo_id: periodoActual?.id || null
+            };
+            if (!mov.monto || !mov.concepto || !mov.fecha) {
+                showToast('Completa fecha, monto y concepto', true); return;
+            }
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                tesoData.unshift({ ...mov, id: Date.now() });
+            } else {
+                await sbPost('tesoreria', mov);
+            }
+            renderTesoreria();
+            document.getElementById('t-monto').value = '';
+            document.getElementById('t-concepto').value = '';
+            showToast('✓ Movimiento registrado');
+        }
 
-    // ═══════════════════════════════════════════════
-    // NAV
-    // ═══════════════════════════════════════════════
-    function showPanel(p) {
-      document.getElementById('panel-pagos').style.display = p === 'pagos' ? '' : 'none';
-      document.getElementById('panel-tesoreria').style.display = p === 'tesoreria' ? '' : 'none';
-      document.querySelectorAll('.nav-tab').forEach((t, i) =>
-        t.classList.toggle('active', (i === 0 && p === 'pagos') || (i === 1 && p === 'tesoreria')));
-    }
+        // ═══════════════════════════════════════════════
+        // NAV
+        // ═══════════════════════════════════════════════
+        function showPanel(p) {
+            document.getElementById('panel-pagos').style.display = p === 'pagos' ? '' : 'none';
+            document.getElementById('panel-tesoreria').style.display = p === 'tesoreria' ? '' : 'none';
+            document.querySelectorAll('.nav-tab').forEach((t, i) =>
+                t.classList.toggle('active', (i === 0 && p === 'pagos') || (i === 1 && p === 'tesoreria')));
+        }
 
-    // ═══════════════════════════════════════════════
-    // HELPERS SUPABASE
-    // ═══════════════════════════════════════════════
-    const hdrs = () => ({
-      'Content-Type': 'application/json',
-      apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`,
-      Prefer: 'return=representation'
-    });
+        // ═══════════════════════════════════════════════
+        // HELPERS SUPABASE
+        // ═══════════════════════════════════════════════
+        const hdrs = () => ({
+            'Content-Type': 'application/json',
+            apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`,
+            Prefer: 'return=representation'
+        });
 
-    async function sbGet(path) {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: hdrs() });
-      if (!r.ok) throw new Error(await r.text());
-      return r.json();
-    }
-    async function sbPost(tabla, body) {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/${tabla}`, {
-        method: 'POST', headers: hdrs(), body: JSON.stringify(body)
-      });
-      if (!r.ok) throw new Error(await r.text());
-      return r.json();
-    }
+        async function sbGet(path) {
+            const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: hdrs() });
+            if (!r.ok) throw new Error(await r.text());
+            return r.json();
+        }
+        async function sbPost(tabla, body) {
+            const r = await fetch(`${SUPABASE_URL}/rest/v1/${tabla}`, {
+                method: 'POST', headers: hdrs(), body: JSON.stringify(body)
+            });
+            if (!r.ok) throw new Error(await r.text());
+            return r.json();
+        }
 
-    // TOAST
-    function showToast(msg, isError) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.toggle('error', !!isError);
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3500);
-    }
-  </script>
+        // TOAST
+        function showToast(msg, isError) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.toggle('error', !!isError);
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+    </script>
 </body>
 
 </html>

@@ -1,434 +1,1018 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multifamiliar Las Limas — Portal de Gestión</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --verde:     #2d6a4f;
-    --verde-md:  #40916c;
-    --verde-lt:  #52b788;
-    --verde-xs:  #d8f3dc;
-    --lima:      #95d5b2;
-    --tierra:    #c0392b;
-    --amber:     #e9c46a;
-    --bg:        #0f1f16;
-    --bg2:       #162a1e;
-    --bg3:       #1c3425;
-    --txt:       #e8f5ee;
-    --txt2:      #8fbfa0;
-    --border:    rgba(82,183,136,.2);
-    --glow:      rgba(82,183,136,.15);
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multifamiliar Las Limas — Portal de Gestión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --verde: #2d6a4f;
+      --verde-md: #40916c;
+      --verde-lt: #52b788;
+      --verde-xs: #d8f3dc;
+      --lima: #95d5b2;
+      --tierra: #c0392b;
+      --amber: #e9c46a;
+      --bg: #0f1f16;
+      --bg2: #162a1e;
+      --bg3: #1c3425;
+      --txt: #e8f5ee;
+      --txt2: #8fbfa0;
+      --border: rgba(82, 183, 136, .2);
+      --glow: rgba(82, 183, 136, .15);
+    }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--bg);
-    color: var(--txt);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-  /* ── FONDO ANIMADO ── */
-  .bg-pattern {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-  }
-  .bg-pattern::before {
-    content: '';
-    position: absolute; inset: -50%;
-    background: radial-gradient(ellipse 60% 50% at 20% 30%, rgba(45,106,79,.25) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 80% 70%, rgba(64,145,108,.15) 0%, transparent 55%);
-    animation: bgshift 18s ease-in-out infinite alternate;
-  }
-  @keyframes bgshift {
-    0%   { transform: scale(1) rotate(0deg); }
-    100% { transform: scale(1.1) rotate(3deg); }
-  }
-  /* Círculos decorativos */
-  .circle {
-    position: absolute; border-radius: 50%;
-    border: 1px solid var(--border);
-    opacity: .4;
-  }
-  .c1 { width:600px;height:600px; top:-200px; left:-200px; }
-  .c2 { width:400px;height:400px; bottom:-100px; right:-100px; border-color: rgba(233,196,106,.15); }
-  .c3 { width:200px;height:200px; top:40%; right:8%; border-color: rgba(82,183,136,.1); }
+    /* ── FONDO ANIMADO ── */
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-  /* ── LAYOUT ── */
-  .wrapper {
-    position: relative; z-index: 1;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 60px 24px 80px;
-  }
+    .bg-pattern::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: radial-gradient(ellipse 60% 50% at 20% 30%, rgba(45, 106, 79, .25) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(64, 145, 108, .15) 0%, transparent 55%);
+      animation: bgshift 18s ease-in-out infinite alternate;
+    }
 
-  /* ── HERO ── */
-  .hero { text-align: center; margin-bottom: 64px; }
+    @keyframes bgshift {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
 
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(82,183,136,.12);
-    border: 1px solid rgba(82,183,136,.3);
-    border-radius: 24px;
-    padding: 6px 16px;
-    font-size: 12px; font-weight: 500;
-    color: var(--lima);
-    letter-spacing: .06em; text-transform: uppercase;
-    margin-bottom: 24px;
-    animation: fadein .6s ease both;
-  }
-  .hero-badge .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--lima);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50%      { opacity:.5; transform:scale(.8); }
-  }
+      100% {
+        transform: scale(1.1) rotate(3deg);
+      }
+    }
 
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 6vw, 60px);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--txt);
-    animation: fadein .7s ease .1s both;
-    margin-bottom: 16px;
-  }
-  .hero h1 span {
-    color: var(--verde-lt);
-    position: relative;
-  }
-  .hero h1 span::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--verde-lt), transparent);
-    border-radius: 2px;
-  }
+    /* Círculos decorativos */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      opacity: .4;
+    }
 
-  .hero p {
-    font-size: 16px; font-weight: 300;
-    color: var(--txt2);
-    max-width: 420px; margin: 0 auto;
-    line-height: 1.6;
-    animation: fadein .7s ease .2s both;
-  }
+    .c1 {
+      width: 600px;
+      height: 600px;
+      top: -200px;
+      left: -200px;
+    }
 
-  @keyframes fadein {
-    from { opacity:0; transform:translateY(12px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
+    .c2 {
+      width: 400px;
+      height: 400px;
+      bottom: -100px;
+      right: -100px;
+      border-color: rgba(233, 196, 106, .15);
+    }
 
-  /* ── GRID DE TARJETAS ── */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
+    .c3 {
+      width: 200px;
+      height: 200px;
+      top: 40%;
+      right: 8%;
+      border-color: rgba(82, 183, 136, .1);
+    }
 
-  /* ── TARJETA ── */
-  .card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 32px 28px 28px;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex; flex-direction: column;
-    gap: 0;
-    position: relative;
-    overflow: hidden;
-    transition: transform .25s cubic-bezier(.34,1.56,.64,1),
-                border-color .2s, box-shadow .2s;
-    animation: fadein .6s ease both;
-  }
-  .card:nth-child(1) { animation-delay: .15s; }
-  .card:nth-child(2) { animation-delay: .22s; }
-  .card:nth-child(3) { animation-delay: .29s; }
-  .card:nth-child(4) { animation-delay: .36s; }
+    /* ── LAYOUT ── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
 
-  .card::before {
-    content: '';
-    position: absolute; inset: 0;
-    opacity: 0;
-    transition: opacity .25s;
-    border-radius: 20px;
-  }
-  .card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(82,183,136,.5);
-    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(82,183,136,.15);
-  }
-  .card:hover::before { opacity: 1; }
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 64px;
+    }
 
-  /* Línea de color superior por tipo */
-  .card .accent-line {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px; border-radius: 20px 20px 0 0;
-    transition: height .2s;
-  }
-  .card:hover .accent-line { height: 4px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(82, 183, 136, .12);
+      border: 1px solid rgba(82, 183, 136, .3);
+      border-radius: 24px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--lima);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadein .6s ease both;
+    }
 
-  .card-verde  .accent-line { background: linear-gradient(90deg, var(--verde-lt), var(--lima)); }
-  .card-amber  .accent-line { background: linear-gradient(90deg, #e9c46a, #f4a261); }
-  .card-tierra .accent-line { background: linear-gradient(90deg, #e07070, var(--tierra)); }
-  .card-libre  .accent-line { background: linear-gradient(90deg, #74b9ff, #0984e3); }
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lima);
+      animation: pulse 2s ease-in-out infinite;
+    }
 
-  /* Glow de fondo por tipo */
-  .card-verde::before  { background: radial-gradient(ellipse at 0% 0%, rgba(82,183,136,.08), transparent 70%); }
-  .card-amber::before  { background: radial-gradient(ellipse at 0% 0%, rgba(233,196,106,.08), transparent 70%); }
-  .card-tierra::before { background: radial-gradient(ellipse at 0% 0%, rgba(192,57,43,.08), transparent 70%); }
-  .card-libre::before  { background: radial-gradient(ellipse at 0% 0%, rgba(116,185,255,.08), transparent 70%); }
+    @keyframes pulse {
 
-  /* Icono */
-  .card-icon {
-    width: 52px; height: 52px;
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 20px;
-    transition: transform .2s;
-  }
-  .card:hover .card-icon { transform: scale(1.08); }
-  .card-verde  .card-icon { background: rgba(82,183,136,.15);  border: 1px solid rgba(82,183,136,.25); }
-  .card-amber  .card-icon { background: rgba(233,196,106,.15); border: 1px solid rgba(233,196,106,.25); }
-  .card-tierra .card-icon { background: rgba(192,57,43,.15);   border: 1px solid rgba(192,57,43,.25); }
-  .card-libre  .card-icon { background: rgba(116,185,255,.15); border: 1px solid rgba(116,185,255,.25); }
-  .card-verde  .card-icon svg { stroke: var(--verde-lt); }
-  .card-amber  .card-icon svg { stroke: #e9c46a; }
-  .card-tierra .card-icon svg { stroke: #e07070; }
-  .card-libre  .card-icon svg { stroke: #74b9ff; }
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
 
-  /* Acceso badge */
-  .access-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 3px 10px; border-radius: 20px;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: .05em; text-transform: uppercase;
-    margin-bottom: 12px; width: fit-content;
-  }
-  .card-verde  .access-badge { background: rgba(82,183,136,.15);  color: var(--lima); }
-  .card-amber  .access-badge { background: rgba(233,196,106,.15); color: #e9c46a; }
-  .card-tierra .access-badge { background: rgba(192,57,43,.15);   color: #e07070; }
-  .card-libre  .access-badge { background: rgba(116,185,255,.15); color: #74b9ff; }
+      50% {
+        opacity: .5;
+        transform: scale(.8);
+      }
+    }
 
-  .card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 700;
-    color: var(--txt);
-    margin-bottom: 8px;
-    line-height: 1.2;
-  }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--txt);
+      animation: fadein .7s ease .1s both;
+      margin-bottom: 16px;
+    }
 
-  .card p {
-    font-size: 13px; font-weight: 300;
-    color: var(--txt2);
-    line-height: 1.6;
-    flex: 1;
-  }
+    .hero h1 span {
+      color: var(--verde-lt);
+      position: relative;
+    }
 
-  /* Footer de la tarjeta */
-  .card-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-  }
-  .card-features {
-    display: flex; gap: 6px; flex-wrap: wrap;
-  }
-  .feature-tag {
-    font-size: 10px; font-weight: 500;
-    background: rgba(255,255,255,.05);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 6px;
-    padding: 2px 8px;
-    color: var(--txt2);
-  }
-  .card-arrow {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform .2s, background .2s;
-    flex-shrink: 0;
-  }
-  .card-verde  .card-arrow { background: rgba(82,183,136,.15); }
-  .card-amber  .card-arrow { background: rgba(233,196,106,.15); }
-  .card-tierra .card-arrow { background: rgba(192,57,43,.15); }
-  .card-libre  .card-arrow { background: rgba(116,185,255,.15); }
-  .card:hover .card-arrow { transform: translateX(3px) scale(1.1); }
-  .card-verde  .card-arrow svg { stroke: var(--lima); }
-  .card-amber  .card-arrow svg { stroke: #e9c46a; }
-  .card-tierra .card-arrow svg { stroke: #e07070; }
-  .card-libre  .card-arrow svg { stroke: #74b9ff; }
+    .hero h1 span::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--verde-lt), transparent);
+      border-radius: 2px;
+    }
 
-  /* ── FOOTER ── */
-  .site-footer {
-    text-align: center;
-    margin-top: 60px;
-    color: var(--txt2);
-    font-size: 12px;
-    font-weight: 300;
-    opacity: .6;
-    animation: fadein .8s ease .5s both;
-  }
-  .site-footer strong { color: var(--txt2); font-weight: 500; opacity: 1; }
+    .hero p {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--txt2);
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.6;
+      animation: fadein .7s ease .2s both;
+    }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 620px) {
-    .wrapper { padding: 40px 16px 60px; }
-    .hero { margin-bottom: 40px; }
-    .cards-grid { grid-template-columns: 1fr; gap: 14px; }
-    .hero h1 { font-size: 32px; }
-  }
-</style>
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── GRID DE TARJETAS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    /* ── TARJETA ── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s cubic-bezier(.34, 1.56, .64, 1),
+        border-color .2s, box-shadow .2s;
+      animation: fadein .6s ease both;
+    }
+
+    .card:nth-child(1) {
+      animation-delay: .15s;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: .22s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: .29s;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: .36s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .25s;
+      border-radius: 20px;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(82, 183, 136, .5);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .4), 0 0 0 1px rgba(82, 183, 136, .15);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* Línea de color superior por tipo */
+    .card .accent-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 20px 20px 0 0;
+      transition: height .2s;
+    }
+
+    .card:hover .accent-line {
+      height: 4px;
+    }
+
+    .card-verde .accent-line {
+      background: linear-gradient(90deg, var(--verde-lt), var(--lima));
+    }
+
+    .card-amber .accent-line {
+      background: linear-gradient(90deg, #e9c46a, #f4a261);
+    }
+
+    .card-tierra .accent-line {
+      background: linear-gradient(90deg, #e07070, var(--tierra));
+    }
+
+    .card-libre .accent-line {
+      background: linear-gradient(90deg, #74b9ff, #0984e3);
+    }
+
+    /* Glow de fondo por tipo */
+    .card-verde::before {
+      background: radial-gradient(ellipse at 0% 0%, rgba(82, 183, 136, .08), transparent 70%);
+    }
+
+    .card-amber::before {
+      background: radial-gradient(ellipse at 0% 0%, rgba(233, 196, 106, .08), transparent 70%);
+    }
+
+    .card-tierra::before {
+      background: radial-gradient(ellipse at 0% 0%, rgba(192, 57, 43, .08), transparent 70%);
+    }
+
+    .card-libre::before {
+      background: radial-gradient(ellipse at 0% 0%, rgba(116, 185, 255, .08), transparent 70%);
+    }
+
+    /* Icono */
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: transform .2s;
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.08);
+    }
+
+    .card-verde .card-icon {
+      background: rgba(82, 183, 136, .15);
+      border: 1px solid rgba(82, 183, 136, .25);
+    }
+
+    .card-amber .card-icon {
+      background: rgba(233, 196, 106, .15);
+      border: 1px solid rgba(233, 196, 106, .25);
+    }
+
+    .card-tierra .card-icon {
+      background: rgba(192, 57, 43, .15);
+      border: 1px solid rgba(192, 57, 43, .25);
+    }
+
+    .card-libre .card-icon {
+      background: rgba(116, 185, 255, .15);
+      border: 1px solid rgba(116, 185, 255, .25);
+    }
+
+    .card-verde .card-icon svg {
+      stroke: var(--verde-lt);
+    }
+
+    .card-amber .card-icon svg {
+      stroke: #e9c46a;
+    }
+
+    .card-tierra .card-icon svg {
+      stroke: #e07070;
+    }
+
+    .card-libre .card-icon svg {
+      stroke: #74b9ff;
+    }
+
+    /* Acceso badge */
+    .access-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .card-verde .access-badge {
+      background: rgba(82, 183, 136, .15);
+      color: var(--lima);
+    }
+
+    .card-amber .access-badge {
+      background: rgba(233, 196, 106, .15);
+      color: #e9c46a;
+    }
+
+    .card-tierra .access-badge {
+      background: rgba(192, 57, 43, .15);
+      color: #e07070;
+    }
+
+    .card-libre .access-badge {
+      background: rgba(116, 185, 255, .15);
+      color: #74b9ff;
+    }
+
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .card p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--txt2);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    /* Footer de la tarjeta */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-features {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .feature-tag {
+      font-size: 10px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 6px;
+      padding: 2px 8px;
+      color: var(--txt2);
+    }
+
+    .card-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .2s, background .2s;
+      flex-shrink: 0;
+    }
+
+    .card-verde .card-arrow {
+      background: rgba(82, 183, 136, .15);
+    }
+
+    .card-amber .card-arrow {
+      background: rgba(233, 196, 106, .15);
+    }
+
+    .card-tierra .card-arrow {
+      background: rgba(192, 57, 43, .15);
+    }
+
+    .card-libre .card-arrow {
+      background: rgba(116, 185, 255, .15);
+    }
+
+    .card:hover .card-arrow {
+      transform: translateX(3px) scale(1.1);
+    }
+
+    .card-verde .card-arrow svg {
+      stroke: var(--lima);
+    }
+
+    .card-amber .card-arrow svg {
+      stroke: #e9c46a;
+    }
+
+    .card-tierra .card-arrow svg {
+      stroke: #e07070;
+    }
+
+    .card-libre .card-arrow svg {
+      stroke: #74b9ff;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      text-align: center;
+      margin-top: 60px;
+      color: var(--txt2);
+      font-size: 12px;
+      font-weight: 300;
+      opacity: .6;
+      animation: fadein .8s ease .5s both;
+    }
+
+    .site-footer strong {
+      color: var(--txt2);
+      font-weight: 500;
+      opacity: 1;
+    }
+
+    /* ── MODAL LOGIN ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-login {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, .5);
+      animation: fadein .3s ease both;
+    }
+
+    .modal-login .modal-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-login h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--txt);
+      margin-bottom: 4px;
+    }
+
+    .modal-login .modal-rol {
+      font-size: 12px;
+      color: var(--txt2);
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    .modal-login .field {
+      margin-bottom: 14px;
+    }
+
+    .modal-login .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--txt2);
+      margin-bottom: 6px;
+    }
+
+    .modal-login .field input {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'Outfit', sans-serif;
+      color: var(--txt);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .modal-login .field input:focus {
+      border-color: rgba(82, 183, 136, .5);
+      box-shadow: 0 0 0 3px rgba(82, 183, 136, .1);
+    }
+
+    .modal-error {
+      font-size: 12px;
+      color: #e07070;
+      background: rgba(192, 57, 43, .12);
+      border: 1px solid rgba(192, 57, 43, .2);
+      border-radius: 8px;
+      padding: 9px 12px;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .btn-ingresar {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-ingresar:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-ingresar:active {
+      transform: translateY(0);
+    }
+
+    .btn-cancel {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--txt2);
+      font-size: 13px;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all .15s;
+    }
+
+    .btn-cancel:hover {
+      border-color: rgba(82, 183, 136, .3);
+      color: var(--txt);
+    }
+
+    /* Candado en tarjetas protegidas */
+    .card .lock-icon {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      opacity: .35;
+      transition: opacity .2s;
+    }
+
+    .card:hover .lock-icon {
+      opacity: .6;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 620px) {
+      .wrapper {
+        padding: 40px 16px 60px;
+      }
+
+      .hero {
+        margin-bottom: 40px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Fondo -->
-<div class="bg-pattern">
-  <div class="circle c1"></div>
-  <div class="circle c2"></div>
-  <div class="circle c3"></div>
-</div>
+  <!-- Fondo -->
+  <div class="bg-pattern">
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+  </div>
 
-<div class="wrapper">
+  <div class="wrapper">
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      Sistema de Gestión
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Sistema de Gestión
+      </div>
+      <h1>Multifamiliar<br><span>Las Limas</span></h1>
+      <p>Selecciona el módulo al que deseas acceder según tu rol en el condominio.</p>
     </div>
-    <h1>Multifamiliar<br><span>Las Limas</span></h1>
-    <p>Selecciona el módulo al que deseas acceder según tu rol en el condominio.</p>
+
+    <!-- TARJETAS -->
+    <div class="cards-grid">
+
+      <!-- 1. Portal Vecino -->
+      <a class="card card-verde" href="portal_vecino.html">
+        <div class="accent-line"></div>
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div class="access-badge">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Vecinos
+        </div>
+        <h2>Mi Portal</h2>
+        <p>Consulta tu recibo mensual, historial de consumo, saldo pendiente y estado de pagos.</p>
+        <div class="card-footer">
+          <div class="card-features">
+            <span class="feature-tag">Recibo</span>
+            <span class="feature-tag">Consumo</span>
+            <span class="feature-tag">Historial</span>
+          </div>
+          <div class="card-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2. Pagos y Deudas (Tesorero) -->
+      <a class="card card-amber" href="pagos_deudas.html">
+        <div class="accent-line"></div>
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2" />
+            <line x1="2" y1="10" x2="22" y2="10" />
+          </svg>
+        </div>
+        <div class="access-badge">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Tesorero
+        </div>
+        <h2>Pagos y Tesorería</h2>
+        <p>Registra pagos por departamento, gestiona deudas y lleva el libro de caja del condominio.</p>
+        <div class="card-footer">
+          <div class="card-features">
+            <span class="feature-tag">Pagos</span>
+            <span class="feature-tag">Deudas</span>
+            <span class="feature-tag">Caja</span>
+          </div>
+          <div class="card-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3. Lecturas (Admin) -->
+      <a class="card card-tierra" href="lecturas_limas.html">
+        <div class="accent-line"></div>
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M12 2a5 5 0 0 1 5 5c0 5.25-5 11-5 11S7 12.25 7 7a5 5 0 0 1 5-5z" />
+            <circle cx="12" cy="7" r="2" />
+          </svg>
+        </div>
+        <div class="access-badge">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M6 20v-2a6 6 0 0 1 12 0v2" />
+            <line x1="18" y1="8" x2="22" y2="8" />
+            <line x1="20" y1="6" x2="20" y2="10" />
+          </svg>
+          Administrador
+        </div>
+        <h2>Registro de Lecturas</h2>
+        <p>Ingresa las lecturas mensuales de medidores, detecta anomalías y registra el recibo común de agua.</p>
+        <div class="card-footer">
+          <div class="card-features">
+            <span class="feature-tag">Medidores</span>
+            <span class="feature-tag">Alertas</span>
+            <span class="feature-tag">Recibo</span>
+          </div>
+          <div class="card-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- 4. Consolidado Deudores (Libre) -->
+      <a class="card card-libre" href="consolidado_deudores.html">
+        <div class="accent-line"></div>
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M3 9h18M3 15h18M9 3v18" />
+          </svg>
+        </div>
+        <div class="access-badge">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          Acceso libre
+        </div>
+        <h2>Consolidado de Deudores</h2>
+        <p>Reporte matricial de deudas por departamento y mes. Identifica morosos y exporta a CSV.</p>
+        <div class="card-footer">
+          <div class="card-features">
+            <span class="feature-tag">Reporte</span>
+            <span class="feature-tag">Matriz</span>
+            <span class="feature-tag">Exportar</span>
+          </div>
+          <div class="card-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="site-footer">
+      <strong>Multifamiliar Las Limas</strong> &nbsp;·&nbsp; Sistema de Gestión v1.2 &nbsp;·&nbsp; 2026
+    </div>
+
   </div>
 
-  <!-- TARJETAS -->
-  <div class="cards-grid">
-
-    <!-- 1. Portal Vecino -->
-    <a class="card card-verde" href="portal_vecino.html">
-      <div class="accent-line"></div>
-      <div class="card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
+  <!-- MODAL LOGIN -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-login" id="modal-login">
+      <div class="modal-icon" id="modal-icon"></div>
+      <h2 id="modal-titulo">Acceso restringido</h2>
+      <p class="modal-rol" id="modal-rol">Ingresa tus credenciales</p>
+      <div class="modal-error" id="modal-error">Usuario o contraseña incorrectos</div>
+      <div class="field">
+        <label>Usuario</label>
+        <input type="text" id="login-user" autocomplete="username"
+          onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="login-pass" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')intentarLogin()">
+      </div>
+      <button class="btn-ingresar" id="btn-ingresar" onclick="intentarLogin()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+          <polyline points="10 17 15 12 10 7" />
+          <line x1="15" y1="12" x2="3" y2="12" />
         </svg>
-      </div>
-      <div class="access-badge">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Vecinos
-      </div>
-      <h2>Mi Portal</h2>
-      <p>Consulta tu recibo mensual, historial de consumo, saldo pendiente y estado de pagos.</p>
-      <div class="card-footer">
-        <div class="card-features">
-          <span class="feature-tag">Recibo</span>
-          <span class="feature-tag">Consumo</span>
-          <span class="feature-tag">Historial</span>
-        </div>
-        <div class="card-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </div>
-      </div>
-    </a>
-
-    <!-- 2. Pagos y Deudas (Tesorero) -->
-    <a class="card card-amber" href="pagos_deudas.html">
-      <div class="accent-line"></div>
-      <div class="card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="5" width="20" height="14" rx="2"/>
-          <line x1="2" y1="10" x2="22" y2="10"/>
-        </svg>
-      </div>
-      <div class="access-badge">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Tesorero
-      </div>
-      <h2>Pagos y Tesorería</h2>
-      <p>Registra pagos por departamento, gestiona deudas y lleva el libro de caja del condominio.</p>
-      <div class="card-footer">
-        <div class="card-features">
-          <span class="feature-tag">Pagos</span>
-          <span class="feature-tag">Deudas</span>
-          <span class="feature-tag">Caja</span>
-        </div>
-        <div class="card-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </div>
-      </div>
-    </a>
-
-    <!-- 3. Lecturas (Admin) -->
-    <a class="card card-tierra" href="lecturas_limas.html">
-      <div class="accent-line"></div>
-      <div class="card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a5 5 0 0 1 5 5c0 5.25-5 11-5 11S7 12.25 7 7a5 5 0 0 1 5-5z"/>
-          <circle cx="12" cy="7" r="2"/>
-        </svg>
-      </div>
-      <div class="access-badge">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/><line x1="18" y1="8" x2="22" y2="8"/><line x1="20" y1="6" x2="20" y2="10"/></svg>
-        Administrador
-      </div>
-      <h2>Registro de Lecturas</h2>
-      <p>Ingresa las lecturas mensuales de medidores, detecta anomalías y registra el recibo común de agua.</p>
-      <div class="card-footer">
-        <div class="card-features">
-          <span class="feature-tag">Medidores</span>
-          <span class="feature-tag">Alertas</span>
-          <span class="feature-tag">Recibo</span>
-        </div>
-        <div class="card-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </div>
-      </div>
-    </a>
-
-    <!-- 4. Consolidado Deudores (Libre) -->
-    <a class="card card-libre" href="consolidado_deudores.html">
-      <div class="accent-line"></div>
-      <div class="card-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"/>
-          <path d="M3 9h18M3 15h18M9 3v18"/>
-        </svg>
-      </div>
-      <div class="access-badge">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Acceso libre
-      </div>
-      <h2>Consolidado de Deudores</h2>
-      <p>Reporte matricial de deudas por departamento y mes. Identifica morosos y exporta a CSV.</p>
-      <div class="card-footer">
-        <div class="card-features">
-          <span class="feature-tag">Reporte</span>
-          <span class="feature-tag">Matriz</span>
-          <span class="feature-tag">Exportar</span>
-        </div>
-        <div class="card-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </div>
-      </div>
-    </a>
-
+        Ingresar
+      </button>
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+    </div>
   </div>
 
-  <!-- FOOTER -->
-  <div class="site-footer">
-    <strong>Multifamiliar Las Limas</strong> &nbsp;·&nbsp; Sistema de Gestión v1.0 &nbsp;·&nbsp; 2025
-  </div>
+  <script>
+    // ═══════════════════════════════════════════════
+    // CREDENCIALES — cambiar antes de desplegar
+    // ═══════════════════════════════════════════════
+    const CREDENCIALES = {
+      tesorero: {
+        usuario: 'tesorero',
+        password: 'limas2025',
+        destino: 'pagos_deudas.html',
+        titulo: 'Tesorería',
+        rol: 'Acceso para el tesorero del condominio',
+        colorClass: 'card-amber',
+        iconColor: '#e9c46a',
+        btnColor: '#e9c46a',
+        btnTxt: '#0f1f16',
+      },
+      admin: {
+        usuario: 'admin',
+        password: 'lecturas2025',
+        destino: 'lecturas_limas.html',
+        titulo: 'Registro de Lecturas',
+        rol: 'Acceso para el encargado de lecturas',
+        colorClass: 'card-tierra',
+        iconColor: '#e07070',
+        btnColor: '#c0392b',
+        btnTxt: '#fff',
+      },
+    };
 
-</div>
+    let rolActual = null;
+
+    // ── Agregar candados a las tarjetas protegidas ──
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.card-amber, .card-tierra').forEach(card => {
+        // Interceptar click
+        card.addEventListener('click', e => {
+          e.preventDefault();
+          const rol = card.classList.contains('card-amber') ? 'tesorero' : 'admin';
+          abrirModal(rol);
+        });
+        // Agregar ícono de candado
+        const lock = document.createElement('div');
+        lock.className = 'lock-icon';
+        lock.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <rect x="3" y="11" width="18" height="11" rx="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>`;
+        card.appendChild(lock);
+      });
+    });
+
+    function abrirModal(rol) {
+      rolActual = rol;
+      const cfg = CREDENCIALES[rol];
+
+      // Configurar apariencia según rol
+      document.getElementById('modal-titulo').textContent = cfg.titulo;
+      document.getElementById('modal-rol').textContent = cfg.rol;
+      document.getElementById('modal-error').style.display = 'none';
+      document.getElementById('login-user').value = '';
+      document.getElementById('login-pass').value = '';
+
+      // Icono
+      const iconEl = document.getElementById('modal-icon');
+      iconEl.style.background = `rgba(${hexToRgb(cfg.iconColor)},.15)`;
+      iconEl.style.border = `1px solid rgba(${hexToRgb(cfg.iconColor)},.25)`;
+      iconEl.innerHTML = rol === 'tesorero'
+        ? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${cfg.iconColor}" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>`
+        : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${cfg.iconColor}" stroke-width="1.8" stroke-linecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 5.25-5 11-5 11S7 12.25 7 7a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2"/></svg>`;
+
+      // Botón
+      const btn = document.getElementById('btn-ingresar');
+      btn.style.background = cfg.btnColor;
+      btn.style.color = cfg.btnTxt;
+
+      document.getElementById('modal-overlay').classList.add('open');
+      setTimeout(() => document.getElementById('login-user').focus(), 100);
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      rolActual = null;
+    }
+
+    function intentarLogin() {
+      const cfg = CREDENCIALES[rolActual];
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      const err = document.getElementById('modal-error');
+      const btn = document.getElementById('btn-ingresar');
+
+      if (!user || !pass) {
+        err.textContent = 'Completa usuario y contraseña';
+        err.style.display = 'block'; return;
+      }
+
+      btn.textContent = 'Verificando...'; btn.disabled = true;
+
+      // Simular delay mínimo para no revelar timing
+      setTimeout(() => {
+        if (user === cfg.usuario && pass === cfg.password) {
+          // Guardar sesión en sessionStorage para que el módulo la pueda leer
+          sessionStorage.setItem('limas_rol', rolActual);
+          sessionStorage.setItem('limas_usuario', user);
+          sessionStorage.setItem('limas_auth', btoa(`${user}:${Date.now()}`));
+          cerrarModal();
+          window.location.href = cfg.destino;
+        } else {
+          err.textContent = 'Usuario o contraseña incorrectos';
+          err.style.display = 'block';
+          document.getElementById('login-pass').value = '';
+          document.getElementById('login-pass').focus();
+          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Ingresar`;
+          btn.disabled = false;
+        }
+      }, 350);
+    }
+
+    // Cerrar con Escape o clic fuera
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('modal-overlay')) cerrarModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') cerrarModal();
+    });
+
+    function hexToRgb(hex) {
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+      return `${r},${g},${b}`;
+    }
+  </script>
 </body>
+
 </html>
