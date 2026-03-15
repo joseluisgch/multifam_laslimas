@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multifamiliar Las Limas — Mi Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --verde: #2d6a4f;
+      --verde-md: #40916c;
+      --verde-lt: #74c69d;
+      --verde-xs: #d8f3dc;
+      --lima: #b7e4c7;
+      --tierra: #c0392b;
+      --tierra-lt: #fde8e7;
+      --amber: #856404;
+      --amber-lt: #fff3cd;
+      --bg: #f4f9f6;
+      --bg2: #ffffff;
+      --txt: #1b2e24;
+      --txt2: #4a6358;
+      --border: #c3dfd0;
+      --shadow: 0 2px 16px rgba(45, 106, 79, .10);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN ── */
+    #screen-login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #1b3a2d 0%, #2d6a4f 60%, #40916c 100%);
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 44px 40px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .25);
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 60px;
+      height: 60px;
+      background: var(--verde-xs);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .login-card h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--verde);
+      margin-bottom: 4px;
+    }
+
+    .login-card p {
+      font-size: 13px;
+      color: var(--txt2);
+      margin-bottom: 28px;
+    }
+
+    .login-field {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    .login-field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--txt2);
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .login-field input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--txt);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .login-field input:focus {
+      border-color: var(--verde-md);
+      box-shadow: 0 0 0 3px rgba(64, 145, 108, .12);
+      background: #fff;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      background: var(--verde);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background .18s, box-shadow .18s, transform .12s;
+    }
+
+    .btn-login:hover {
+      background: var(--verde-md);
+      box-shadow: 0 4px 16px rgba(45, 106, 79, .3);
+      transform: translateY(-1px);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .login-demo {
+      margin-top: 18px;
+    }
+
+    .login-demo p {
+      font-size: 11px;
+      color: var(--txt2);
+      margin-bottom: 8px;
+    }
+
+    .demo-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .demo-btn {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--txt2);
+      font-family: 'DM Sans', sans-serif;
+      transition: all .15s;
+    }
+
+    .demo-btn:hover {
+      border-color: var(--verde-md);
+      color: var(--verde);
+    }
+
+    .login-error {
+      background: var(--tierra-lt);
+      border: 1px solid #f5c6c6;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--tierra);
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    /* ── APP HEADER ── */
+    #screen-app {
+      display: none;
+    }
+
+    header {
+      background: var(--verde);
+      color: #fff;
+      padding: 0 28px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--verde-lt);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      font-weight: 300;
+      opacity: .75;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .user-chip {
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .user-chip .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--verde-lt);
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: rgba(255, 255, 255, .8);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .15s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(255, 255, 255, .2);
+      color: #fff;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    /* ── BIENVENIDA ── */
+    .welcome-band {
+      background: var(--verde);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-band h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+    }
+
+    .welcome-band p {
+      font-size: 13px;
+      opacity: .8;
+      margin-top: 3px;
+    }
+
+    .depto-badge {
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 12px;
+      padding: 12px 20px;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .depto-badge .db-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .depto-badge .db-lbl {
+      font-size: 10px;
+      opacity: .7;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* ── SELECTOR PERIODO ── */
+    .periodo-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .periodo-bar label {
+      font-size: 13px;
+      color: var(--txt2);
+      font-weight: 500;
+    }
+
+    .periodo-bar select {
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--txt);
+      background: var(--bg2);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .periodo-bar select:focus {
+      border-color: var(--verde-md);
+    }
+
+    /* ── CARDS RESUMEN ── */
+    .resumen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .r-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .r-card .rc-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--txt2);
+      margin-bottom: 6px;
+    }
+
+    .r-card .rc-val {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      color: var(--verde);
+    }
+
+    .r-card .rc-val.red {
+      color: var(--tierra);
+    }
+
+    .r-card .rc-val.amber {
+      color: var(--amber);
+    }
+
+    .r-card .rc-sub {
+      font-size: 11px;
+      color: var(--txt2);
+      margin-top: 3px;
+    }
+
+    /* ── RECIBO MENSUAL ── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--verde-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: var(--verde-md);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .recibo-body {
+      padding: 22px;
+    }
+
+    .recibo-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .recibo-table td {
+      padding: 9px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .recibo-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .recibo-table .rt-label {
+      color: var(--txt2);
+      width: 55%;
+    }
+
+    .recibo-table .rt-val {
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .recibo-total {
+      background: var(--verde-xs);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .recibo-total .tot-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--verde);
+    }
+
+    .recibo-total .tot-val {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: var(--verde);
+    }
+
+    /* estado pago en recibo */
+    .pago-status {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pago-status.pagado {
+      background: var(--verde-xs);
+      border: 1.5px solid var(--lima);
+    }
+
+    .pago-status.pendiente {
+      background: var(--tierra-lt);
+      border: 1.5px solid #f5c6c6;
+    }
+
+    .pago-status.parcial {
+      background: var(--amber-lt);
+      border: 1.5px solid #ffd97a;
+    }
+
+    .pago-status .ps-txt {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .pago-status.pagado .ps-txt {
+      color: var(--verde);
+    }
+
+    .pago-status.pendiente .ps-txt {
+      color: var(--tierra);
+    }
+
+    .pago-status.parcial .ps-txt {
+      color: var(--amber);
+    }
+
+    .pago-status .ps-monto {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+    }
+
+    /* ── HISTORIAL ── */
+    .hist-item {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hist-item:last-child {
+      border-bottom: none;
+    }
+
+    .hi-left .hi-periodo {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--txt);
+    }
+
+    .hi-left .hi-sub {
+      font-size: 12px;
+      color: var(--txt2);
+    }
+
+    .hi-right {
+      text-align: right;
+    }
+
+    .hi-right .hi-monto {
+      font-family: 'DM Serif Display', serif;
+      font-size: 16px;
+      color: var(--verde);
+    }
+
+    .hi-right .hi-fecha {
+      font-size: 11px;
+      color: var(--txt2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .badge-ok {
+      background: var(--verde-xs);
+      color: var(--verde);
+    }
+
+    .badge-deuda {
+      background: var(--tierra-lt);
+      color: var(--tierra);
+    }
+
+    .badge-par {
+      background: var(--amber-lt);
+      color: var(--amber);
+    }
+
+    /* ── PROG BAR CONSUMO ── */
+    .consumo-visual {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-top: 16px;
+    }
+
+    .cv-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--txt2);
+      margin-bottom: 8px;
+    }
+
+    .cv-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: var(--border);
+      overflow: hidden;
+    }
+
+    .cv-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--verde-lt);
+      transition: width .5s ease;
+    }
+
+    .cv-fill.high {
+      background: #f9c74f;
+    }
+
+    .cv-fill.very-high {
+      background: var(--tierra);
+    }
+
+    .cv-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--txt2);
+      margin-top: 5px;
+    }
+
+    /* ── BOTONES ── */
+    .btn-dl {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      color: var(--txt2);
+      cursor: pointer;
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .btn-dl:hover {
+      border-color: var(--verde-md);
+      color: var(--verde);
+    }
+
+    /* ── VACÍO ── */
+    .empty-state {
+      padding: 40px 22px;
+      text-align: center;
+      color: var(--txt2);
+    }
+
+    .empty-state .es-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--verde);
+      color: #fff;
+      padding: 13px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+      z-index: 999;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    #toast.error {
+      background: var(--tierra);
+    }
+
+    @media (max-width: 600px) {
+      .resumen-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .login-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- LOGIN                                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="screen-login">
+    <div class="login-card">
+      <div class="login-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2d6a4f" stroke-width="2"
+          stroke-linecap="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      </div>
+      <h1>Multifamiliar Las Limas</h1>
+      <p>Ingresa con el número de tu departamento y tu contraseña</p>
+
+      <div class="login-error" id="login-error"></div>
+
+      <div class="login-field">
+        <label>Número de departamento</label>
+        <input type="text" id="l-email" placeholder="Ej: 301" autocomplete="username"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-field">
+        <label>Contraseña</label>
+        <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="btn-login" onclick="doLogin()" id="btn-login-main">
+        Ingresar
+      </button>
+
+      <div class="login-demo">
+        <p>Demo — selecciona un departamento:</p>
+        <div class="demo-btns">
+          <button class="demo-btn" onclick="loginDemo('101')">Depto. 101</button>
+          <button class="demo-btn" onclick="loginDemo('102')">Depto. 102</button>
+          <button class="demo-btn" onclick="loginDemo('103')">Depto. 103</button>
+          <button class="demo-btn" onclick="loginDemo('104')">Depto. 104</button>
+        </div>
+      </div>
+
+      <!-- Cambiar contraseña -->
+      <div id="cambiar-pass-section"
+        style="display:none;margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+        <p style="font-size:12px;color:var(--txt2);margin-bottom:10px">Cambiar mi contraseña</p>
+        <div class="login-field">
+          <label>Contraseña actual</label>
+          <input type="password" id="cp-old" placeholder="••••••••">
+        </div>
+        <div class="login-field">
+          <label>Nueva contraseña</label>
+          <input type="password" id="cp-new" placeholder="Mínimo 4 caracteres">
+        </div>
+        <button class="btn-login" onclick="cambiarPassword()" style="background:var(--verde-md);margin-top:4px">
+          Actualizar contraseña
+        </button>
+      </div>
+      <div style="margin-top:12px;text-align:center">
+        <a href="#" onclick="toggleCambiarPass()" style="font-size:12px;color:var(--txt2)">
+          Cambiar mi contraseña
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- APP                                        -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="screen-app">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2e24" stroke-width="2"
+            stroke-linecap="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="logo-text">Las Limas</div>
+          <div class="logo-sub">Mi Portal</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="user-chip">
+          <span class="dot"></span>
+          <span id="chip-depto">Depto. —</span>
+        </div>
+        <button class="btn-logout" onclick="logout()">Salir</button>
+      </div>
+    </header>
+
+    <div class="container">
+
+      <!-- BIENVENIDA -->
+      <div class="welcome-band">
+        <div>
+          <h2 id="wb-saludo">Bienvenido</h2>
+          <p id="wb-prop">Propietario</p>
+        </div>
+        <div class="depto-badge">
+          <div class="db-num" id="wb-num">—</div>
+          <div class="db-lbl">Departamento</div>
+        </div>
+      </div>
+
+      <!-- SELECTOR PERIODO -->
+      <div class="periodo-bar">
+        <label>Ver periodo:</label>
+        <select id="p-mes">
+          <option value="1">Enero</option>
+          <option value="2">Febrero</option>
+          <option value="3">Marzo</option>
+          <option value="4">Abril</option>
+          <option value="5">Mayo</option>
+          <option value="6">Junio</option>
+          <option value="7">Julio</option>
+          <option value="8">Agosto</option>
+          <option value="9">Septiembre</option>
+          <option value="10">Octubre</option>
+          <option value="11">Noviembre</option>
+          <option value="12">Diciembre</option>
+        </select>
+        <select id="p-anio">
+          <option value="2024">2024</option>
+          <option value="2025" selected>2025</option>
+          <option value="2026">2026</option>
+        </select>
+        <button class="btn-dl" onclick="cargarPeriodo()">Ver</button>
+      </div>
+
+      <!-- CARDS RESUMEN -->
+      <div class="resumen-grid">
+        <div class="r-card">
+          <div class="rc-label">Consumo del mes</div>
+          <div class="rc-val" id="rc-consumo">— m³</div>
+          <div class="rc-sub" id="rc-litros">— litros</div>
+        </div>
+        <div class="r-card">
+          <div class="rc-label">Cargo de agua</div>
+          <div class="rc-val" id="rc-cargo">S/. —</div>
+          <div class="rc-sub" id="rc-tarifa">S/. — / m³</div>
+        </div>
+        <div class="r-card">
+          <div class="rc-label">Saldo pendiente</div>
+          <div class="rc-val red" id="rc-saldo">S/. —</div>
+          <div class="rc-sub" id="rc-pagado">Pagado: S/. —</div>
+        </div>
+      </div>
+
+      <!-- RECIBO DEL MES -->
+      <div class="card">
+        <div class="card-header">
+          <div class="section-title" id="recibo-titulo">Recibo del mes</div>
+          <button class="btn-dl" onclick="imprimirRecibo()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 6 2 18 2 18 9" />
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+              <rect x="6" y="14" width="12" height="8" />
+            </svg>
+            Imprimir
+          </button>
+        </div>
+        <div class="recibo-body" id="recibo-body">
+          <div class="empty-state">
+            <div class="es-icon">💧</div>
+            <p>Selecciona un periodo para ver tu recibo</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL DE PAGOS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="section-title">Historial de pagos</div>
+        </div>
+        <div id="historial-lista">
+          <div class="empty-state">
+            <p>Cargando historial...</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    // ═══════════════════════════════════════════════
+    // CONFIG SUPABASE
+    // ═══════════════════════════════════════════════
+    const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
+
+    const MESES = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    // ═══════════════════════════════════════════════
+    // DATOS MOCK (demo sin Supabase)
+    // ═══════════════════════════════════════════════
+    const MOCK_DEPTOS = {
+      '101': { id: 1, numero: '101', propietario: 'García Ríos, Luis', email: 'luis@demo.com', piso: 1 },
+      '102': { id: 2, numero: '102', propietario: 'Torres Vega, Ana', email: 'ana@demo.com', piso: 1 },
+      '103': { id: 3, numero: '103', propietario: 'Mamani Quispe, Pedro', email: 'pedro@demo.com', piso: 1 },
+      '104': { id: 4, numero: '104', propietario: 'Flores Huanca, Rosa', email: 'rosa@demo.com', piso: 1 },
+    };
+    const MOCK_DATA = {
+      '101': {
+        periodos: [
+          { mes: 6, anio: 2025, lectura_anterior: 4820, lectura_actual: 5210, consumo_litros: 390, consumo_m3: 0.390, tarifa: 7.8462, cargo: 30.60, pagado: 30.60, saldo: 0, fecha_pago: '2025-06-10', metodo: 'Yape' },
+          { mes: 5, anio: 2025, lectura_anterior: 4410, lectura_actual: 4820, consumo_litros: 410, consumo_m3: 0.410, tarifa: 7.6341, cargo: 31.30, pagado: 31.30, saldo: 0, fecha_pago: '2025-05-08', metodo: 'Efectivo' },
+          { mes: 4, anio: 2025, lectura_anterior: 3990, lectura_actual: 4410, consumo_litros: 420, consumo_m3: 0.420, tarifa: 7.5000, cargo: 31.50, pagado: 31.50, saldo: 0, fecha_pago: '2025-04-12', metodo: 'Transferencia' },
+        ]
+      },
+      '102': {
+        periodos: [
+          { mes: 6, anio: 2025, lectura_anterior: 3100, lectura_actual: 3380, consumo_litros: 280, consumo_m3: 0.280, tarifa: 7.8462, cargo: 21.97, pagado: 21.97, saldo: 0, fecha_pago: '2025-06-07', metodo: 'Yape' },
+          { mes: 5, anio: 2025, lectura_anterior: 2820, lectura_actual: 3100, consumo_litros: 300, consumo_m3: 0.300, tarifa: 7.6341, cargo: 22.90, pagado: 22.90, saldo: 0, fecha_pago: '2025-05-11', metodo: 'Yape' },
+        ]
+      },
+      '103': {
+        periodos: [
+          { mes: 6, anio: 2025, lectura_anterior: 6500, lectura_actual: 7010, consumo_litros: 510, consumo_m3: 0.510, tarifa: 7.8462, cargo: 40.02, pagado: 0, saldo: 40.02, fecha_pago: null, metodo: null },
+          { mes: 5, anio: 2025, lectura_anterior: 6050, lectura_actual: 6500, consumo_litros: 450, consumo_m3: 0.450, tarifa: 7.6341, cargo: 34.35, pagado: 34.35, saldo: 0, fecha_pago: '2025-05-20', metodo: 'Efectivo' },
+        ]
+      },
+      '104': {
+        periodos: [
+          { mes: 6, anio: 2025, lectura_anterior: 2200, lectura_actual: 2480, consumo_litros: 280, consumo_m3: 0.280, tarifa: 7.8462, cargo: 21.97, pagado: 15.00, saldo: 6.97, fecha_pago: '2025-06-14', metodo: 'Yape' },
+        ]
+      },
+    };
+
+    // Estado
+    let usuarioActual = null;
+
+    // ═══════════════════════════════════════════════
+    // AUTH
+    // ═══════════════════════════════════════════════
+    async function doLogin() {
+      const username = document.getElementById('l-email').value.trim();
+      const pass = document.getElementById('l-pass').value;
+      if (!username || !pass) { mostrarError('Ingresa tu número de departamento y contraseña'); return; }
+
+      const btn = document.getElementById('btn-login-main');
+      btn.textContent = 'Verificando...'; btn.disabled = true;
+
+      if (SUPABASE_URL.includes('TU_PROYECTO')) {
+        setTimeout(() => {
+          btn.textContent = 'Ingresar'; btn.disabled = false;
+          mostrarError('Configura Supabase para login real. Usa los botones demo.');
+        }, 800);
+        return;
+      }
+
+      try {
+        // Llamar a la función login_vecino en Supabase
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/login_vecino`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+          body: JSON.stringify({ p_username: username, p_password: pass })
+        });
+        const rows = await r.json();
+        const data = Array.isArray(rows) ? rows[0] : rows;
+
+        if (!data || !data.ok) {
+          throw new Error(data?.mensaje || 'Credenciales incorrectas');
+        }
+
+        // Guardar sesión local
+        sessionStorage.setItem('vecino_username', username);
+        sessionStorage.setItem('vecino_depto_id', data.departamento_id);
+
+        usuarioActual = {
+          id: data.departamento_id,
+          numero: data.numero,
+          propietario: data.propietario,
+          piso: data.piso,
+        };
+        ocultarError();
+        abrirApp();
+      } catch (e) {
+        mostrarError(e.message);
+      } finally {
+        btn.textContent = 'Ingresar'; btn.disabled = false;
+      }
+    }
+
+    function toggleCambiarPass() {
+      const s = document.getElementById('cambiar-pass-section');
+      s.style.display = s.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function cambiarPassword() {
+      const username = document.getElementById('l-email').value.trim();
+      const old_pass = document.getElementById('cp-old').value;
+      const new_pass = document.getElementById('cp-new').value;
+
+      if (!username) { mostrarError('Ingresa tu número de departamento primero'); return; }
+      if (!old_pass || !new_pass) { mostrarError('Completa ambas contraseñas'); return; }
+      if (new_pass.length < 4) { mostrarError('La nueva contraseña debe tener al menos 4 caracteres'); return; }
+
+      try {
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/cambiar_password_vecino`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+          body: JSON.stringify({
+            p_username: username, p_password_old: old_pass, p_password_new: new_pass
+          })
+        });
+        const rows = await r.json();
+        const data = Array.isArray(rows) ? rows[0] : rows;
+        if (!data?.ok) throw new Error(data?.mensaje || 'Error al cambiar contraseña');
+        document.getElementById('cambiar-pass-section').style.display = 'none';
+        document.getElementById('cp-old').value = '';
+        document.getElementById('cp-new').value = '';
+        mostrarError('✓ Contraseña actualizada correctamente');
+        document.getElementById('login-error').style.background = 'var(--verde-xs)';
+        document.getElementById('login-error').style.color = 'var(--verde)';
+      } catch (e) {
+        mostrarError(e.message);
+      }
+    }
+
+    function loginDemo(numero) {
+      usuarioActual = MOCK_DEPTOS[numero];
+      if (!usuarioActual) return;
+      sessionStorage.setItem('demo_depto', numero);
+      abrirApp();
+    }
+
+    function logout() {
+      sessionStorage.removeItem('vecino_username'); sessionStorage.removeItem('vecino_depto_id');
+      usuarioActual = null;
+      document.getElementById('screen-login').style.display = 'flex';
+      document.getElementById('screen-app').style.display = 'none';
+      document.getElementById('l-email').value = '';
+      document.getElementById('l-pass').value = '';
+      ocultarError();
+    }
+
+    function mostrarError(msg) {
+      const el = document.getElementById('login-error');
+      el.textContent = msg; el.style.display = 'block';
+    }
+    function ocultarError() {
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    // ═══════════════════════════════════════════════
+    // ABRIR APP
+    // ═══════════════════════════════════════════════
+    function abrirApp() {
+      document.getElementById('screen-login').style.display = 'none';
+      document.getElementById('screen-app').style.display = 'block';
+
+      const d = usuarioActual;
+      const nombre = d.propietario?.split(',')[0] || 'Propietario';
+      document.getElementById('wb-saludo').textContent = `Hola, ${nombre}`;
+      document.getElementById('wb-prop').textContent = d.propietario;
+      document.getElementById('wb-num').textContent = d.numero;
+      document.getElementById('chip-depto').textContent = `Depto. ${d.numero}`;
+
+      const now = new Date();
+      document.getElementById('p-mes').value = now.getMonth() + 1;
+      document.getElementById('p-anio').value = now.getFullYear();
+
+      cargarPeriodo();
+      cargarHistorial();
+    }
+
+    // ═══════════════════════════════════════════════
+    // CARGAR PERIODO
+    // ═══════════════════════════════════════════════
+    async function cargarPeriodo() {
+      const mes = +document.getElementById('p-mes').value;
+      const anio = +document.getElementById('p-anio').value;
+      document.getElementById('recibo-titulo').textContent = `Recibo ${MESES[mes]} ${anio}`;
+
+      const esDemo = SUPABASE_URL.includes('TU_PROYECTO');
+
+      if (esDemo) {
+        const datos = MOCK_DATA[usuarioActual.numero];
+        const row = datos?.periodos.find(p => p.mes === mes && p.anio === anio);
+        renderRecibo(row, mes, anio);
+        return;
+      }
+
+      try {
+        const token = sessionStorage.getItem('sb_token');
+
+        // 1. Obtener periodo
+        const periodos = await sbGet(`periodos?mes=eq.${mes}&anio=eq.${anio}&select=*`, token);
+        const periodo = periodos[0];
+        if (!periodo) { renderRecibo(null, mes, anio); return; }
+
+        // 2. Obtener lectura (para consumo y tarifa)
+        const lecturas = await sbGet(
+          `v_lecturas_m3?depto=eq.${usuarioActual.numero}&mes=eq.${mes}&anio=eq.${anio}`,
+          token
+        );
+        const lec = lecturas[0];
+        if (!lec) { renderRecibo(null, mes, anio); return; }
+
+        // 3. Obtener cargos ya procesados (tienen redondeo y mantenimiento)
+        const cargos = await sbGet(
+          `cargos?departamento_id=eq.${usuarioActual.id}&periodo_id=eq.${periodo.id}&select=concepto,monto`,
+          token
+        );
+        const cargoAgua = cargos.find(c => c.concepto === 'agua');
+        const cargoMant = cargos.find(c => c.concepto === 'mantenimiento');
+        const montoAgua = cargoAgua ? parseFloat(cargoAgua.monto) : parseFloat(lec.monto_agua);
+        const montoMant = cargoMant ? parseFloat(cargoMant.monto) : 0;
+        const totalCargo = montoAgua + montoMant;
+
+        // 4. Obtener pagos
+        const pagos = await sbGet(
+          `pagos?departamento_id=eq.${usuarioActual.id}&periodo_id=eq.${periodo.id}&select=monto,fecha_pago,metodo`,
+          token
+        );
+        const totalPagado = pagos.reduce((s, p) => s + parseFloat(p.monto), 0);
+
+        const row = {
+          mes, anio,
+          lectura_anterior: lec.lectura_anterior,
+          lectura_actual: lec.lectura_actual,
+          consumo_litros: lec.consumo_litros,
+          consumo_m3: parseFloat(lec.consumo_m3),
+          tarifa: parseFloat(lec.tarifa_sol_m3),
+          cargo_agua: montoAgua,
+          cargo_mant: montoMant,
+          cargo: totalCargo,
+          pagado: totalPagado,
+          saldo: Math.max(0, totalCargo - totalPagado),
+          fecha_pago: pagos[0]?.fecha_pago || null,
+          metodo: pagos[0]?.metodo || null,
+        };
+        renderRecibo(row, mes, anio);
+      } catch (e) {
+        showToast('Error cargando recibo: ' + e.message, true);
+      }
+    }
+
+    // ═══════════════════════════════════════════════
+    // RENDER RECIBO
+    // ═══════════════════════════════════════════════
+    function renderRecibo(row, mes, anio) {
+      const body = document.getElementById('recibo-body');
+
+      if (!row) {
+        body.innerHTML = `<div class="empty-state"><div class="es-icon">📋</div><p>No hay datos de lectura para ${MESES[mes]} ${anio}</p></div>`;
+        ['rc-consumo', 'rc-litros', 'rc-cargo', 'rc-tarifa', 'rc-saldo', 'rc-pagado'].forEach(id => {
+          document.getElementById(id).textContent = '—';
+        });
+        return;
+      }
+
+      // Actualizar cards resumen
+      const cargoTotal = (row.cargo_agua || row.cargo || 0) + (row.cargo_mant || 0);
+      document.getElementById('rc-consumo').textContent = row.consumo_m3.toFixed(3) + ' m³';
+      document.getElementById('rc-litros').textContent = row.consumo_litros.toLocaleString() + ' litros';
+      document.getElementById('rc-cargo').textContent = 'S/. ' + (row.cargo_agua || row.cargo || 0).toFixed(2);
+      document.getElementById('rc-tarifa').textContent = `S/. ${row.tarifa?.toFixed(2) || '—'} / m³`;
+      document.getElementById('rc-saldo').textContent = 'S/. ' + (row.saldo || 0).toFixed(2);
+      document.getElementById('rc-pagado').textContent = 'Pagado: S/. ' + (row.pagado || 0).toFixed(2);
+
+      // Estado
+      const saldo = row.saldo || 0;
+      const pagado = row.pagado || 0;
+      let estadoHTML;
+      if (saldo <= 0) {
+        estadoHTML = `<div class="pago-status pagado">
+      <span class="ps-txt">✓ Pago completo${row.fecha_pago ? ' — ' + row.fecha_pago : ''}</span>
+      <span class="ps-monto" style="color:var(--verde)">S/. ${pagado.toFixed(2)}</span>
+    </div>`;
+      } else if (pagado > 0) {
+        estadoHTML = `<div class="pago-status parcial">
+      <span class="ps-txt">⚠ Pago parcial — falta S/. ${saldo.toFixed(2)}</span>
+      <span class="ps-monto" style="color:var(--amber)">S/. ${pagado.toFixed(2)} pagado</span>
+    </div>`;
+      } else {
+        estadoHTML = `<div class="pago-status pendiente">
+      <span class="ps-txt">✗ Pendiente de pago</span>
+      <span class="ps-monto" style="color:var(--tierra)">S/. ${saldo.toFixed(2)}</span>
+    </div>`;
+      }
+
+      // Barra comparativa (vs promedio mock 0.380 m³)
+      const promedio = 0.380;
+      const pct = Math.min(100, (row.consumo_m3 / (promedio * 1.5)) * 100);
+      const barClass = pct > 80 ? 'very-high' : pct > 60 ? 'high' : '';
+
+      const montoAgua = row.cargo_agua || row.cargo || 0;
+      const montoMant = row.cargo_mant || 0;
+      const montoTotal = montoAgua + montoMant;
+      const filasMant = montoMant > 0 ? `
+      <tr style="border-top:2px solid var(--border)">
+        <td class="rt-label">Cargo agua</td>
+        <td class="rt-val">S/. ${montoAgua.toFixed(2)}</td>
+      </tr>
+      <tr>
+        <td class="rt-label">Mantenimiento</td>
+        <td class="rt-val">S/. ${montoMant.toFixed(2)}</td>
+      </tr>` : '';
+
+      body.innerHTML = `
+    <table class="recibo-table">
+      <tr><td class="rt-label">Periodo</td>
+          <td class="rt-val">${MESES[mes]} ${anio}</td></tr>
+      <tr><td class="rt-label">Departamento</td>
+          <td class="rt-val">${usuarioActual.numero} — ${usuarioActual.propietario}</td></tr>
+      <tr><td class="rt-label">Lectura anterior</td>
+          <td class="rt-val">${(row.lectura_anterior || 0).toLocaleString()} litros</td></tr>
+      <tr><td class="rt-label">Lectura actual</td>
+          <td class="rt-val">${(row.lectura_actual || 0).toLocaleString()} litros</td></tr>
+      <tr><td class="rt-label">Consumo del mes</td>
+          <td class="rt-val"><strong>${row.consumo_litros.toLocaleString()} L = ${row.consumo_m3.toFixed(3)} m³</strong></td></tr>
+      <tr><td class="rt-label">Tarifa unitaria</td>
+          <td class="rt-val">S/. ${row.tarifa?.toFixed(2) || '—'} / m³</td></tr>
+      ${filasMant}
+    </table>
+
+    <div class="recibo-total">
+      <span class="tot-label">Total a pagar</span>
+      <span class="tot-val">S/. ${montoTotal.toFixed(2)}</span>
+    </div>
+
+    ${estadoHTML}
+
+    <div class="consumo-visual">
+      <div class="cv-header">
+        <span>Tu consumo vs. promedio del edificio</span>
+        <span>${row.consumo_m3.toFixed(3)} m³</span>
+      </div>
+      <div class="cv-bar">
+        <div class="cv-fill ${barClass}" style="width:${pct}%"></div>
+      </div>
+      <div class="cv-labels">
+        <span>0</span>
+        <span>Promedio: ${promedio} m³</span>
+        <span>${(promedio * 1.5).toFixed(2)} m³</span>
+      </div>
+    </div>`;
+    }
+
+    // ═══════════════════════════════════════════════
+    // HISTORIAL
+    // ═══════════════════════════════════════════════
+    async function cargarHistorial() {
+      const el = document.getElementById('historial-lista');
+      const esDemo = SUPABASE_URL.includes('TU_PROYECTO');
+
+      let historial = [];
+
+      if (esDemo) {
+        historial = MOCK_DATA[usuarioActual.numero]?.periodos || [];
+      } else {
+        try {
+          const token = sessionStorage.getItem('sb_token');
+          historial = await sbGet(
+            `v_estado_cuenta?numero=eq.${usuarioActual.numero}&order=anio.desc,mes.desc&limit=12`,
+            token
+          );
+        } catch (e) { el.innerHTML = `<div class="empty-state"><p>Error cargando historial</p></div>`; return; }
+      }
+
+      if (!historial.length) {
+        el.innerHTML = `<div class="empty-state"><div class="es-icon">📜</div><p>Sin historial disponible</p></div>`;
+        return;
+      }
+
+      el.innerHTML = historial.map(p => {
+        const saldo = esDemo ? p.saldo : (p.total_cargado - p.total_pagado);
+        const cargo = esDemo ? p.cargo : p.total_cargado;
+        const pagado = esDemo ? p.pagado : p.total_pagado;
+        let badge;
+        if (saldo <= 0) badge = `<span class="badge badge-ok">Al día</span>`;
+        else if (pagado > 0) badge = `<span class="badge badge-par">Parcial</span>`;
+        else badge = `<span class="badge badge-deuda">Pendiente</span>`;
+
+        return `<div class="hist-item">
+      <div class="hi-left">
+        <div class="hi-periodo">${MESES[p.mes]} ${p.anio}</div>
+        <div class="hi-sub">
+          ${esDemo && p.consumo_m3 ? p.consumo_m3.toFixed(3) + ' m³ · ' : ''}
+          ${cargo ? 'Cargo: S/. ' + parseFloat(cargo).toFixed(2) : '—'}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        ${badge}
+        <div class="hi-right">
+          <div class="hi-monto">S/. ${parseFloat(pagado || 0).toFixed(2)}</div>
+          <div class="hi-fecha">${esDemo && p.fecha_pago ? 'Pagado: ' + p.fecha_pago : saldo > 0 ? 'Falta S/. ' + parseFloat(saldo).toFixed(2) : ''}</div>
+        </div>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    // ═══════════════════════════════════════════════
+    // IMPRIMIR
+    // ═══════════════════════════════════════════════
+    function imprimirRecibo() {
+      window.print();
+    }
+
+    // ═══════════════════════════════════════════════
+    // HELPERS SUPABASE
+    // ═══════════════════════════════════════════════
+    async function sbGet(path, token) {
+      // token = JWT del usuario autenticado (login real)
+      // sin token = acceso anónimo: apikey en ambos headers
+      const authToken = token || SUPABASE_KEY;
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${authToken}`,
+        }
+      });
+      if (!r.ok) throw new Error(await r.text());
+      return r.json();
+    }
+
+    function showToast(msg, isError) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.toggle('error', !!isError);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+
+</html>

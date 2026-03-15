@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multifamiliar Las Limas — Registro de Lecturas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --verde: #2d6a4f;
+            --verde-md: #40916c;
+            --verde-lt: #74c69d;
+            --verde-xs: #d8f3dc;
+            --lima: #b7e4c7;
+            --tierra: #5c4033;
+            --bg: #f4f9f6;
+            --bg2: #ffffff;
+            --txt: #1b2e24;
+            --txt2: #4a6358;
+            --border: #c3dfd0;
+            --shadow: 0 2px 16px rgba(45, 106, 79, .10);
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: var(--verde);
+            color: #fff;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--verde-lt);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            font-weight: 300;
+            opacity: .75;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--verde-lt);
+            display: inline-block;
+        }
+
+        /* ── LAYOUT ── */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        /* ── PAGE TITLE ── */
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-title h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 28px;
+            color: var(--verde);
+            line-height: 1.1;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: var(--txt2);
+            margin-top: 4px;
+            font-weight: 300;
+        }
+
+        /* ── PERIODO CARD ── */
+        .periodo-card {
+            background: var(--verde);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            color: #fff;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .periodo-card label {
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            opacity: .7;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .periodo-card select,
+        .periodo-card input {
+            width: 100%;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            padding: 8px 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            transition: background .2s;
+        }
+
+        .periodo-card select:focus,
+        .periodo-card input:focus {
+            background: rgba(255, 255, 255, .25);
+            border-color: rgba(255, 255, 255, .5);
+        }
+
+        .periodo-card select option {
+            color: var(--txt);
+            background: #fff;
+        }
+
+        /* ── RECIBO COMUN ── */
+        .recibo-section {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--verde-md);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 3px;
+            height: 14px;
+            background: var(--verde-md);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .recibo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            align-items: end;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--txt2);
+            letter-spacing: .03em;
+        }
+
+        .field input,
+        .field select {
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--txt);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .18s, box-shadow .18s;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--verde-md);
+            box-shadow: 0 0 0 3px rgba(64, 145, 108, .12);
+            background: #fff;
+        }
+
+        .field input[readonly] {
+            background: var(--verde-xs);
+            color: var(--verde);
+            font-weight: 500;
+            cursor: default;
+            border-color: var(--lima);
+        }
+
+        .field .hint {
+            font-size: 11px;
+            color: var(--txt2);
+            opacity: .7;
+        }
+
+        /* tarifa display */
+        .tarifa-display {
+            background: var(--verde-xs);
+            border: 1.5px solid var(--lima);
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--verde);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 40px;
+        }
+
+        .tarifa-display .tarifa-val {
+            font-size: 18px;
+            font-family: 'DM Serif Display', serif;
+        }
+
+        /* ── TABLA DE DEPARTAMENTOS ── */
+        .lecturas-section {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .lecturas-header {
+            padding: 18px 24px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: var(--txt2);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--txt);
+            width: 160px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            background: var(--bg);
+            border-bottom: 1.5px solid var(--border);
+        }
+
+        thead th {
+            padding: 10px 14px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--txt2);
+            text-align: left;
+        }
+
+        thead th.num {
+            text-align: right;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background .12s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--verde-xs);
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .depto-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 16px;
+            color: var(--verde);
+            font-weight: 400;
+        }
+
+        .depto-nombre {
+            font-size: 12px;
+            color: var(--txt2);
+        }
+
+        td input[type="number"] {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 10px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--txt);
+            background: #fff;
+            outline: none;
+            text-align: right;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        td input[type="number"]:focus {
+            border-color: var(--verde-md);
+            box-shadow: 0 0 0 3px rgba(64, 145, 108, .12);
+        }
+
+        td input[type="number"].filled {
+            background: var(--verde-xs);
+            border-color: var(--lima);
+        }
+
+        td.consumo-cell {
+            text-align: right;
+            font-weight: 500;
+            color: var(--verde);
+            font-size: 13px;
+            min-width: 80px;
+        }
+
+        td.costo-cell {
+            text-align: right;
+            font-weight: 500;
+            color: var(--tierra);
+            font-size: 13px;
+            min-width: 80px;
+        }
+
+        td.estado-cell {
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .badge-ok {
+            background: var(--verde-xs);
+            color: var(--verde);
+        }
+
+        .badge-pend {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-empty {
+            background: #f8f9fa;
+            color: #868e96;
+        }
+
+        .badge-guardado {
+            background: var(--verde-xs);
+            color: var(--verde);
+            font-size: 11px;
+        }
+
+        /* Botón guardar por fila */
+        .btn-fila {
+            padding: 6px 14px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all .15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .btn-fila-guardar {
+            background: var(--verde);
+            color: #fff;
+        }
+
+        .btn-fila-guardar:hover {
+            background: var(--verde-md);
+        }
+
+        .btn-fila-guardar:disabled {
+            background: var(--border);
+            cursor: not-allowed;
+        }
+
+        .btn-fila-ok {
+            background: var(--verde-xs);
+            color: var(--verde);
+            border: 1px solid var(--lima);
+            cursor: default;
+            font-size: 11px;
+        }
+
+        .btn-fila-error {
+            background: #fde8e7;
+            color: #c0392b;
+            border: 1px solid #f5c6c6;
+            cursor: default;
+        }
+
+        /* Fila recién guardada — destello verde */
+        @keyframes guardadoFlash {
+            0% {
+                background: var(--verde-xs);
+            }
+
+            100% {
+                background: transparent;
+            }
+        }
+
+        .fila-flash {
+            animation: guardadoFlash 1.2s ease-out;
+        }
+
+        /* Progreso global */
+        .progreso-bar-wrap {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 0 0;
+        }
+
+        .progreso-bar-fill {
+            height: 100%;
+            background: var(--verde-lt);
+            border-radius: 2px;
+            transition: width .4s ease;
+        }
+
+        /* ── TOTALES ── */
+        .totales-bar {
+            background: var(--verde-xs);
+            border-top: 1.5px solid var(--lima);
+            padding: 14px 24px;
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .total-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-item .t-label {
+            font-size: 11px;
+            color: var(--txt2);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .total-item .t-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 20px;
+            color: var(--verde);
+        }
+
+        /* ── BOTONES ── */
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 11px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all .18s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: var(--bg2);
+            border: 1.5px solid var(--border);
+            color: var(--txt2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--verde-md);
+            color: var(--verde);
+        }
+
+        .btn-primary {
+            background: var(--verde);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--verde-md);
+            box-shadow: 0 4px 14px rgba(45, 106, 79, .3);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            background: var(--border);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ── TOAST ── */
+        #toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--verde);
+            color: #fff;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #toast.error {
+            background: #c0392b;
+        }
+
+        /* ── MODAL SQL ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 740px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+        }
+
+        .modal h2 {
+            font-family: 'DM Serif Display', serif;
+            color: var(--verde);
+            margin-bottom: 6px;
+        }
+
+        .modal p {
+            font-size: 13px;
+            color: var(--txt2);
+            margin-bottom: 16px;
+        }
+
+        pre {
+            background: #1b2e24;
+            color: #d8f3dc;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--txt2);
+            margin-top: -4px;
+        }
+
+        /* ── ANOMALÍAS ── */
+        .badge-fuga {
+            background: #fde8e7;
+            color: #c0392b;
+        }
+
+        .badge-alerta {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .row-fuga {
+            background: #fff8f8 !important;
+        }
+
+        .row-alerta {
+            background: #fffdf0 !important;
+        }
+
+        .anomalia-hint {
+            font-size: 10px;
+            color: #c0392b;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .anomalia-hint.warn {
+            color: #856404;
+        }
+
+        /* Panel alertas */
+        #panel-alertas {
+            background: var(--bg2);
+            border: 1.5px solid #f5c6c6;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        #panel-alertas.visible {
+            display: block;
+        }
+
+        .alerta-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f5c6c6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff8f8;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .alerta-header h3 {
+            font-size: 13px;
+            font-weight: 500;
+            color: #c0392b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alerta-item {
+            padding: 11px 20px;
+            border-bottom: 1px solid #fde8e7;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .alerta-item:last-child {
+            border-bottom: none;
+        }
+
+        .alerta-depto {
+            font-family: 'DM Serif Display', serif;
+            font-size: 16px;
+            color: var(--verde);
+            min-width: 40px;
+        }
+
+        .alerta-desc {
+            flex: 1;
+            color: var(--txt);
+        }
+
+        .alerta-desc small {
+            display: block;
+            font-size: 11px;
+            color: var(--txt2);
+        }
+
+        /* ── INPUT ERROR ── */
+        td input[type="number"].error {
+            border-color: #e74c3c;
+            background: #fff8f8;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, .12);
+        }
+
+        /* ── RESPONSIVE MÓVIL ── */
+        @media (max-width: 640px) {
+            .container {
+                padding: 16px 12px 80px;
+            }
+
+            .periodo-card {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .recibo-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            header {
+                padding: 0 16px;
+            }
+
+            .logo-text {
+                font-size: 15px;
+            }
+
+            .header-badge {
+                display: none;
+            }
+
+            /* Tabla → tarjetas en móvil */
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                margin-bottom: 10px;
+                padding: 12px;
+                background: var(--bg2);
+            }
+
+            tbody td {
+                padding: 4px 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                border: none;
+            }
+
+            tbody td::before {
+                content: attr(data-label);
+                font-size: 11px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: .04em;
+                color: var(--txt2);
+                min-width: 100px;
+            }
+
+            td input[type="number"] {
+                width: 130px;
+                text-align: right;
+            }
+
+            td.consumo-cell,
+            td.costo-cell {
+                justify-content: flex-end;
+            }
+
+            td.consumo-cell::before {
+                content: "Consumo";
+            }
+
+            td.costo-cell::before {
+                content: "Monto";
+            }
+
+            td.estado-cell::before {
+                content: "Estado";
+            }
+
+            td.estado-cell {
+                justify-content: space-between;
+            }
+
+            .totales-bar {
+                gap: 16px;
+            }
+
+            .actions {
+                justify-content: stretch;
+            }
+
+            .actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .btn-secondary:first-child {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#1b2e24" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2" />
+                    <path d="M12 6v6l4 2" />
+                    <circle cx="12" cy="12" r="2" fill="#1b2e24" />
+                </svg>
+            </div>
+            <div>
+                <div class="logo-text">Multifamiliar Las Limas</div>
+                <div class="logo-sub">Sistema de Gestión</div>
+            </div>
+        </div>
+        <div class="header-badge">
+            <span></span>
+            Registro de Lecturas
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="container">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Lecturas de Medidores</h1>
+                <p>Ingresa la lectura mensual de cada departamento en litros</p>
+            </div>
+            <button class="btn btn-secondary" onclick="document.getElementById('modal-sql').classList.add('open')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+                Ver SQL Supabase
+            </button>
+        </div>
+
+        <!-- PERIODO -->
+        <div class="periodo-card">
+            <div>
+                <label>Mes</label>
+                <select id="sel-mes" onchange="actualizarPeriodo()">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+            <div>
+                <label>Año</label>
+                <input type="number" id="sel-anio" value="2025" min="2020" max="2035" onchange="actualizarPeriodo()">
+            </div>
+            <div>
+                <label>Deptos. registrados</label>
+                <input type="text" id="depto-count" value="0 / 0" readonly>
+            </div>
+        </div>
+
+        <!-- RECIBO COMÚN -->
+        <div class="recibo-section">
+            <div class="section-title">Recibo común de agua potable</div>
+            <div class="recibo-grid">
+                <div class="field">
+                    <label>Monto total recibo (S/.)</label>
+                    <input type="number" id="monto-recibo" placeholder="Ej: 850.00" step="0.01" min="0"
+                        oninput="calcularTarifa()">
+                    <span class="hint">Monto total del recibo del edificio</span>
+                </div>
+                <div class="field">
+                    <label>Consumo edificio (litros)</label>
+                    <input type="number" id="consumo-edificio" placeholder="Ej: 124500" step="1" min="0"
+                        oninput="calcularTarifa()">
+                    <span class="hint">Total litros del recibo (o suma automática ↓)</span>
+                </div>
+                <div class="field">
+                    <label>Tarifa calculada (S/. por m³)</label>
+                    <div class="tarifa-display">
+                        <span>S/.</span>
+                        <span class="tarifa-val" id="tarifa-val">—</span>
+                        <span style="font-size:11px;opacity:.6;">/m³</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL DE ALERTAS ANOMALÍAS -->
+        <div id="panel-alertas">
+            <div class="alerta-header">
+                <h3>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Alertas de anomalías detectadas
+                </h3>
+                <span id="alerta-count" style="font-size:12px;color:#c0392b;font-weight:500"></span>
+            </div>
+            <div id="alertas-lista"></div>
+        </div>
+
+        <!-- TABLA LECTURAS -->
+        <div class="lecturas-section">
+            <div class="lecturas-header">
+                <div class="section-title" style="margin:0">Departamentos</div>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                    <label
+                        style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--txt2);cursor:pointer">
+                        <input type="checkbox" id="auto-consumo" onchange="toggleAutoConsumo()"
+                            style="accent-color:var(--verde)">
+                        Consumo = suma de lecturas
+                    </label>
+                    <div class="search-box">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <input type="text" placeholder="Buscar depto..." id="search-input" oninput="filtrarDeptos()">
+                    </div>
+                </div>
+            </div>
+            <!-- Barra de progreso -->
+            <div class="progreso-bar-wrap">
+                <div class="progreso-bar-fill" id="progreso-fill" style="width:0%"></div>
+            </div>
+
+            <table id="tabla-deptos">
+                <thead>
+                    <tr>
+                        <th>Depto.</th>
+                        <th>Propietario</th>
+                        <th class="num">Lect. anterior (L)</th>
+                        <th class="num">Lect. actual (L)</th>
+                        <th class="num">Consumo (m³)</th>
+                        <th style="text-align:center">Estado</th>
+                        <th style="text-align:center">Guardar</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-deptos"></tbody>
+            </table>
+
+            <!-- TOTALES -->
+            <div class="totales-bar">
+                <div class="total-item">
+                    <span class="t-label">Total consumo (m³)</span>
+                    <span class="t-value" id="total-consumo">0.000</span>
+                </div>
+                <div class="total-item">
+                    <span class="t-label">Total a cobrar (S/.)</span>
+                    <span class="t-value" id="total-cobrar">0.00</span>
+                </div>
+                <div class="total-item">
+                    <span class="t-label">Deptos. completos</span>
+                    <span class="t-value" id="total-completos">0</span>
+                </div>
+                <div class="total-item">
+                    <span class="t-label">Dif. recibo vs. calc.</span>
+                    <span class="t-value" id="dif-monto" style="color:var(--tierra)">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button class="btn btn-secondary" onclick="exportarJSON()">Exportar JSON</button>
+            <button class="btn btn-secondary" id="btn-guardar-recibo" onclick="guardarReciboComunSolo()"
+                title="Guarda solo el monto del recibo común y el consumo del edificio">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                Guardar recibo común
+            </button>
+            <button class="btn btn-primary" id="btn-guardar" onclick="guardarTodoPendiente()"
+                title="Guarda todas las lecturas que aún no se han guardado">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                    <polyline points="17 21 17 13 7 13 7 21" />
+                    <polyline points="7 3 7 8 15 8" />
+                </svg>
+                Guardar todo pendiente
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+    <!-- MODAL SQL -->
+    <div class="modal-overlay" id="modal-sql" onclick="if(event.target===this)this.classList.remove('open')">
+        <div class="modal">
+            <button class="modal-close"
+                onclick="document.getElementById('modal-sql').classList.remove('open')">✕</button>
+            <h2>SQL para Supabase</h2>
+            <p>Copia y pega este SQL en el editor de Supabase (SQL Editor → New query) para crear las tablas necesarias.
+            </p>
+            <pre id="sql-content"></pre>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px">
+                <button class="btn btn-primary" onclick="copiarSQL()">Copiar SQL</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════
+        // CONFIGURACIÓN SUPABASE — editar antes de usar
+        // ═══════════════════════════════════════════════
+        const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
+
+        // ═══════════════════════════════════════════════
+        // DATOS DE DEPARTAMENTOS (carga desde Supabase o mock)
+        // ═══════════════════════════════════════════════
+        const DEPTOS_MOCK = [
+            { id: 1, numero: '101', piso: 1, propietario: 'García Ríos, Luis' },
+            { id: 2, numero: '102', piso: 1, propietario: 'Torres Vega, Ana' },
+            { id: 3, numero: '103', piso: 1, propietario: 'Mamani Quispe, Pedro' },
+            { id: 4, numero: '104', piso: 1, propietario: 'Flores Huanca, Rosa' },
+            { id: 5, numero: '201', piso: 2, propietario: 'Ccopa Lazo, Jorge' },
+            { id: 6, numero: '202', piso: 2, propietario: 'Sánchez Lima, María' },
+            { id: 7, numero: '203', piso: 2, propietario: 'Vargas Díaz, Carlos' },
+            { id: 8, numero: '204', piso: 2, propietario: 'Huamán Tito, Silvia' },
+            { id: 9, numero: '301', piso: 3, propietario: 'Quispe Apaza, Raúl' },
+            { id: 10, numero: '302', piso: 3, propietario: 'Castro Neyra, Elena' },
+            { id: 11, numero: '303', piso: 3, propietario: 'Bedoya Meza, Tomás' },
+            { id: 12, numero: '304', piso: 3, propietario: 'Alarcón Ruiz, Patricia' },
+        ];
+
+        let deptos = [];
+        let lecturasPrevias = {};
+        let periodoCerrado = false;   // true = mes ya cerrado, no se puede editar
+        let periodoExiste = false;   // true = ya hay lecturas guardadas este mes
+
+        // ═══════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            document.getElementById('sel-mes').value = now.getMonth() + 1;
+            document.getElementById('sel-anio').value = now.getFullYear();
+            generarSQL();
+            cargarDeptos();  // detectará el siguiente periodo pendiente automáticamente
+        });
+
+        async function cargarDeptos() {
+            try {
+                if (SUPABASE_URL.includes('TU_PROYECTO')) throw new Error('no config');
+                const r = await fetch(
+                    `${SUPABASE_URL}/rest/v1/departamentos?select=*&activo=eq.true&order=numero`,
+                    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                );
+                deptos = await r.json();
+                // Detectar siguiente periodo pendiente automáticamente
+                await detectarSiguientePeriodo();
+            } catch {
+                deptos = DEPTOS_MOCK;
+                showToast('⚠ Usando datos de ejemplo — configura Supabase', true);
+            }
+            renderTabla(deptos);
+            actualizarContadores();
+            await cargarLecturasPrevias();
+            await cargarEstadisticas();
+        }
+
+        async function detectarSiguientePeriodo() {
+            try {
+                // Obtener el último periodo que tiene lecturas registradas
+                const r = await fetch(
+                    `${SUPABASE_URL}/rest/v1/periodos?select=mes,anio&order=anio.desc,mes.desc&limit=1`,
+                    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                );
+                const periodos = await r.json();
+
+                if (!periodos.length) {
+                    // Sin periodos → usar mes actual
+                    const now = new Date();
+                    document.getElementById('sel-mes').value = now.getMonth() + 1;
+                    document.getElementById('sel-anio').value = now.getFullYear();
+                    return;
+                }
+
+                // Calcular el mes siguiente al último periodo
+                const ultimo = periodos[0];
+                const sigMes = ultimo.mes === 12 ? 1 : ultimo.mes + 1;
+                const sigAnio = ultimo.mes === 12 ? ultimo.anio + 1 : ultimo.anio;
+
+                // Bloquear el selector para que no pueda ir hacia atrás
+                const selMes = document.getElementById('sel-mes');
+                const selAnio = document.getElementById('sel-anio');
+
+                selMes.value = sigMes;
+                selAnio.value = sigAnio;
+
+                // Deshabilitar opciones de meses anteriores al siguiente periodo pendiente
+                bloquearOpcionesMes(sigMes, sigAnio, ultimo.mes, ultimo.anio);
+
+                showToast(`✓ Siguiente periodo a registrar: ${MESES_NOMBRE[sigMes]} ${sigAnio}`);
+            } catch (e) {
+                console.warn('No se pudo detectar el siguiente periodo:', e.message);
+            }
+        }
+
+        function bloquearOpcionesMes(mesPendiente, anioPendiente, mesUltimo, anioUltimo) {
+            const selMes = document.getElementById('sel-mes');
+            const selAnio = document.getElementById('sel-anio');
+
+            // Bloquear año mínimo
+            selAnio.min = anioPendiente;
+
+            // Al cambiar el año, revalidar opciones de mes
+            selAnio.onchange = () => {
+                const anioElegido = +selAnio.value;
+                validarMesSegunAnio(anioElegido, mesPendiente, anioPendiente);
+                actualizarPeriodo();
+            };
+
+            // Al cambiar mes, verificar que no sea anterior al pendiente
+            selMes.onchange = () => {
+                const mesElegido = +selMes.value;
+                const anioElegido = +selAnio.value;
+                // Si el año es el del pendiente, no puede elegir mes anterior
+                if (anioElegido === anioPendiente && mesElegido < mesPendiente) {
+                    selMes.value = mesPendiente;
+                    showToast(`⚠ El primer periodo disponible es ${MESES_NOMBRE[mesPendiente]} ${anioPendiente}`, true);
+                }
+                actualizarPeriodo();
+            };
+
+            // Marcar opciones no disponibles visualmente
+            validarMesSegunAnio(anioPendiente, mesPendiente, anioPendiente);
+        }
+
+        function validarMesSegunAnio(anioElegido, mesPendiente, anioPendiente) {
+            const selMes = document.getElementById('sel-mes');
+            Array.from(selMes.options).forEach(opt => {
+                const m = +opt.value;
+                // En el año del pendiente, deshabilitar meses anteriores
+                if (anioElegido === anioPendiente && m < mesPendiente) {
+                    opt.disabled = true;
+                    opt.style.color = '#ccc';
+                } else {
+                    opt.disabled = false;
+                    opt.style.color = '';
+                }
+            });
+            // Si el mes seleccionado quedó deshabilitado, corregirlo
+            if (selMes.options[selMes.selectedIndex]?.disabled) {
+                selMes.value = mesPendiente;
+            }
+        }
+
+        async function cargarLecturasPrevias() {
+            const mes = +document.getElementById('sel-mes').value;
+            const anio = +document.getElementById('sel-anio').value;
+
+            // Mes anterior
+            const mesPrev = mes === 1 ? 12 : mes - 1;
+            const anioPrev = mes === 1 ? anio - 1 : anio;
+
+            if (SUPABASE_URL.includes('TU_PROYECTO')) return;
+
+            try {
+                // ── A. Obtener el periodo actual ──
+                const rPeriodo = await fetch(
+                    `${SUPABASE_URL}/rest/v1/periodos?mes=eq.${mes}&anio=eq.${anio}&select=id,cerrado,monto_recibo,consumo_total_litros`,
+                    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                );
+                const periodos = await rPeriodo.json();
+                const periodoActual = periodos[0] || null;
+                periodoCerrado = periodoActual?.cerrado === true;
+                periodoExiste = !!periodoActual;
+
+                const montoInp = document.getElementById('monto-recibo');
+                const consEdInp = document.getElementById('consumo-edificio');
+                const btnRecibo = document.getElementById('btn-guardar-recibo');
+
+                // Configurar recibo común
+                if (periodoActual) {
+                    if (periodoActual.monto_recibo !== null) montoInp.value = periodoActual.monto_recibo;
+                    if (periodoActual.consumo_total_litros !== null) consEdInp.value = periodoActual.consumo_total_litros;
+
+                    const reciboCompleto = periodoActual.monto_recibo !== null && periodoActual.consumo_total_litros !== null;
+
+                    if (reciboCompleto || periodoCerrado) {
+                        montoInp.readOnly = true;
+                        montoInp.style.opacity = '0.6';
+                        consEdInp.readOnly = true;
+                        consEdInp.style.opacity = '0.6';
+                        btnRecibo.disabled = true;
+                        btnRecibo.title = periodoCerrado ? 'Periodo cerrado' : 'El recibo común ya está completo';
+                    } else {
+                        montoInp.readOnly = false;
+                        montoInp.style.opacity = '1';
+                        consEdInp.readOnly = false;
+                        consEdInp.style.opacity = '1';
+                        btnRecibo.disabled = false;
+                        btnRecibo.title = 'Guardar recibo común';
+                    }
+                }
+
+                calcularTarifa(); // recalcular con posibles nuevos valores
+
+                // ── B. Cargar lecturas existentes del mes actual ──
+                let lecturasMapeadas = {};
+                if (periodoActual) {
+                    const rLect = await fetch(
+                        `${SUPABASE_URL}/rest/v1/lecturas_agua?periodo_id=eq.${periodoActual.id}&select=departamento_id,lectura_anterior,lectura_actual`,
+                        { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                    );
+                    const lecturasExistentes = await rLect.json();
+                    lecturasExistentes.forEach(l => {
+                        lecturasMapeadas[l.departamento_id] = l;
+                    });
+                }
+
+                // ── C. Cargar lectura_actual del mes anterior ──
+                const rPrev = await fetch(
+                    `${SUPABASE_URL}/rest/v1/periodos?mes=eq.${mesPrev}&anio=eq.${anioPrev}&select=id`,
+                    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                );
+                const periodosPrev = await rPrev.json();
+                let rowsPrev = [];
+                if (periodosPrev.length) {
+                    const rRows = await fetch(
+                        `${SUPABASE_URL}/rest/v1/lecturas_agua?periodo_id=eq.${periodosPrev[0].id}&select=departamento_id,lectura_actual`,
+                        { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                    );
+                    rowsPrev = await rRows.json();
+                }
+
+                lecturasPrevias = {};
+                rowsPrev.forEach(r => { lecturasPrevias[r.departamento_id] = r.lectura_actual; });
+
+                deptos.forEach(d => {
+                    const antInp = document.getElementById(`ant-${d.id}`);
+                    const actInp = document.getElementById(`act-${d.id}`);
+                    const btnDiv = document.getElementById(`btn-fila-${d.id}`);
+
+                    if (!antInp || !actInp) return;
+
+                    const lActual = lecturasMapeadas[d.id];
+                    if (lActual) {
+                        // Ya guardado en este periodo
+                        antInp.value = lActual.lectura_anterior;
+                        antInp.classList.add('filled');
+                        actInp.value = lActual.lectura_actual;
+                        actInp.classList.add('filled');
+                        filasGuardadas.add(d.id);
+
+                        if (btnDiv) btnDiv.innerHTML = `<span class="btn-fila btn-fila-ok">✓ Guardado</span>`;
+
+                        if (document.getElementById(`cons-${d.id}`) && document.getElementById(`est-${d.id}`)) {
+                            calcularFila(d.id);
+                        }
+                    } else {
+                        // Aún no guardado en este periodo
+                        if (lecturasPrevias[d.id] != null) {
+                            antInp.value = lecturasPrevias[d.id];
+                            antInp.classList.add('filled');
+                        }
+                        if (lecturasPrevias[d.id] != null && document.getElementById(`cons-${d.id}`) && document.getElementById(`est-${d.id}`)) {
+                            calcularFila(d.id);
+                        }
+                    }
+                });
+
+                bloquearFormulario(periodoCerrado);
+                actualizarProgreso();
+
+                if (periodoCerrado) {
+                    showToast('🔒 Periodo cerrado — solo lectura', true);
+                } else if (Object.keys(lecturasMapeadas).length > 0) {
+                    showToast(`✓ Se cargaron lecturas previamente guardadas`);
+                } else if (rowsPrev.length > 0) {
+                    showToast(`✓ Lecturas anteriores de ${MESES_NOMBRE[mesPrev]} ${anioPrev} cargadas`);
+                }
+
+            } catch (e) {
+                console.error('Error cargando lecturas previas:', e);
+            }
+        }
+
+        // Nombres de meses para mensajes
+        const MESES_NOMBRE = {
+            1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 5: 'Mayo', 6: 'Junio',
+            7: 'Julio', 8: 'Agosto', 9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+        };
+
+        function bloquearFormulario(bloquear) {
+            // Bloquear/desbloquear inputs de lectura actual
+            deptos.forEach(d => {
+                const actInp = document.getElementById(`act-${d.id}`);
+                const antInp = document.getElementById(`ant-${d.id}`);
+                const yaGuardado = filasGuardadas.has(d.id);
+                if (actInp) {
+                    actInp.readOnly = bloquear || yaGuardado;
+                    actInp.style.opacity = (bloquear || yaGuardado) ? '0.6' : '1';
+                    actInp.style.cursor = (bloquear || yaGuardado) ? 'not-allowed' : '';
+                }
+                if (antInp) {
+                    antInp.readOnly = true;  // anterior siempre readonly (viene de mes prev)
+                    antInp.style.opacity = '0.8';
+                }
+            });
+
+            // Bloquear botón guardar TODO
+            const btnGuardar = document.getElementById('btn-guardar');
+            if (btnGuardar) {
+                btnGuardar.disabled = bloquear;
+                btnGuardar.title = bloquear ? 'Periodo cerrado — no se puede modificar' : '';
+            }
+
+            // Banner de periodo cerrado
+            let banner = document.getElementById('banner-cerrado');
+            if (bloquear && !banner) {
+                banner = document.createElement('div');
+                banner.id = 'banner-cerrado';
+                banner.style.cssText = `background:#fff3cd;border:1.5px solid #ffd97a;border-radius:10px;
+      padding:12px 20px;margin-bottom:16px;font-size:13px;color:#856404;font-weight:500;
+      display:flex;align-items:center;gap:10px`;
+                banner.innerHTML = '🔒 Este periodo está cerrado. Las lecturas son de solo lectura y no pueden modificarse.';
+                const container = document.querySelector('.container');
+                const periodoCard = document.querySelector('.periodo-card');
+                container.insertBefore(banner, periodoCard.nextSibling);
+            } else if (!bloquear && banner) {
+                banner.remove();
+            }
+        }
+
+        // ═══════════════════════════════════════════════
+        // RENDER TABLA
+        // ═══════════════════════════════════════════════
+        function renderTabla(lista) {
+            const tbody = document.getElementById('tbody-deptos');
+            tbody.innerHTML = lista.map(d => `
+    <tr id="row-${d.id}" data-id="${d.id}">
+      <td data-label="Depto.">
+        <div class="depto-num">${d.numero}</div>
+        <div class="depto-nombre">Piso ${d.piso}</div>
+      </td>
+      <td data-label="Propietario" style="font-size:13px">${d.propietario}</td>
+      <td data-label="Lect. anterior (L)">
+        <input type="number" id="ant-${d.id}" placeholder="—"
+               min="0" step="1" readonly
+               style="background:var(--verde-xs);border-color:var(--lima);opacity:0.8;cursor:default"
+               title="Se carga automáticamente del mes anterior">
+      </td>
+      <td data-label="Lect. actual (L)">
+        <input type="number" id="act-${d.id}" placeholder="Ingresar"
+               min="0" step="1"
+               inputmode="numeric" pattern="[0-9]*"
+               oninput="calcularFila(${d.id})"
+               onkeydown="if(event.key==='Enter'||event.key==='Tab'){event.preventDefault();guardarFila(${d.id})}"
+               onchange="markFilled(this)">
+      </td>
+      <td class="consumo-cell" data-label="Consumo" id="cons-${d.id}">—</td>
+      <td class="estado-cell"  data-label="Estado"  id="est-${d.id}">
+        <span class="badge badge-empty">Pendiente</span>
+      </td>
+      <td data-label="" style="text-align:center;min-width:90px">
+        <div id="btn-fila-${d.id}">
+          <button class="btn-fila btn-fila-guardar"
+                  onclick="guardarFila(${d.id})"
+                  title="Guardar lectura de este departamento">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Guardar
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+        }
+
+        // ═══════════════════════════════════════════════
+        // ESTADÍSTICAS HISTÓRICAS (cargadas desde Supabase)
+        // Para detección de anomalías con 2σ
+        // ═══════════════════════════════════════════════
+        let estadisticasDepto = {};  // { depto_id: { media, std, n } }
+
+        async function cargarEstadisticas() {
+            if (SUPABASE_URL.includes('TU_PROYECTO')) return;
+            try {
+                // Obtener últimos 12 meses de consumos por depto (excluye periodo actual)
+                const mes = +document.getElementById('sel-mes').value;
+                const anio = +document.getElementById('sel-anio').value;
+                const r = await fetch(
+                    `${SUPABASE_URL}/rest/v1/lecturas_agua?select=departamento_id,consumo_litros,periodos(mes,anio)`
+                    + `&order=periodo_id.desc&limit=600`,
+                    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+                );
+                const rows = await r.json();
+
+                // Agrupar por depto, excluir el periodo actual y periodos con consumo 0
+                const grupos = {};
+                rows.forEach(row => {
+                    const p = row.periodos;
+                    if (!p) return;
+                    // Excluir el periodo que estamos ingresando
+                    if (p.mes === mes && p.anio === anio) return;
+                    const c = parseFloat(row.consumo_litros);
+                    if (!c || c <= 0) return;
+                    const did = row.departamento_id;
+                    if (!grupos[did]) grupos[did] = [];
+                    if (grupos[did].length < 12) grupos[did].push(c);  // máx 12 meses
+                });
+
+                // Calcular media y desviación estándar por depto
+                estadisticasDepto = {};
+                Object.entries(grupos).forEach(([did, vals]) => {
+                    if (vals.length < 2) return;  // necesitamos al menos 2 meses
+                    const n = vals.length;
+                    const media = vals.reduce((a, b) => a + b, 0) / n;
+                    const varianza = vals.reduce((s, v) => s + Math.pow(v - media, 2), 0) / (n - 1);
+                    const std = Math.sqrt(varianza);
+                    estadisticasDepto[+did] = { media, std, n };
+                });
+                console.log(`Estadísticas cargadas: ${Object.keys(estadisticasDepto).length} deptos`);
+            } catch (e) {
+                console.warn('No se pudieron cargar estadísticas:', e.message);
+            }
+        }
+
+        function clasificarConsumo(deptoId, consumoL) {
+            const stats = estadisticasDepto[deptoId];
+            if (!stats || stats.std === 0) return { tipo: null, msg: null };
+            const { media, std } = stats;
+            const limSup = media + 2 * std;
+            const limInf = Math.max(0, media - 2 * std);
+            const desvios = Math.abs(consumoL - media) / std;
+
+            if (consumoL > limSup) {
+                return {
+                    tipo: desvios > 3 ? 'fuga' : 'alerta',
+                    msg: desvios > 3
+                        ? `⚠ Posible fuga: ${(consumoL / 1000).toFixed(1)} m³ (normal: ${(media / 1000).toFixed(1)}±${(std / 1000).toFixed(1)})`
+                        : `↑ Consumo alto: ${(desvios).toFixed(1)}σ sobre la media`
+                };
+            }
+            if (consumoL < limInf && consumoL > 0) {
+                return {
+                    tipo: 'alerta',
+                    msg: `↓ Consumo bajo: posible error de lectura (${(desvios).toFixed(1)}σ bajo la media)`
+                };
+            }
+            return { tipo: null, msg: null };
+        }
+
+        // ═══════════════════════════════════════════════
+        // CÁLCULOS
+        // ═══════════════════════════════════════════════
+        function calcularFila(id) {
+            const antInp = document.getElementById(`ant-${id}`);
+            const actInp = document.getElementById(`act-${id}`);
+            const ant = parseFloat(antInp?.value) || 0;
+            const act = parseFloat(actInp?.value) || 0;
+
+            // ── Validación: lectura actual no puede ser menor a anterior ──
+            if (actInp && act > 0 && ant > 0 && act < ant) {
+                actInp.classList.add('error');
+                actInp.classList.remove('filled');
+                document.getElementById(`cons-${id}`).textContent = '—';
+                document.getElementById(`est-${id}`).innerHTML =
+                    `<span class="badge badge-fuga">✗ Error</span>
+       <span class="anomalia-hint">Menor a lectura anterior</span>`;
+                actualizarTotales();
+                actualizarPanelAlertas();
+                return;
+            }
+            if (actInp) actInp.classList.remove('error');
+
+            const consL = act > ant ? act - ant : 0;
+            const consM3 = consL / 1000;
+            const tarifa = getTarifa();
+
+            const consEl = document.getElementById(`cons-${id}`);
+            if (consEl) consEl.textContent = consL > 0 ? consM3.toFixed(3) + ' m³' : '—';
+
+            // ── Clasificar anomalía ──
+            const est = document.getElementById(`est-${id}`);
+            if (!est) return;  // fila aún no renderizada
+            if (act === 0) {
+                est.innerHTML = '<span class="badge badge-empty">Pendiente</span>';
+                const row = document.getElementById(`row-${id}`);
+                if (row) row.classList.remove('row-fuga', 'row-alerta');
+            } else if (consL === 0 && act > 0) {
+                est.innerHTML = '<span class="badge badge-alerta">Sin consumo</span>';
+            } else {
+                const { tipo, msg } = clasificarConsumo(id, consL);
+                const row = document.getElementById(`row-${id}`);
+                if (row) row.classList.remove('row-fuga', 'row-alerta');
+                if (tipo === 'fuga') {
+                    est.innerHTML = `<span class="badge badge-fuga">⚠ Fuga</span>
+                       <span class="anomalia-hint">${msg}</span>`;
+                    row.classList.add('row-fuga');
+                } else if (tipo === 'alerta') {
+                    est.innerHTML = `<span class="badge badge-alerta">↑ Atípico</span>
+                       <span class="anomalia-hint warn">${msg}</span>`;
+                    row.classList.add('row-alerta');
+                } else {
+                    est.innerHTML = '<span class="badge badge-ok">✓ OK</span>';
+                }
+            }
+
+            actualizarTotales();
+            actualizarPanelAlertas();
+            if (document.getElementById('auto-consumo').checked) sincronizarConsumoEdificio();
+        }
+
+        function actualizarPanelAlertas() {
+            const alertas = [];
+            deptos.forEach(d => {
+                const est = document.getElementById(`est-${d.id}`)?.innerHTML || '';
+                if (est.includes('Fuga') || est.includes('Atípico') || est.includes('Error')) {
+                    const antV = parseFloat(document.getElementById(`ant-${d.id}`)?.value) || 0;
+                    const actV = parseFloat(document.getElementById(`act-${d.id}`)?.value) || 0;
+                    const consL = actV > antV ? actV - antV : 0;
+                    const hint = document.querySelector(`#row-${d.id} .anomalia-hint`)?.textContent || '';
+                    const esFuga = est.includes('Fuga');
+                    const esError = est.includes('Error');
+                    alertas.push({
+                        numero: d.numero, propietario: d.propietario,
+                        consL, hint, esFuga, esError
+                    });
+                }
+            });
+
+            const panel = document.getElementById('panel-alertas');
+            const lista = document.getElementById('alertas-lista');
+            const count = document.getElementById('alerta-count');
+
+            if (!alertas.length) {
+                panel.classList.remove('visible');
+                return;
+            }
+
+            panel.classList.add('visible');
+            count.textContent = `${alertas.length} alerta${alertas.length > 1 ? 's' : ''}`;
+            lista.innerHTML = alertas.map(a => `
+    <div class="alerta-item">
+      <div class="alerta-depto">${a.numero}</div>
+      <div class="alerta-desc">
+        <strong>${a.propietario}</strong>
+        <small>${a.hint || (a.esError ? 'Lectura actual menor a lectura anterior' : 'Consumo anómalo detectado')}</small>
+      </div>
+      <span class="badge ${a.esFuga || a.esError ? 'badge-fuga' : 'badge-alerta'}">
+        ${a.esError ? 'Error' : a.esFuga ? 'Posible fuga' : 'Atípico'}
+      </span>
+    </div>`).join('');
+        }
+
+        function calcularTarifa() {
+            actualizarTotales();
+            deptos.forEach(d => calcularFila(d.id));
+        }
+
+        function getTarifa() {
+            const monto = parseFloat(document.getElementById('monto-recibo').value) || 0;
+            const consL = parseFloat(document.getElementById('consumo-edificio').value) || 0;
+            if (!monto || !consL) return 0;
+            return monto / (consL / 1000);  // S/. por m³
+        }
+
+        function actualizarTotales() {
+            const tarifa = getTarifa();
+            // actualizar tarifa display
+            document.getElementById('tarifa-val').textContent =
+                tarifa > 0 ? tarifa.toFixed(4) : '—';
+
+            let totalConsL = 0, totalCobrar = 0, completos = 0;
+            deptos.forEach(d => {
+                const ant = parseFloat(document.getElementById(`ant-${d.id}`)?.value) || 0;
+                const act = parseFloat(document.getElementById(`act-${d.id}`)?.value) || 0;
+                if (act > 0 && act >= ant) {
+                    const consL = act - ant;
+                    const consM3 = consL / 1000;
+                    totalConsL += consL;
+                    totalCobrar += consM3 * tarifa;
+                    completos++;
+                }
+            });
+            document.getElementById('total-consumo').textContent = (totalConsL / 1000).toFixed(3);
+            document.getElementById('total-cobrar').textContent = 'S/. ' + totalCobrar.toFixed(2);
+            document.getElementById('total-completos').textContent = completos + ' / ' + deptos.length;
+
+            // Diferencia recibo vs calculado
+            const montoRecibo = parseFloat(document.getElementById('monto-recibo').value) || 0;
+            if (montoRecibo > 0 && totalCobrar > 0) {
+                const dif = montoRecibo - totalCobrar;
+                const el = document.getElementById('dif-monto');
+                el.textContent = (dif >= 0 ? '+' : '') + 'S/. ' + dif.toFixed(2);
+                el.style.color = Math.abs(dif) < 1 ? 'var(--verde)' : 'var(--tierra)';
+            } else {
+                document.getElementById('dif-monto').textContent = '—';
+            }
+
+            // Contador header
+            document.getElementById('depto-count').value = completos + ' / ' + deptos.length;
+        }
+
+        function sincronizarConsumoEdificio() {
+            let totalL = 0;
+            deptos.forEach(d => {
+                const ant = parseFloat(document.getElementById(`ant-${d.id}`)?.value) || 0;
+                const act = parseFloat(document.getElementById(`act-${d.id}`)?.value) || 0;
+                if (act >= ant) totalL += (act - ant);
+            });
+            if (totalL > 0) document.getElementById('consumo-edificio').value = totalL;
+        }
+
+        function toggleAutoConsumo() {
+            if (document.getElementById('auto-consumo').checked) sincronizarConsumoEdificio();
+        }
+
+        function markFilled(inp) {
+            inp.classList.toggle('filled', inp.value !== '');
+        }
+
+        function actualizarPeriodo() {
+            // Limpiar lecturas actuales antes de cargar el nuevo periodo
+            deptos.forEach(d => {
+                const actInp = document.getElementById(`act-${d.id}`);
+                const antInp = document.getElementById(`ant-${d.id}`);
+                if (actInp) { actInp.value = ''; actInp.classList.remove('filled'); actInp.readOnly = false; actInp.style.opacity = '1'; }
+                if (antInp) { antInp.value = ''; antInp.classList.remove('filled'); }
+                const consEl = document.getElementById(`cons-${d.id}`);
+                if (consEl) consEl.textContent = '—';
+                const estEl = document.getElementById(`est-${d.id}`);
+                if (estEl) estEl.innerHTML = '<span class="badge badge-empty">Pendiente</span>';
+
+                // Restore buttons
+                const btnDiv = document.getElementById(`btn-fila-${d.id}`);
+                if (btnDiv) {
+                    btnDiv.innerHTML = `<button class="btn-fila btn-fila-guardar"
+                  onclick="guardarFila(${d.id})"
+                  title="Guardar lectura de este departamento">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Guardar
+          </button>`;
+                }
+            });
+
+            ['monto-recibo', 'consumo-edificio'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.value = ''; el.readOnly = false; el.style.opacity = '1'; }
+            });
+            const btnRecibo = document.getElementById('btn-guardar-recibo');
+            if (btnRecibo) {
+                btnRecibo.disabled = false;
+                btnRecibo.title = 'Guardar recibo común';
+            }
+
+            // Quitar banner si existe
+            const banner = document.getElementById('banner-cerrado');
+            if (banner) banner.remove();
+            lecturasPrevias = {};
+            estadisticasDepto = {};
+            periodoCerrado = false;
+            filasGuardadas.clear();
+            actualizarContadores();
+            cargarLecturasPrevias();
+            cargarEstadisticas();
+        }
+
+        function actualizarContadores() {
+            document.getElementById('depto-count').value = '0 / ' + deptos.length;
+        }
+
+        // ═══════════════════════════════════════════════
+        // ESTADO DE GUARDADO POR FILA
+        // ═══════════════════════════════════════════════
+        const filasGuardadas = new Set();  // IDs de deptos ya guardados este session
+
+        // ── Obtener o crear periodo ───────────────────
+        async function obtenerPeriodoId(mes, anio) {
+            const { data } = await sbFetch('POST', 'periodos', {
+                mes, anio,
+                monto_recibo: parseFloat(document.getElementById('monto-recibo').value) || null,
+                consumo_total_litros: parseFloat(document.getElementById('consumo-edificio').value) || null,
+            }, 'mes,anio');
+            const id = data[0]?.id;
+            if (!id) throw new Error('No se pudo crear/obtener el periodo');
+            return id;
+        }
+
+        // ── Guardar lectura de UNA fila ───────────────
+        async function guardarFila(deptoId) {
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                showToast('⚠ Configura SUPABASE_URL y SUPABASE_KEY primero', true);
+                return;
+            }
+            if (periodoCerrado) { showToast('🔒 Periodo cerrado', true); return; }
+
+            const ant = parseFloat(document.getElementById(`ant-${deptoId}`)?.value);
+            const act = parseFloat(document.getElementById(`act-${deptoId}`)?.value);
+
+            if (isNaN(act) || act === 0) {
+                showToast('⚠ Ingresa la lectura actual primero', true); return;
+            }
+            if (!isNaN(ant) && act < ant) {
+                showToast('⚠ La lectura actual no puede ser menor a la anterior', true); return;
+            }
+
+            const btnDiv = document.getElementById(`btn-fila-${deptoId}`);
+            btnDiv.innerHTML = `<button class="btn-fila btn-fila-guardar" disabled>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+    </svg>Guardando…</button>`;
+
+            try {
+                const mes = +document.getElementById('sel-mes').value;
+                const anio = +document.getElementById('sel-anio').value;
+                const periodoId = await obtenerPeriodoId(mes, anio);
+
+                await sbFetch('POST', 'lecturas_agua', {
+                    departamento_id: deptoId,
+                    periodo_id: periodoId,
+                    lectura_anterior: isNaN(ant) ? 0 : ant,
+                    lectura_actual: act,
+                    registrado_por: 'encargado',
+                    fecha_registro: new Date().toISOString(),
+                }, 'departamento_id,periodo_id');
+
+                // Marcar como guardado
+                filasGuardadas.add(deptoId);
+                btnDiv.innerHTML = `<span class="btn-fila btn-fila-ok">✓ Guardado</span>`;
+
+                // Bloquear el campo act para que no se edite accidentalmente
+                const actInp = document.getElementById(`act-${deptoId}`);
+                actInp.readOnly = true;
+                actInp.style.opacity = '0.8';
+
+                // Destello verde en la fila
+                const row = document.getElementById(`row-${deptoId}`);
+                row.classList.add('fila-flash');
+                setTimeout(() => row.classList.remove('fila-flash'), 1300);
+
+                actualizarProgreso();
+
+                // Auto-scroll al siguiente depto no guardado
+                const siguiente = deptos.find(d => !filasGuardadas.has(d.id) && d.id !== deptoId);
+                if (siguiente) {
+                    setTimeout(() => {
+                        const nextInp = document.getElementById(`act-${siguiente.id}`);
+                        nextInp?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        nextInp?.focus();
+                    }, 300);
+                } else {
+                    showToast('✓ Todas las lecturas guardadas');
+                }
+
+            } catch (e) {
+                btnDiv.innerHTML = `<button class="btn-fila btn-fila-guardar"
+        onclick="guardarFila(${deptoId})">↺ Reintentar</button>`;
+                showToast(`✗ Error depto ${deptoId}: ${e.message}`, true);
+            }
+        }
+
+        // ── Barra de progreso global ──────────────────
+        function actualizarProgreso() {
+            const total = deptos.length;
+            const guardados = filasGuardadas.size;
+            const pct = total > 0 ? (guardados / total) * 100 : 0;
+            document.getElementById('progreso-fill').style.width = pct + '%';
+            document.getElementById('depto-count').value = `${guardados} / ${total}`;
+        }
+
+        // ── Guardar SOLO el recibo común (sin lecturas) ──
+        async function guardarReciboComunSolo() {
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                showToast('⚠ Configura SUPABASE_URL y SUPABASE_KEY primero', true); return;
+            }
+            const mes = +document.getElementById('sel-mes').value;
+            const anio = +document.getElementById('sel-anio').value;
+            const monto = parseFloat(document.getElementById('monto-recibo').value);
+            const consL = parseFloat(document.getElementById('consumo-edificio').value);
+
+            if (!monto) { showToast('⚠ Ingresa el monto del recibo primero', true); return; }
+
+            const btn = document.getElementById('btn-guardar-recibo');
+            btn.disabled = true; btn.textContent = 'Guardando…';
+            try {
+                await sbFetch('POST', 'periodos', {
+                    mes, anio,
+                    monto_recibo: monto,
+                    consumo_total_litros: consL || null,
+                    tarifa_sol_m3: getTarifa() > 0 ? getTarifa() : null,
+                }, 'mes,anio');
+                showToast(`✓ Recibo común de ${MESES_NOMBRE[mes]} ${anio} guardado`);
+            } catch (e) {
+                showToast('✗ Error: ' + e.message, true);
+            } finally {
+                btn.disabled = false; btn.textContent = 'Guardar recibo común';
+            }
+        }
+
+        // ── Guardar TODAS las filas pendientes de una vez ──
+        async function guardarTodoPendiente() {
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                showToast('⚠ Configura SUPABASE_URL y SUPABASE_KEY primero', true); return;
+            }
+            const pendientes = deptos.filter(d => {
+                const act = parseFloat(document.getElementById(`act-${d.id}`)?.value);
+                return !filasGuardadas.has(d.id) && !isNaN(act) && act > 0;
+            });
+            if (!pendientes.length) { showToast('No hay lecturas pendientes de guardar'); return; }
+
+            const btn = document.getElementById('btn-guardar');
+            btn.disabled = true; btn.textContent = `Guardando ${pendientes.length}…`;
+
+            let ok = 0, err = 0;
+            for (const d of pendientes) {
+                try { await guardarFila(d.id); ok++; }
+                catch { err++; }
+            }
+            btn.disabled = false;
+            btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar todo pendiente`;
+            showToast(`✓ ${ok} guardados${err ? `, ${err} con error` : ''}`);
+        }
+
+        async function sbFetch(method, tabla, body, onConflict) {
+            const url = `${SUPABASE_URL}/rest/v1/${tabla}?on_conflict=${onConflict}`;
+            const r = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Prefer': 'return=representation,resolution=merge-duplicates'
+                },
+                body: JSON.stringify(Array.isArray(body) ? body : [body])
+            });
+            if (!r.ok) throw new Error(await r.text());
+            return { data: await r.json() };
+        }
+
+        // ═══════════════════════════════════════════════
+        // UTILIDADES
+        // ═══════════════════════════════════════════════
+        function filtrarDeptos() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+            document.querySelectorAll('#tbody-deptos tr').forEach(tr => {
+                tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+            });
+        }
+
+        function limpiarFormulario() {
+            document.querySelectorAll('td input[type="number"]').forEach(i => {
+                i.value = ''; i.classList.remove('filled');
+            });
+            ['monto-recibo', 'consumo-edificio'].forEach(id => document.getElementById(id).value = '');
+            deptos.forEach(d => calcularFila(d.id));
+            showToast('Formulario limpiado');
+        }
+
+        function exportarJSON() {
+            const mes = +document.getElementById('sel-mes').value;
+            const anio = +document.getElementById('sel-anio').value;
+            const rows = [];
+            deptos.forEach(d => {
+                const ant = document.getElementById(`ant-${d.id}`)?.value;
+                const act = document.getElementById(`act-${d.id}`)?.value;
+                rows.push({
+                    depto: d.numero, propietario: d.propietario,
+                    lectura_anterior: ant || null, lectura_actual: act || null,
+                    consumo_litros: (ant && act) ? +act - +ant : null
+                });
+            });
+            const blob = new Blob([JSON.stringify({ mes, anio, lecturas: rows }, null, 2)],
+                { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `lecturas_${anio}_${String(mes).padStart(2, '0')}.json`;
+            a.click();
+        }
+
+        function showToast(msg, isError) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.toggle('error', !!isError);
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        // ═══════════════════════════════════════════════
+        // SQL SUPABASE
+        // ═══════════════════════════════════════════════
+        function generarSQL() {
+            document.getElementById('sql-content').textContent = `-- ══════════════════════════════════════════
+-- MULTIFAMILIAR LAS LIMAS — Supabase SQL
+-- Ejecutar en: SQL Editor → New query
+-- ══════════════════════════════════════════
+
+-- 1. DEPARTAMENTOS
+CREATE TABLE IF NOT EXISTS departamentos (
+    id          SERIAL PRIMARY KEY,
+    numero      TEXT NOT NULL UNIQUE,
+    piso        INT,
+    propietario TEXT,
+    telefono    TEXT,
+    email       TEXT,
+    activo      BOOLEAN DEFAULT TRUE
+);
+
+-- 2. PERIODOS MENSUALES
+CREATE TABLE IF NOT EXISTS periodos (
+    id                   SERIAL PRIMARY KEY,
+    mes                  INT  NOT NULL CHECK (mes BETWEEN 1 AND 12),
+    anio                 INT  NOT NULL,
+    monto_recibo         NUMERIC(10,2),   -- S/. del recibo común
+    consumo_total_litros NUMERIC(12,2),   -- litros totales edificio
+    tarifa_sol_m3        NUMERIC(10,6),   -- S/. / m³ (calculado)
+    cerrado              BOOLEAN DEFAULT FALSE,
+    UNIQUE(mes, anio)
+);
+
+-- 3. LECTURAS DE MEDIDORES (en litros)
+CREATE TABLE IF NOT EXISTS lecturas_agua (
+    id               SERIAL PRIMARY KEY,
+    departamento_id  INT REFERENCES departamentos(id),
+    periodo_id       INT REFERENCES periodos(id),
+    lectura_anterior NUMERIC(12,2),  -- litros
+    lectura_actual   NUMERIC(12,2),  -- litros
+    consumo_litros   NUMERIC(12,2)   -- calculado en app
+        GENERATED ALWAYS AS (lectura_actual - lectura_anterior) STORED,
+    registrado_por   TEXT,
+    fecha_registro   TIMESTAMPTZ DEFAULT NOW(),
+    UNIQUE(departamento_id, periodo_id)
+);
+
+-- 4. CARGOS POR DEPARTAMENTO (generados por script Python)
+CREATE TABLE IF NOT EXISTS cargos (
+    id              SERIAL PRIMARY KEY,
+    departamento_id INT REFERENCES departamentos(id),
+    periodo_id      INT REFERENCES periodos(id),
+    concepto        TEXT,   -- 'agua', 'mantenimiento', 'extra'
+    monto           NUMERIC(10,2),
+    UNIQUE(departamento_id, periodo_id, concepto)
+);
+
+-- 5. PAGOS
+CREATE TABLE IF NOT EXISTS pagos (
+    id              SERIAL PRIMARY KEY,
+    departamento_id INT REFERENCES departamentos(id),
+    periodo_id      INT REFERENCES periodos(id),
+    fecha_pago      DATE NOT NULL,
+    monto           NUMERIC(10,2),
+    metodo          TEXT,   -- 'efectivo', 'transferencia', 'yape', 'plin'
+    referencia      TEXT,
+    observacion     TEXT,
+    registrado_por  TEXT,
+    created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 6. TESORERÍA (libro de caja)
+CREATE TABLE IF NOT EXISTS tesoreria (
+    id         SERIAL PRIMARY KEY,
+    fecha      DATE NOT NULL,
+    tipo       TEXT NOT NULL CHECK (tipo IN ('ingreso','egreso')),
+    concepto   TEXT NOT NULL,
+    categoria  TEXT,  -- 'agua','limpieza','reparacion','seguridad','otro'
+    monto      NUMERIC(10,2),
+    referencia TEXT,
+    periodo_id INT REFERENCES periodos(id),
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ══════════════════════════════════════════
+-- VISTAS ÚTILES
+-- ══════════════════════════════════════════
+
+-- Vista: consumo en m³ (convierte litros → m³)
+CREATE OR REPLACE VIEW v_lecturas_m3 AS
+SELECT
+    l.id,
+    d.numero  AS depto,
+    d.propietario,
+    p.mes, p.anio,
+    l.lectura_anterior,
+    l.lectura_actual,
+    l.consumo_litros,
+    ROUND(l.consumo_litros / 1000.0, 4) AS consumo_m3,
+    p.tarifa_sol_m3,
+    ROUND((l.consumo_litros / 1000.0) * p.tarifa_sol_m3, 2) AS monto_agua
+FROM lecturas_agua l
+JOIN departamentos d ON d.id = l.departamento_id
+JOIN periodos      p ON p.id = l.periodo_id;
+
+-- Vista: estado de cuenta por departamento
+CREATE OR REPLACE VIEW v_estado_cuenta AS
+SELECT
+    d.numero, d.propietario,
+    p.mes, p.anio,
+    COALESCE(SUM(c.monto), 0)  AS total_cargado,
+    COALESCE(SUM(pg.monto), 0) AS total_pagado,
+    COALESCE(SUM(c.monto), 0) - COALESCE(SUM(pg.monto), 0) AS saldo
+FROM departamentos d
+CROSS JOIN periodos p
+LEFT JOIN cargos c  ON c.departamento_id = d.id AND c.periodo_id = p.id
+LEFT JOIN pagos  pg ON pg.departamento_id = d.id AND pg.periodo_id = p.id
+GROUP BY d.numero, d.propietario, p.mes, p.anio;
+
+-- ══════════════════════════════════════════
+-- ROW LEVEL SECURITY (activar después)
+-- ══════════════════════════════════════════
+-- ALTER TABLE departamentos ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE lecturas_agua ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE cargos ENABLE ROW LEVEL SECURITY;
+-- ALTER TABLE pagos  ENABLE ROW LEVEL SECURITY;
+
+-- ══════════════════════════════════════════
+-- DATOS INICIALES (ajustar a tu condominio)
+-- ══════════════════════════════════════════
+INSERT INTO departamentos (numero, piso, propietario) VALUES
+  ('101', 1, 'García Ríos, Luis'),
+  ('102', 1, 'Torres Vega, Ana'),
+  ('103', 1, 'Mamani Quispe, Pedro'),
+  ('104', 1, 'Flores Huanca, Rosa'),
+  ('201', 2, 'Ccopa Lazo, Jorge'),
+  ('202', 2, 'Sánchez Lima, María'),
+  ('203', 2, 'Vargas Díaz, Carlos'),
+  ('204', 2, 'Huamán Tito, Silvia'),
+  ('301', 3, 'Quispe Apaza, Raúl'),
+  ('302', 3, 'Castro Neyra, Elena'),
+  ('303', 3, 'Bedoya Meza, Tomás'),
+  ('304', 3, 'Alarcón Ruiz, Patricia')
+ON CONFLICT (numero) DO NOTHING;`;
+        }
+
+        function copiarSQL() {
+            navigator.clipboard.writeText(document.getElementById('sql-content').textContent)
+                .then(() => showToast('✓ SQL copiado al portapapeles'));
+        }
+    </script>
+</body>
+
+</html>
