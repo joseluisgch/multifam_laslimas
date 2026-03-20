@@ -2,818 +2,995 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multifamiliar Las Limas — Consolidado de Deudores</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --verde: #2d6a4f;
-      --verde-md: #40916c;
-      --verde-lt: #74c69d;
-      --verde-xs: #d8f3dc;
-      --lima: #b7e4c7;
-      --tierra: #c0392b;
-      --tierra-lt: #fde8e7;
-      --amber: #856404;
-      --amber-lt: #fff3cd;
-      --bg: #f4f9f6;
-      --bg2: #ffffff;
-      --txt: #1b2e24;
-      --txt2: #4a6358;
-      --border: #c3dfd0;
-      --shadow: 0 2px 16px rgba(45, 106, 79, .10);
-      --radius: 14px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--txt);
-      min-height: 100vh;
-    }
-
-    header {
-      background: var(--verde);
-      color: #fff;
-      padding: 0 28px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--verde-lt);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-text {
-      font-family: 'DM Serif Display', serif;
-      font-size: 17px;
-      line-height: 1.2;
-    }
-
-    .logo-sub {
-      font-size: 10px;
-      font-weight: 300;
-      opacity: .75;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-
-    .header-badge {
-      background: rgba(255, 255, 255, .15);
-      border: 1px solid rgba(255, 255, 255, .25);
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-badge span {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #f9c74f;
-      display: inline-block;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 28px 20px 60px;
-    }
-
-    /* ── STATS ── */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--txt2);
-      margin-bottom: 6px;
-    }
-
-    .stat-value {
-      font-family: 'DM Serif Display', serif;
-      font-size: 26px;
-      color: var(--verde);
-    }
-
-    .stat-value.red {
-      color: var(--tierra);
-    }
-
-    .stat-sub {
-      font-size: 11px;
-      color: var(--txt2);
-      margin-top: 3px;
-    }
-
-    /* ── FILTROS ── */
-    .filtros {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 20px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .filtros label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--txt2);
-    }
-
-    .filtros select {
-      border: 1.5px solid var(--border);
-      border-radius: 7px;
-      padding: 7px 10px;
-      font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      color: var(--txt);
-      background: var(--bg);
-      outline: none;
-      transition: border-color .15s;
-    }
-
-    .filtros select:focus {
-      border-color: var(--verde-md);
-    }
-
-    .btn-cargar {
-      padding: 8px 20px;
-      border-radius: 8px;
-      background: var(--verde);
-      color: #fff;
-      border: none;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      transition: all .15s;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .btn-cargar:hover {
-      background: var(--verde-md);
-    }
-
-    .btn-export {
-      padding: 8px 16px;
-      border-radius: 8px;
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      color: var(--txt2);
-      font-size: 13px;
-      font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      transition: all .15s;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-left: auto;
-    }
-
-    .btn-export:hover {
-      border-color: var(--verde-md);
-      color: var(--verde);
-    }
-
-    /* ── TABLA PRINCIPAL ── */
-    .tabla-wrap {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .tabla-header {
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: var(--tierra);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title::before {
-      content: '';
-      width: 3px;
-      height: 14px;
-      background: var(--tierra);
-      border-radius: 2px;
-      display: inline-block;
-    }
-
-    .tabla-scroll {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 600px;
-    }
-
-    thead tr {
-      background: var(--bg);
-      border-bottom: 2px solid var(--border);
-    }
-
-    thead th {
-      padding: 10px 12px;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: var(--txt2);
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    thead th.mes-col {
-      text-align: right;
-      color: var(--tierra);
-    }
-
-    thead th.total-col {
-      text-align: right;
-      color: var(--verde);
-      background: var(--verde-xs);
-    }
-
-    thead th.acc-col {
-      text-align: center;
-      width: 110px;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background .12s;
-    }
-
-    tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: #fef9f9;
-    }
-
-    tbody td {
-      padding: 11px 12px;
-      font-size: 13px;
-      vertical-align: middle;
-    }
-
-    .depto-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 16px;
-      color: var(--verde);
-    }
-
-    .depto-prop {
-      font-size: 11px;
-      color: var(--txt2);
-      margin-top: 1px;
-    }
-
-    td.mes-monto {
-      text-align: right;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--tierra);
-      white-space: nowrap;
-    }
-
-    td.mes-vacio {
-      text-align: right;
-      color: var(--border);
-      font-size: 12px;
-    }
-
-    td.total-deuda {
-      text-align: right;
-      font-family: 'DM Serif Display', serif;
-      font-size: 17px;
-      color: var(--tierra);
-      background: var(--tierra-lt);
-      font-weight: 400;
-      white-space: nowrap;
-      border-left: 2px solid #f5c6c6;
-    }
-
-    td.acc-col {
-      text-align: center;
-    }
-
-    /* badge mora */
-    .mora-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 10px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-
-    .mora-alta {
-      background: #fde8e7;
-      color: #c0392b;
-    }
-
-    .mora-media {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    /* ── BOTÓN VER DETALLE ── */
-    .btn-detalle {
-      padding: 5px 12px;
-      border-radius: 7px;
-      font-size: 12px;
-      font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      background: var(--verde);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: all .15s;
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      text-decoration: none;
-    }
-
-    .btn-detalle:hover {
-      background: var(--verde-md);
-      box-shadow: 0 2px 8px rgba(45, 106, 79, .3);
-    }
-
-    /* ── ESTADO VACÍO / CARGA ── */
-    .estado-carga {
-      padding: 60px 20px;
-      text-align: center;
-      color: var(--txt2);
-    }
-
-    .estado-carga .ico {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    .estado-carga p {
-      font-size: 14px;
-    }
-
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid var(--border);
-      border-top-color: var(--verde);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin: 0 auto 12px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* ── TOAST ── */
-    #toast {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      background: var(--verde);
-      color: #fff;
-      padding: 13px 22px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
-      z-index: 999;
-    }
-
-    #toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    #toast.error {
-      background: var(--tierra);
-    }
-
-    /* ── ORDENAMIENTO ── */
-    thead th.sortable {
-      cursor: pointer;
-      user-select: none;
-      transition: background .15s, color .15s;
-      position: relative;
-    }
-
-    thead th.sortable:hover {
-      background: var(--verde-xs);
-      color: var(--verde);
-    }
-
-    thead th.sortable .sort-icon {
-      display: inline-flex;
-      flex-direction: column;
-      gap: 1px;
-      margin-left: 5px;
-      vertical-align: middle;
-      opacity: .35;
-    }
-
-    thead th.sortable .sort-icon svg {
-      display: block;
-    }
-
-    thead th.sort-asc .sort-icon {
-      opacity: 1;
-    }
-
-    thead th.sort-desc .sort-icon {
-      opacity: 1;
-    }
-
-    thead th.sort-asc .sort-icon .ic-up {
-      opacity: 1;
-    }
-
-    thead th.sort-asc .sort-icon .ic-down {
-      opacity: .25;
-    }
-
-    thead th.sort-desc .sort-icon .ic-up {
-      opacity: .25;
-    }
-
-    thead th.sort-desc .sort-icon .ic-down {
-      opacity: 1;
-    }
-
-    thead th.sort-asc,
-    thead th.sort-desc {
-      background: var(--verde-xs);
-      color: var(--verde);
-    }
-
-    thead th.total-col.sort-asc,
-    thead th.total-col.sort-desc {
-      background: #c8edd4;
-      color: var(--verde);
-    }
-
-    @media(max-width:640px) {
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .filtros {
-        gap: 8px;
-      }
-
-      .btn-export {
-        margin-left: 0;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multifamiliar Las Limas — Consolidado de Deudores</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --verde: #2d6a4f;
+            --verde-md: #40916c;
+            --verde-lt: #74c69d;
+            --verde-xs: #d8f3dc;
+            --lima: #b7e4c7;
+            --tierra: #c0392b;
+            --tierra-lt: #fde8e7;
+            --amber: #856404;
+            --amber-lt: #fff3cd;
+            --bg: #f4f9f6;
+            --bg2: #ffffff;
+            --txt: #1b2e24;
+            --txt2: #4a6358;
+            --border: #c3dfd0;
+            --shadow: 0 2px 16px rgba(45, 106, 79, .10);
+            --radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--verde);
+            color: #fff;
+            padding: 0 28px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--verde-lt);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            font-weight: 300;
+            opacity: .75;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .header-badge {
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #f9c74f;
+            display: inline-block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+
+        /* ── STATS ── */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--txt2);
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 26px;
+            color: var(--verde);
+        }
+
+        .stat-value.red {
+            color: var(--tierra);
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: var(--txt2);
+            margin-top: 3px;
+        }
+
+        /* ── FILTROS ── */
+        .filtros {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .filtros label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--txt2);
+        }
+
+        .filtros select {
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            padding: 7px 10px;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--txt);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .filtros select:focus {
+            border-color: var(--verde-md);
+        }
+
+        .btn-cargar {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--verde);
+            color: #fff;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all .15s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .btn-cargar:hover {
+            background: var(--verde-md);
+        }
+
+        .btn-export {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            color: var(--txt2);
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all .15s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-left: auto;
+        }
+
+        .btn-export:hover {
+            border-color: var(--verde-md);
+            color: var(--verde);
+        }
+
+        /* ── TABLA PRINCIPAL ── */
+        .tabla-wrap {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .tabla-header {
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--tierra);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 3px;
+            height: 14px;
+            background: var(--tierra);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .tabla-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        thead tr {
+            background: var(--bg);
+            border-bottom: 2px solid var(--border);
+        }
+
+        thead th {
+            padding: 10px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--txt2);
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        thead th.mes-col {
+            text-align: right;
+            color: var(--tierra);
+        }
+
+        thead th.total-col {
+            text-align: right;
+            color: var(--verde);
+            background: var(--verde-xs);
+        }
+
+        thead th.acc-col {
+            text-align: center;
+            width: 110px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background .12s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #fef9f9;
+        }
+
+        tbody td {
+            padding: 11px 12px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .depto-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 16px;
+            color: var(--verde);
+        }
+
+        .depto-prop {
+            font-size: 11px;
+            color: var(--txt2);
+            margin-top: 1px;
+        }
+
+        td.mes-monto {
+            text-align: right;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--tierra);
+            white-space: nowrap;
+        }
+
+        td.mes-vacio {
+            text-align: right;
+            color: var(--border);
+            font-size: 12px;
+        }
+
+        td.total-deuda {
+            text-align: right;
+            font-family: 'DM Serif Display', serif;
+            font-size: 17px;
+            color: var(--tierra);
+            background: var(--tierra-lt);
+            font-weight: 400;
+            white-space: nowrap;
+            border-left: 2px solid #f5c6c6;
+        }
+
+        td.acc-col {
+            text-align: center;
+        }
+
+        /* badge mora */
+        .mora-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .mora-alta {
+            background: #fde8e7;
+            color: #c0392b;
+        }
+
+        .mora-media {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* ── BOTÓN VER DETALLE ── */
+        .btn-detalle {
+            padding: 5px 12px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--verde);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-detalle:hover {
+            background: var(--verde-md);
+            box-shadow: 0 2px 8px rgba(45, 106, 79, .3);
+        }
+
+        /* ── MEDIOS DE PAGO ── */
+        .medios-pago {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .pago-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+            page-break-inside: avoid;
+        }
+
+        .pago-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--verde);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        .pago-detalle {
+            font-size: 13px;
+            color: var(--txt);
+            line-height: 1.6;
+            margin-left: 26px;
+            /* Para alinear con el texto del título y no con el ícono */
+        }
+
+        .pago-lbl {
+            font-weight: 500;
+            color: var(--txt2);
+        }
+
+        /* ── ESTADO VACÍO / CARGA ── */
+        .estado-carga {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--txt2);
+        }
+
+        .estado-carga .ico {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .estado-carga p {
+            font-size: 14px;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--verde);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── TOAST ── */
+        #toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--verde);
+            color: #fff;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, .18);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+            z-index: 999;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #toast.error {
+            background: var(--tierra);
+        }
+
+        /* ── ORDENAMIENTO ── */
+        thead th.sortable {
+            cursor: pointer;
+            user-select: none;
+            transition: background .15s, color .15s;
+            position: relative;
+        }
+
+        thead th.sortable:hover {
+            background: var(--verde-xs);
+            color: var(--verde);
+        }
+
+        thead th.sortable .sort-icon {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 1px;
+            margin-left: 5px;
+            vertical-align: middle;
+            opacity: .35;
+        }
+
+        thead th.sortable .sort-icon svg {
+            display: block;
+        }
+
+        thead th.sort-asc .sort-icon {
+            opacity: 1;
+        }
+
+        thead th.sort-desc .sort-icon {
+            opacity: 1;
+        }
+
+        thead th.sort-asc .sort-icon .ic-up {
+            opacity: 1;
+        }
+
+        thead th.sort-asc .sort-icon .ic-down {
+            opacity: .25;
+        }
+
+        thead th.sort-desc .sort-icon .ic-up {
+            opacity: .25;
+        }
+
+        thead th.sort-desc .sort-icon .ic-down {
+            opacity: 1;
+        }
+
+        thead th.sort-asc,
+        thead th.sort-desc {
+            background: var(--verde-xs);
+            color: var(--verde);
+        }
+
+        thead th.total-col.sort-asc,
+        thead th.total-col.sort-desc {
+            background: #c8edd4;
+            color: var(--verde);
+        }
+
+        @media(max-width:1024px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width:640px) {
+            header {
+                height: auto;
+                padding: 14px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .filtros {
+                gap: 10px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filtros label {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .filtros select {
+                flex: 1;
+                margin-left: 10px;
+            }
+
+            .btn-cargar,
+            .btn-export {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0 !important;
+                margin-top: 4px;
+            }
+
+            .medios-pago {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            @page {
+                size: landscape;
+                margin: 10mm;
+            }
+
+            body {
+                background: #fff;
+                color: #000;
+            }
+
+            header,
+            .filtros,
+            .btn-detalle,
+            #toast,
+            .estado-carga,
+            .acc-col {
+                display: none !important;
+            }
+
+            .container {
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+
+            .tabla-wrap {
+                border: none;
+                box-shadow: none;
+            }
+
+            .stat-card,
+            .pago-card {
+                border: 1px solid #ccc;
+                box-shadow: none;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            thead tr {
+                border-bottom: 2px solid #000;
+            }
+
+            tbody tr {
+                border-bottom: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <header>
-    <a href="https://joseluisgch.github.io/multifam_laslimas/" class="logo"
-      style="text-decoration: none; color: inherit;">
-      <div class="logo-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2e24" stroke-width="2"
-          stroke-linecap="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-      </div>
-      <div>
-        <div class="logo-text">Multifamiliar Las Limas</div>
-        <div class="logo-sub">Sistema de Gestión</div>
-      </div>
-    </a>
-    <div class="header-badge"><span></span>Consolidado de Deudores</div>
-  </header>
-
-  <div class="container">
-
-    <!-- STATS -->
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-label">Departamentos deudores</div>
-        <div class="stat-value red" id="s-deudores">—</div>
-        <div class="stat-sub" id="s-total-deptos">de — en total</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Deuda total</div>
-        <div class="stat-value red" id="s-deuda-total">S/. —</div>
-        <div class="stat-sub" id="s-periodos-texto">— periodos</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Mayor deudor</div>
-        <div class="stat-value red" id="s-mayor-deuda">—</div>
-        <div class="stat-sub" id="s-mayor-depto">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Promedio por deudor</div>
-        <div class="stat-value" id="s-promedio">S/. —</div>
-        <div class="stat-sub">deuda acumulada</div>
-      </div>
-    </div>
-
-    <!-- FILTROS -->
-    <div class="filtros">
-      <label>Desde:
-        <select id="f-mes-ini">
-          <option value="1">Enero</option>
-          <option value="2">Febrero</option>
-          <option value="3">Marzo</option>
-          <option value="4">Abril</option>
-          <option value="5">Mayo</option>
-          <option value="6">Junio</option>
-          <option value="7">Julio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Septiembre</option>
-          <option value="10">Octubre</option>
-          <option value="11">Noviembre</option>
-          <option value="12">Diciembre</option>
-        </select>
-      </label>
-      <label>
-        <select id="f-anio-ini">
-          <option value="2024">2024</option>
-          <option value="2025" selected>2025</option>
-          <option value="2026">2026</option>
-        </select>
-      </label>
-      <label>Hasta:
-        <select id="f-mes-fin">
-          <option value="1">Enero</option>
-          <option value="2">Febrero</option>
-          <option value="3">Marzo</option>
-          <option value="4">Abril</option>
-          <option value="5">Mayo</option>
-          <option value="6">Junio</option>
-          <option value="7">Julio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Septiembre</option>
-          <option value="10">Octubre</option>
-          <option value="11" selected>Noviembre</option>
-          <option value="12">Diciembre</option>
-        </select>
-      </label>
-      <label>
-        <select id="f-anio-fin">
-          <option value="2024">2024</option>
-          <option value="2025">2025</option>
-          <option value="2026" selected>2026</option>
-        </select>
-      </label>
-      <button class="btn-cargar" onclick="cargarConsolidado()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="1 4 1 10 7 10" />
-          <path d="M3.51 15a9 9 0 1 0 .49-3.66" />
-        </svg>
-        Actualizar
-      </button>
-      <button class="btn-export" onclick="exportarCSV()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" y1="15" x2="12" y2="3" />
-        </svg>
-        Exportar CSV
-      </button>
-    </div>
-
-    <!-- TABLA -->
-    <div class="tabla-wrap">
-      <div class="tabla-header">
-        <div class="section-title">Deudores con saldo pendiente</div>
-        <span id="tabla-subtitulo" style="font-size:12px;color:var(--txt2)"></span>
-      </div>
-      <div class="tabla-scroll">
-        <table id="tabla-deudores">
-          <thead id="thead-deudores"></thead>
-          <tbody id="tbody-deudores">
-            <div class="estado-carga">
-              <div class="ico">📋</div>
-              <p>Selecciona el rango y presiona Actualizar</p>
+    <header>
+        <a href="https://joseluisgch.github.io/multifam_laslimas/" class="logo"
+            style="text-decoration: none; color: inherit;">
+            <div class="logo-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b2e24" stroke-width="2"
+                    stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
             </div>
-          </tbody>
-        </table>
-      </div>
+            <div>
+                <div class="logo-text">Multifamiliar Las Limas</div>
+                <div class="logo-sub">Sistema de Gestión</div>
+            </div>
+        </a>
+        <div class="header-badge"><span></span>Consolidado de Deudores</div>
+    </header>
+
+    <div class="container">
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Departamentos deudores</div>
+                <div class="stat-value red" id="s-deudores">—</div>
+                <div class="stat-sub" id="s-total-deptos">de — en total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Deuda total</div>
+                <div class="stat-value red" id="s-deuda-total">S/. —</div>
+                <div class="stat-sub" id="s-periodos-texto">— periodos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Mayor deudor</div>
+                <div class="stat-value red" id="s-mayor-deuda">—</div>
+                <div class="stat-sub" id="s-mayor-depto">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Promedio por deudor</div>
+                <div class="stat-value" id="s-promedio">S/. —</div>
+                <div class="stat-sub">deuda acumulada</div>
+            </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="filtros">
+            <label>Desde:
+                <select id="f-mes-ini">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </label>
+            <label>
+                <select id="f-anio-ini">
+                    <option value="2024">2024</option>
+                    <option value="2025" selected>2025</option>
+                    <option value="2026">2026</option>
+                </select>
+            </label>
+            <label>Hasta:
+                <select id="f-mes-fin">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11" selected>Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </label>
+            <label>
+                <select id="f-anio-fin">
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                </select>
+            </label>
+            <button class="btn-cargar" onclick="cargarConsolidado()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10" />
+                    <path d="M3.51 15a9 9 0 1 0 .49-3.66" />
+                </svg>
+                Actualizar
+            </button>
+            <button class="btn-export" onclick="exportarCSV()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Exportar CSV
+            </button>
+            <button class="btn-export" onclick="window.print()" style="margin-left: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Imprimir
+            </button>
+        </div>
+
+        <!-- TABLA -->
+        <div class="tabla-wrap">
+            <div class="tabla-header">
+                <div class="section-title">Deudores con saldo pendiente</div>
+                <span id="tabla-subtitulo" style="font-size:12px;color:var(--txt2)"></span>
+            </div>
+            <div class="tabla-scroll">
+                <table id="tabla-deudores">
+                    <thead id="thead-deudores"></thead>
+                    <tbody id="tbody-deudores">
+                        <div class="estado-carga">
+                            <div class="ico">📋</div>
+                            <p>Selecciona el rango y presiona Actualizar</p>
+                        </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MEDIOS DE PAGO -->
+        <div class="medios-pago">
+            <div class="pago-card">
+                <div class="pago-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                        <line x1="2" y1="10" x2="22" y2="10" />
+                    </svg>
+                    Depósito o transferencia bancaria
+                </div>
+                <div class="pago-detalle">
+                    <div><span class="pago-lbl">Banco:</span> BBVA</div>
+                    <div><span class="pago-lbl">Número de cuenta:</span> 0011-0832-0200649668</div>
+                    <div><span class="pago-lbl">CCI:</span> 01183200020064966837</div>
+                    <div><span class="pago-lbl">Titular:</span> Franklin Torres – Jose Galindo</div>
+                </div>
+            </div>
+
+            <div class="pago-card">
+                <div class="pago-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        <line x1="12" y1="14" x2="12" y2="14"></line>
+                    </svg>
+                    Pagos por Yape o Plin
+                </div>
+                <div class="pago-detalle">
+                    <div><span class="pago-lbl">Número de celular:</span> 979 452 512</div>
+                    <div><span class="pago-lbl">Titular:</span> Franklin Torres</div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div id="toast"></div>
+    <div id="toast"></div>
 
-  <script>
-    // ═══════════════════════════════════════════════
-    // CONFIG
-    // ═══════════════════════════════════════════════
-    const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
-    // URL del portal del vecino (ajusta según tu despliegue)
-    const PORTAL_URL = 'https://joseluisgch.github.io/multifam_laslimas/portal_vecino.html';
+    <script>
+        // ═══════════════════════════════════════════════
+        // CONFIG
+        // ═══════════════════════════════════════════════
+        const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
+        // URL del portal del vecino (ajusta según tu despliegue)
+        const PORTAL_URL = 'http://localhost:8080/portal_vecino.html';
 
-    const MESES = ['', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    const MESES_L = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const MESES = ['', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const MESES_L = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-    // ═══════════════════════════════════════════════
-    // INIT
-    // ═══════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', () => {
-      const now = new Date();
-      // Rango por defecto: últimos 6 meses
-      const finMes = now.getMonth() + 1;
-      const finAnio = now.getFullYear();
-      let iniMes = finMes - 5;
-      let iniAnio = finAnio;
-      if (iniMes <= 0) { iniMes += 12; iniAnio--; }
+        // ═══════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            // Rango por defecto: últimos 6 meses
+            const finMes = now.getMonth() + 1;
+            const finAnio = now.getFullYear();
+            let iniMes = finMes - 5;
+            let iniAnio = finAnio;
+            if (iniMes <= 0) { iniMes += 12; iniAnio--; }
 
-      document.getElementById('f-mes-ini').value = iniMes;
-      document.getElementById('f-anio-ini').value = iniAnio;
-      document.getElementById('f-mes-fin').value = finMes;
-      document.getElementById('f-anio-fin').value = finAnio;
+            document.getElementById('f-mes-ini').value = iniMes;
+            document.getElementById('f-anio-ini').value = iniAnio;
+            document.getElementById('f-mes-fin').value = finMes;
+            document.getElementById('f-anio-fin').value = finAnio;
 
-      cargarConsolidado();
-    });
-
-    // ═══════════════════════════════════════════════
-    // CARGA PRINCIPAL
-    // ═══════════════════════════════════════════════
-    async function cargarConsolidado() {
-      const mesIni = +document.getElementById('f-mes-ini').value;
-      const anioIni = +document.getElementById('f-anio-ini').value;
-      const mesFin = +document.getElementById('f-mes-fin').value;
-      const anioFin = +document.getElementById('f-anio-fin').value;
-
-      mostrarCargando();
-
-      if (SUPABASE_URL.includes('TU_PROYECTO')) {
-        renderMock(mesIni, anioIni, mesFin, anioFin);
-        return;
-      }
-
-      try {
-        // 1. Obtener periodos en el rango
-        const periodos = await sbGet(
-          `periodos?select=id,mes,anio&order=anio.asc,mes.asc`
-        );
-        const periodosRango = periodos.filter(p => {
-          const fecha = p.anio * 100 + p.mes;
-          return fecha >= anioIni * 100 + mesIni && fecha <= anioFin * 100 + mesFin;
+            cargarConsolidado();
         });
 
-        if (!periodosRango.length) {
-          mostrarVacio('No hay periodos en el rango seleccionado');
-          return;
+        // ═══════════════════════════════════════════════
+        // CARGA PRINCIPAL
+        // ═══════════════════════════════════════════════
+        async function cargarConsolidado() {
+            const mesIni = +document.getElementById('f-mes-ini').value;
+            const anioIni = +document.getElementById('f-anio-ini').value;
+            const mesFin = +document.getElementById('f-mes-fin').value;
+            const anioFin = +document.getElementById('f-anio-fin').value;
+
+            mostrarCargando();
+
+            if (SUPABASE_URL.includes('TU_PROYECTO')) {
+                renderMock(mesIni, anioIni, mesFin, anioFin);
+                return;
+            }
+
+            try {
+                // 1. Obtener periodos en el rango
+                const periodos = await sbGet(
+                    `periodos?select=id,mes,anio&order=anio.asc,mes.asc`
+                );
+                const periodosRango = periodos.filter(p => {
+                    const fecha = p.anio * 100 + p.mes;
+                    return fecha >= anioIni * 100 + mesIni && fecha <= anioFin * 100 + mesFin;
+                });
+
+                if (!periodosRango.length) {
+                    mostrarVacio('No hay periodos en el rango seleccionado');
+                    return;
+                }
+
+                // 2. Obtener estado de cuenta para esos periodos (solo deudores)
+                const periodosIds = periodosRango.map(p => p.id).join(',');
+                const estados = await sbGet(
+                    `v_estado_cuenta?periodo_id=in.(${periodosIds})&saldo=gt.0&select=*`
+                );
+
+                if (!estados.length) {
+                    mostrarVacio('¡Sin deudores! Todos los departamentos están al día 🎉');
+                    return;
+                }
+
+                // 3. Construir matriz: depto → { mes-anio: saldo }
+                const matrizDeptos = {};  // { depto_id: { numero, propietario, meses: {}, total } }
+                estados.forEach(e => {
+                    const did = e.departamento_id;
+                    if (!matrizDeptos[did]) {
+                        matrizDeptos[did] = {
+                            numero: e.numero,
+                            propietario: e.propietario,
+                            meses: {},
+                            total: 0,
+                        };
+                    }
+                    const key = `${e.anio}-${String(e.mes).padStart(2, '0')}`;
+                    matrizDeptos[did].meses[key] = parseFloat(e.saldo);
+                    matrizDeptos[did].total += parseFloat(e.saldo);
+                });
+
+                renderTabla(matrizDeptos, periodosRango);
+                actualizarStats(matrizDeptos, periodosRango);
+
+            } catch (e) {
+                mostrarVacio('Error cargando datos: ' + e.message);
+                showToast('Error: ' + e.message, true);
+            }
         }
 
-        // 2. Obtener estado de cuenta para esos periodos (solo deudores)
-        const periodosIds = periodosRango.map(p => p.id).join(',');
-        const estados = await sbGet(
-          `v_estado_cuenta?periodo_id=in.(${periodosIds})&saldo=gt.0&select=*`
-        );
+        // ═══════════════════════════════════════════════
+        // ESTADO DE ORDENAMIENTO
+        // ═══════════════════════════════════════════════
+        let sortState = { col: 'total', dir: 'desc' };
+        let _matrizActual = {};
+        let _periodosActuales = [];
 
-        if (!estados.length) {
-          mostrarVacio('¡Sin deudores! Todos los departamentos están al día 🎉');
-          return;
-        }
-
-        // 3. Construir matriz: depto → { mes-anio: saldo }
-        const matrizDeptos = {};  // { depto_id: { numero, propietario, meses: {}, total } }
-        estados.forEach(e => {
-          const did = e.departamento_id;
-          if (!matrizDeptos[did]) {
-            matrizDeptos[did] = {
-              numero: e.numero,
-              propietario: e.propietario,
-              meses: {},
-              total: 0,
-            };
-          }
-          const key = `${e.anio}-${String(e.mes).padStart(2, '0')}`;
-          matrizDeptos[did].meses[key] = parseFloat(e.saldo);
-          matrizDeptos[did].total += parseFloat(e.saldo);
-        });
-
-        renderTabla(matrizDeptos, periodosRango);
-        actualizarStats(matrizDeptos, periodosRango);
-
-      } catch (e) {
-        mostrarVacio('Error cargando datos: ' + e.message);
-        showToast('Error: ' + e.message, true);
-      }
-    }
-
-    // ═══════════════════════════════════════════════
-    // ESTADO DE ORDENAMIENTO
-    // ═══════════════════════════════════════════════
-    let sortState = { col: 'total', dir: 'desc' };
-    let _matrizActual = {};
-    let _periodosActuales = [];
-
-    const SORT_ICON = `<span class="sort-icon">
+        const SORT_ICON = `<span class="sort-icon">
   <svg class="ic-up"   width="8" height="6" viewBox="0 0 8 6"><path d="M4 0L8 6H0z" fill="currentColor"/></svg>
   <svg class="ic-down" width="8" height="6" viewBox="0 0 8 6"><path d="M4 6L0 0h8z" fill="currentColor"/></svg>
 </span>`;
 
-    // ═══════════════════════════════════════════════
-    // RENDER TABLA
-    // ═══════════════════════════════════════════════
-    function renderTabla(matrizDeptos, periodos) {
-      // Guardar referencia para re-ordenar sin recargar
-      _matrizActual = matrizDeptos;
-      _periodosActuales = periodos;
+        // ═══════════════════════════════════════════════
+        // RENDER TABLA
+        // ═══════════════════════════════════════════════
+        function renderTabla(matrizDeptos, periodos) {
+            // Guardar referencia para re-ordenar sin recargar
+            _matrizActual = matrizDeptos;
+            _periodosActuales = periodos;
 
-      const thead = document.getElementById('thead-deudores');
+            const thead = document.getElementById('thead-deudores');
 
-      // Ordenar periodos cronológicamente
-      periodos.sort((a, b) => (a.anio * 100 + a.mes) - (b.anio * 100 + b.mes));
+            // Ordenar periodos cronológicamente
+            periodos.sort((a, b) => (a.anio * 100 + a.mes) - (b.anio * 100 + b.mes));
 
-      // ── Cabecera con columnas ordenables ──
-      let thHtml = `<tr>
+            // ── Cabecera con columnas ordenables ──
+            let thHtml = `<tr>
     <th class="sortable${sortState.col === 'numero' ? ' sort-' + sortState.dir : ''}"
         style="min-width:80px" onclick="ordenarPor('numero')">
       Depto. ${SORT_ICON}
@@ -823,52 +1000,52 @@
       Propietario ${SORT_ICON}
     </th>`;
 
-      periodos.forEach(p => {
-        const key = `${p.anio}-${String(p.mes).padStart(2, '0')}`;
-        const isActive = sortState.col === key;
-        thHtml += `<th class="mes-col sortable${isActive ? ' sort-' + sortState.dir : ''}"
+            periodos.forEach(p => {
+                const key = `${p.anio}-${String(p.mes).padStart(2, '0')}`;
+                const isActive = sortState.col === key;
+                thHtml += `<th class="mes-col sortable${isActive ? ' sort-' + sortState.dir : ''}"
                    onclick="ordenarPor('${key}')">
       ${MESES[p.mes]}<br>
       <span style="font-size:10px;opacity:.7">${p.anio}</span>
       ${SORT_ICON}
     </th>`;
-      });
+            });
 
-      const isTotalActive = sortState.col === 'total';
-      thHtml += `<th class="total-col sortable${isTotalActive ? ' sort-' + sortState.dir : ''}"
+            const isTotalActive = sortState.col === 'total';
+            thHtml += `<th class="total-col sortable${isTotalActive ? ' sort-' + sortState.dir : ''}"
                  onclick="ordenarPor('total')">
     Total deuda ${SORT_ICON}
   </th>
   <th class="acc-col">Detalle</th></tr>`;
-      thead.innerHTML = thHtml;
+            thead.innerHTML = thHtml;
 
-      renderFilas(periodos);
-    }
+            renderFilas(periodos);
+        }
 
-    function renderFilas(periodos) {
-      const tbody = document.getElementById('tbody-deudores');
-      const subtitulo = document.getElementById('tabla-subtitulo');
+        function renderFilas(periodos) {
+            const tbody = document.getElementById('tbody-deudores');
+            const subtitulo = document.getElementById('tabla-subtitulo');
 
-      // ── Aplicar ordenamiento actual ──
-      let filas = Object.values(_matrizActual);
-      filas = sortFilas(filas, sortState.col, sortState.dir, periodos);
+            // ── Aplicar ordenamiento actual ──
+            let filas = Object.values(_matrizActual);
+            filas = sortFilas(filas, sortState.col, sortState.dir, periodos);
 
-      subtitulo.textContent = `${filas.length} deudor${filas.length !== 1 ? 'es' : ''} · ${periodos.length} periodos`;
+            subtitulo.textContent = `${filas.length} deudor${filas.length !== 1 ? 'es' : ''} · ${periodos.length} periodos`;
 
-      tbody.innerHTML = filas.map(dep => {
-        const mesesHtml = periodos.map(p => {
-          const key = `${p.anio}-${String(p.mes).padStart(2, '0')}`;
-          const monto = dep.meses[key];
-          return monto && monto > 0
-            ? `<td class="mes-monto">S/. ${monto.toFixed(2)}</td>`
-            : `<td class="mes-vacio">—</td>`;
-        }).join('');
+            tbody.innerHTML = filas.map(dep => {
+                const mesesHtml = periodos.map(p => {
+                    const key = `${p.anio}-${String(p.mes).padStart(2, '0')}`;
+                    const monto = dep.meses[key];
+                    return monto && monto > 0
+                        ? `<td class="mes-monto">S/. ${monto.toFixed(2)}</td>`
+                        : `<td class="mes-vacio">—</td>`;
+                }).join('');
 
-        const mesesDeuda = Object.keys(dep.meses).length;
-        const moraClass = mesesDeuda >= 3 ? 'mora-alta' : 'mora-media';
-        const moraLabel = mesesDeuda >= 3 ? `${mesesDeuda} meses` : `${mesesDeuda} mes`;
+                const mesesDeuda = Object.keys(dep.meses).length;
+                const moraClass = mesesDeuda >= 3 ? 'mora-alta' : 'mora-media';
+                const moraLabel = mesesDeuda >= 3 ? `${mesesDeuda} meses` : `${mesesDeuda} mes`;
 
-        return `<tr>
+                return `<tr>
       <td>
         <div class="depto-num">${dep.numero}</div>
         <span class="mora-badge ${moraClass}">${moraLabel}</span>
@@ -885,166 +1062,166 @@
         </a>
       </td>
     </tr>`;
-      }).join('');
-    }
-
-    function sortFilas(filas, col, dir, periodos) {
-      return [...filas].sort((a, b) => {
-        let va, vb;
-        if (col === 'numero') {
-          va = a.numero; vb = b.numero;
-          return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+            }).join('');
         }
-        if (col === 'propietario') {
-          va = a.propietario; vb = b.propietario;
-          return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+
+        function sortFilas(filas, col, dir, periodos) {
+            return [...filas].sort((a, b) => {
+                let va, vb;
+                if (col === 'numero') {
+                    va = a.numero; vb = b.numero;
+                    return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+                }
+                if (col === 'propietario') {
+                    va = a.propietario; vb = b.propietario;
+                    return dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+                }
+                if (col === 'total') {
+                    va = a.total; vb = b.total;
+                } else {
+                    // columna de mes (key: "2025-06")
+                    va = a.meses[col] || 0;
+                    vb = b.meses[col] || 0;
+                }
+                return dir === 'asc' ? va - vb : vb - va;
+            });
         }
-        if (col === 'total') {
-          va = a.total; vb = b.total;
-        } else {
-          // columna de mes (key: "2025-06")
-          va = a.meses[col] || 0;
-          vb = b.meses[col] || 0;
+
+        function ordenarPor(col) {
+            if (sortState.col === col) {
+                // Mismo columna → invertir dirección
+                sortState.dir = sortState.dir === 'asc' ? 'desc' : 'asc';
+            } else {
+                // Nueva columna → descendente por defecto (excepto texto → asc)
+                sortState.col = col;
+                sortState.dir = (col === 'numero' || col === 'propietario') ? 'asc' : 'desc';
+            }
+            // Re-renderizar solo cabecera y filas (sin recargar Supabase)
+            renderTabla(_matrizActual, _periodosActuales);
         }
-        return dir === 'asc' ? va - vb : vb - va;
-      });
-    }
 
-    function ordenarPor(col) {
-      if (sortState.col === col) {
-        // Mismo columna → invertir dirección
-        sortState.dir = sortState.dir === 'asc' ? 'desc' : 'asc';
-      } else {
-        // Nueva columna → descendente por defecto (excepto texto → asc)
-        sortState.col = col;
-        sortState.dir = (col === 'numero' || col === 'propietario') ? 'asc' : 'desc';
-      }
-      // Re-renderizar solo cabecera y filas (sin recargar Supabase)
-      renderTabla(_matrizActual, _periodosActuales);
-    }
+        // ═══════════════════════════════════════════════
+        // STATS
+        // ═══════════════════════════════════════════════
+        function actualizarStats(matrizDeptos, periodos) {
+            const filas = Object.values(matrizDeptos);
+            const totalDeuda = filas.reduce((s, d) => s + d.total, 0);
+            const mayorDeudor = filas.sort((a, b) => b.total - a.total)[0];
+            const promedio = filas.length > 0 ? totalDeuda / filas.length : 0;
 
-    // ═══════════════════════════════════════════════
-    // STATS
-    // ═══════════════════════════════════════════════
-    function actualizarStats(matrizDeptos, periodos) {
-      const filas = Object.values(matrizDeptos);
-      const totalDeuda = filas.reduce((s, d) => s + d.total, 0);
-      const mayorDeudor = filas.sort((a, b) => b.total - a.total)[0];
-      const promedio = filas.length > 0 ? totalDeuda / filas.length : 0;
+            document.getElementById('s-deudores').textContent = filas.length;
+            document.getElementById('s-deuda-total').textContent = `S/. ${totalDeuda.toFixed(2)}`;
+            document.getElementById('s-mayor-deuda').textContent = `S/. ${mayorDeudor?.total.toFixed(2) || '—'}`;
+            document.getElementById('s-mayor-depto').textContent = `Depto. ${mayorDeudor?.numero} — ${mayorDeudor?.propietario?.split(',')[0]}`;
+            document.getElementById('s-promedio').textContent = `S/. ${promedio.toFixed(2)}`;
+            document.getElementById('s-periodos-texto').textContent = `${periodos.length} meses analizados`;
+        }
 
-      document.getElementById('s-deudores').textContent = filas.length;
-      document.getElementById('s-deuda-total').textContent = `S/. ${totalDeuda.toFixed(2)}`;
-      document.getElementById('s-mayor-deuda').textContent = `S/. ${mayorDeudor?.total.toFixed(2) || '—'}`;
-      document.getElementById('s-mayor-depto').textContent = `Depto. ${mayorDeudor?.numero} — ${mayorDeudor?.propietario?.split(',')[0]}`;
-      document.getElementById('s-promedio').textContent = `S/. ${promedio.toFixed(2)}`;
-      document.getElementById('s-periodos-texto').textContent = `${periodos.length} periodos analizados`;
-    }
-
-    // ═══════════════════════════════════════════════
-    // ESTADOS UI
-    // ═══════════════════════════════════════════════
-    function mostrarCargando() {
-      document.getElementById('thead-deudores').innerHTML = '';
-      document.getElementById('tbody-deudores').innerHTML = `
+        // ═══════════════════════════════════════════════
+        // ESTADOS UI
+        // ═══════════════════════════════════════════════
+        function mostrarCargando() {
+            document.getElementById('thead-deudores').innerHTML = '';
+            document.getElementById('tbody-deudores').innerHTML = `
     <tr><td colspan="20">
       <div class="estado-carga">
         <div class="spinner"></div>
         <p>Cargando datos desde Supabase...</p>
       </div>
     </td></tr>`;
-    }
+        }
 
-    function mostrarVacio(msg) {
-      document.getElementById('thead-deudores').innerHTML = '';
-      document.getElementById('tbody-deudores').innerHTML = `
+        function mostrarVacio(msg) {
+            document.getElementById('thead-deudores').innerHTML = '';
+            document.getElementById('tbody-deudores').innerHTML = `
     <tr><td colspan="20">
       <div class="estado-carga">
         <div class="ico">${msg.includes('Sin deudores') ? '✅' : '📋'}</div>
         <p>${msg}</p>
       </div>
     </td></tr>`;
-    }
+        }
 
-    // ═══════════════════════════════════════════════
-    // EXPORTAR CSV
-    // ═══════════════════════════════════════════════
-    function exportarCSV() {
-      const table = document.getElementById('tabla-deudores');
-      if (!table.rows.length) return;
+        // ═══════════════════════════════════════════════
+        // EXPORTAR CSV
+        // ═══════════════════════════════════════════════
+        function exportarCSV() {
+            const table = document.getElementById('tabla-deudores');
+            if (!table.rows.length) return;
 
-      let csv = '';
-      // Cabecera
-      const ths = table.querySelectorAll('thead th');
-      csv += Array.from(ths).map(th => `"${th.innerText.replace(/\n/g, ' ')}"`).join(',') + '\n';
-      // Filas
-      table.querySelectorAll('tbody tr').forEach(tr => {
-        const tds = tr.querySelectorAll('td');
-        if (!tds.length) return;
-        // Excluir última columna (botón)
-        const vals = Array.from(tds).slice(0, -1).map(td => `"${td.innerText.trim()}"`);
-        csv += vals.join(',') + '\n';
-      });
+            let csv = '';
+            // Cabecera
+            const ths = table.querySelectorAll('thead th');
+            csv += Array.from(ths).map(th => `"${th.innerText.replace(/\n/g, ' ')}"`).join(',') + '\n';
+            // Filas
+            table.querySelectorAll('tbody tr').forEach(tr => {
+                const tds = tr.querySelectorAll('td');
+                if (!tds.length) return;
+                // Excluir última columna (botón)
+                const vals = Array.from(tds).slice(0, -1).map(td => `"${td.innerText.trim()}"`);
+                csv += vals.join(',') + '\n';
+            });
 
-      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `deudores_limas_${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click();
-      showToast('✓ CSV exportado');
-    }
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `deudores_limas_${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            showToast('✓ CSV exportado');
+        }
 
-    // ═══════════════════════════════════════════════
-    // MOCK (demo sin Supabase)
-    // ═══════════════════════════════════════════════
-    function renderMock(mesIni, anioIni, mesFin, anioFin) {
-      // Generar periodos del rango
-      const periodos = [];
-      let m = mesIni, a = anioIni;
-      while (a * 100 + m <= anioFin * 100 + mesFin) {
-        periodos.push({ id: periodos.length + 1, mes: m, anio: a });
-        m++; if (m > 12) { m = 1; a++; }
-      }
+        // ═══════════════════════════════════════════════
+        // MOCK (demo sin Supabase)
+        // ═══════════════════════════════════════════════
+        function renderMock(mesIni, anioIni, mesFin, anioFin) {
+            // Generar periodos del rango
+            const periodos = [];
+            let m = mesIni, a = anioIni;
+            while (a * 100 + m <= anioFin * 100 + mesFin) {
+                periodos.push({ id: periodos.length + 1, mes: m, anio: a });
+                m++; if (m > 12) { m = 1; a++; }
+            }
 
-      const mockDeudores = {
-        3: { numero: '103', propietario: 'Mamani Quispe, Pedro', meses: {}, total: 0 },
-        6: { numero: '202', propietario: 'Sánchez Lima, María', meses: {}, total: 0 },
-        10: { numero: '302', propietario: 'Castro Neyra, Elena', meses: {}, total: 0 },
-        12: { numero: '304', propietario: 'Alarcón Ruiz, Patricia', meses: {}, total: 0 },
-      };
-      // Asignar deudas aleatorias en distintos meses
-      const montos = [[3, 162], [3, 162], [6, 142], [6, 142], [6, 142], [10, 130], [12, 110], [12, 110], [12, 110], [12, 110]];
-      montos.forEach(([did, monto], i) => {
-        const p = periodos[i % periodos.length];
-        if (!p) return;
-        const key = `${p.anio}-${String(p.mes).padStart(2, '0')}`;
-        mockDeudores[did].meses[key] = monto;
-        mockDeudores[did].total += monto;
-      });
+            const mockDeudores = {
+                3: { numero: '103', propietario: 'Mamani Quispe, Pedro', meses: {}, total: 0 },
+                6: { numero: '202', propietario: 'Sánchez Lima, María', meses: {}, total: 0 },
+                10: { numero: '302', propietario: 'Castro Neyra, Elena', meses: {}, total: 0 },
+                12: { numero: '304', propietario: 'Alarcón Ruiz, Patricia', meses: {}, total: 0 },
+            };
+            // Asignar deudas aleatorias en distintos meses
+            const montos = [[3, 162], [3, 162], [6, 142], [6, 142], [6, 142], [10, 130], [12, 110], [12, 110], [12, 110], [12, 110]];
+            montos.forEach(([did, monto], i) => {
+                const p = periodos[i % periodos.length];
+                if (!p) return;
+                const key = `${p.anio}-${String(p.mes).padStart(2, '0')}`;
+                mockDeudores[did].meses[key] = monto;
+                mockDeudores[did].total += monto;
+            });
 
-      renderTabla(mockDeudores, periodos);
-      actualizarStats(mockDeudores, periodos);
-      showToast('⚠ Datos de ejemplo — configura Supabase', true);
-    }
+            renderTabla(mockDeudores, periodos);
+            actualizarStats(mockDeudores, periodos);
+            showToast('⚠ Datos de ejemplo — configura Supabase', true);
+        }
 
-    // ═══════════════════════════════════════════════
-    // HELPERS
-    // ═══════════════════════════════════════════════
-    async function sbGet(path) {
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-      });
-      if (!r.ok) throw new Error(await r.text());
-      return r.json();
-    }
+        // ═══════════════════════════════════════════════
+        // HELPERS
+        // ═══════════════════════════════════════════════
+        async function sbGet(path) {
+            const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+                headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+            });
+            if (!r.ok) throw new Error(await r.text());
+            return r.json();
+        }
 
-    function showToast(msg, isError) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.toggle('error', !!isError);
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 3500);
-    }
-  </script>
+        function showToast(msg, isError) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.toggle('error', !!isError);
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+    </script>
 </body>
 
 </html>
