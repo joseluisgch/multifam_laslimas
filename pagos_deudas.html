@@ -587,7 +587,7 @@
         /* PANEL TESORERIA */
         .teso-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             margin-bottom: 20px;
         }
@@ -630,17 +630,24 @@
         }
 
         @media(max-width:640px) {
-            .stats {
-                grid-template-columns: 1fr 1fr;
-            }
+            header { height: auto; padding: 14px 16px; flex-direction: column; gap: 12px; }
+            .nav-tabs { width: 100%; justify-content: center; }
+            .nav-tab { flex: 1; text-align: center; }
+            .stats { grid-template-columns: 1fr 1fr; }
+            .teso-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
 
-            .nav-tabs {
-                display: none;
-            }
+        .table-responsive { width: 100%; overflow-x: auto; }
 
-            .teso-grid {
-                grid-template-columns: 1fr;
-            }
+        /* IMPRESIÓN */
+        @media print {
+            body { background: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            header, .filtros, .btn-pagar, .btn-ver, .teso-form, #solo-deudores, label[for="solo-deudores"], .card-header .section-title ~ div, #form-registro { display: none !important; }
+            .container { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+            .card, .stat-card, .teso-card { border: 1px solid var(--border) !important; box-shadow: none !important; page-break-inside: avoid; }
+            table { width: 100% !important; }
+            @page { margin: 1cm; }
         }
     </style>
 </head>
@@ -665,6 +672,9 @@
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showPanel('pagos')">Pagos y Deudas</button>
             <button class="nav-tab" onclick="showPanel('tesoreria')">Tesorería</button>
+            <button class="nav-tab" onclick="window.print()" title="Imprimir" style="padding: 8px 12px; display: flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+            </button>
         </div>
     </header>
 
@@ -739,20 +749,22 @@
                         </label>
                     </div>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Depto.</th>
-                            <th>Propietario</th>
-                            <th class="r">Cargo agua+mante</th>
-                            <th class="r">Pagado</th>
-                            <th class="r">Saldo</th>
-                            <th>Estado / Avance</th>
-                            <th style="text-align:center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-pagos"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Depto.</th>
+                                <th>Propietario</th>
+                                <th class="r">Cargo agua+mante</th>
+                                <th class="r">Pagado</th>
+                                <th class="r">Saldo</th>
+                                <th>Estado / Avance</th>
+                                <th style="text-align:center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-pagos"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -770,10 +782,15 @@
                     <div class="teso-total egr" id="t-egresos">S/. 0.00</div>
                     <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="t-egr-count">— movimientos</div>
                 </div>
+                <div class="teso-card">
+                    <h3>Ahorro del mes</h3>
+                    <div class="teso-total" id="t-ahorro">S/. 0.00</div>
+                    <div style="font-size:12px;color:var(--txt2);margin-top:4px" id="t-ahorro-desc">Diferencia neta (ingresos - egresos)</div>
+                </div>
             </div>
 
             <!-- Formulario rápido -->
-            <div class="card" style="margin-bottom:20px">
+            <div class="card" id="form-registro" style="margin-bottom:20px">
                 <div class="card-header">
                     <div class="section-title">Registrar movimiento</div>
                 </div>
@@ -824,18 +841,20 @@
                 <div class="card-header">
                     <div class="section-title">Movimientos del mes</div>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Tipo</th>
-                            <th>Categoría</th>
-                            <th>Concepto</th>
-                            <th class="r">Monto</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-teso"></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Categoría</th>
+                                <th>Concepto</th>
+                                <th class="r">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-teso"></tbody>
+                    </table>
+                </div>
                 <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:24px">
                     <div><span
                             style="font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em">Balance</span>
@@ -1209,10 +1228,15 @@
             document.getElementById('t-egresos').textContent = `S/. ${formatSoles(egresos)}`;
             document.getElementById('t-ing-count').textContent = `${tesoData.filter(m => m.tipo === 'ingreso').length} movimientos`;
             document.getElementById('t-egr-count').textContent = `${tesoData.filter(m => m.tipo === 'egreso').length} movimientos`;
-            const balance = ingresos - egresos;
-            const el = document.getElementById('t-balance');
-            el.textContent = (balance >= 0 ? '+' : '') + `S/. ${formatSoles(Math.abs(balance))}`;
-            el.style.color = balance >= 0 ? 'var(--verde)' : 'var(--tierra)';
+            
+            const ahorro = ingresos - egresos;
+            const elAhorro = document.getElementById('t-ahorro');
+            if (elAhorro) {
+                const signo = ahorro >= 0 ? '+' : '-';
+                elAhorro.textContent = `${signo}S/. ${formatSoles(Math.abs(ahorro))}`;
+                elAhorro.style.color = ahorro >= 0 ? 'var(--verde)' : 'var(--tierra)';
+                document.getElementById('t-ahorro-desc').textContent = ahorro >= 0 ? 'Ahorro positivo' : 'Déficit (gastos altos)';
+            }
         }
 
         async function guardarMovimiento() {
