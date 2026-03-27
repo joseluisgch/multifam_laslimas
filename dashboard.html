@@ -990,13 +990,18 @@
 
 
     // ══════════════════════════════════════════════════
-    // GRÁFICO: COBRADO VS DEUDA
+    // GRÁFICO: COBRADO VS DEUDA (APILADO)
     // ══════════════════════════════════════════════════
     function renderMontos(datos) {
       const labels = datos.map(d => `${MESES[d.mes]} ${String(d.anio).slice(2)}`);
-      const cobrado = datos.map(d => +(d.total_cargado || 0));
       const pagado = datos.map(d => +(d.total_pagado || 0));
-      const deuda = datos.map(d => Math.max(0, (+d.deuda_mes || 0)));
+      const deuda = datos.map(d => Math.max(0, +(d.deuda_mes || 0)));
+
+      // Opciones base modificadas para soportar apilamiento (stacked)
+      const opt = baseOptions('S/.');
+      opt.scales.x.stacked = true;
+      opt.scales.y.stacked = true;
+      opt.plugins.tooltip.mode = 'index'; // Muestra ambos valores al hacer hover
 
       crearChart('chart-montos', {
         type: 'bar',
@@ -1004,22 +1009,16 @@
           labels,
           datasets: [
             {
-              label: 'Total cobrado', data: cobrado,
-              backgroundColor: C.amberA, borderColor: C.amber, borderWidth: 1.5, borderRadius: 4, order: 3
-            },
-            {
               label: 'Pagado', data: pagado,
-              backgroundColor: C.verdeA, borderColor: C.verde, borderWidth: 1.5, borderRadius: 4, order: 2
+              backgroundColor: C.verdeA, borderColor: C.verde, borderWidth: 1.5
             },
             {
-              label: 'Deuda', data: deuda,
-              type: 'line', borderColor: C.rojo, borderWidth: 2,
-              backgroundColor: 'rgba(239,68,68,.08)', fill: true,
-              tension: .4, pointRadius: 4, pointBackgroundColor: C.rojo, order: 1
-            },
+              label: 'Deuda pendiente', data: deuda,
+              backgroundColor: C.amberA, borderColor: C.amber, borderWidth: 1.5
+            }
           ]
         },
-        options: baseOptions('S/.')
+        options: opt
       });
     }
 
