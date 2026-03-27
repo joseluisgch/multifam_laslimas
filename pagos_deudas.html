@@ -643,9 +643,11 @@
         /* IMPRESIÓN */
         @media print {
             body { background: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            #print-header { display: block !important; }
             header, .filtros, .btn-pagar, .btn-ver, .teso-form, #solo-deudores, label[for="solo-deudores"], .card-header .section-title ~ div, #form-registro { display: none !important; }
             .container { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
-            .card, .stat-card, .teso-card { border: 1px solid var(--border) !important; box-shadow: none !important; page-break-inside: avoid; }
+            .card, .stat-card, .teso-card { border: 1px solid var(--border) !important; box-shadow: none !important; }
+            .stat-card, .teso-card, tr { page-break-inside: avoid; }
             table { width: 100% !important; }
             @page { margin: 1cm; }
         }
@@ -679,6 +681,12 @@
     </header>
 
     <div class="container">
+
+        <!-- HEADER IMPRESIÓN -->
+        <div id="print-header" style="display:none; text-align:center; margin-bottom:24px; padding-bottom:12px; border-bottom:2px solid var(--border);">
+            <h2 style="font-family:'DM Serif Display',serif; color:var(--verde); font-size:24px; margin-bottom:4px;">Reporte de Pagos y Tesorería</h2>
+            <div style="font-size:14px; color:var(--txt2);" id="print-periodo">Balance del mes: —</div>
+        </div>
 
         <!-- PERIODO SELECTOR -->
         <div class="filtros" style="margin-bottom:20px">
@@ -973,8 +981,14 @@
         // CARGA DE DATOS
         // ═══════════════════════════════════════════════
         async function cargarDatos() {
-            const mes = +document.getElementById('f-mes').value;
+            const mesSel = document.getElementById('f-mes');
+            const mes = +mesSel.value;
+            const mesStr = mesSel.options[mesSel.selectedIndex].text;
             const anio = +document.getElementById('f-anio').value;
+
+            // Actualizar el título de impresión
+            const printP = document.getElementById('print-periodo');
+            if (printP) printP.textContent = `Balance del mes: ${mesStr} del ${anio}`;
 
             if (SUPABASE_URL.includes('TU_PROYECTO')) {
                 cargarMock(mes, anio);
