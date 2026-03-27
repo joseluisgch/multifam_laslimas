@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multifamiliar Las Limas — Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0b1512;
+      --bg2: #111f18;
+      --bg3: #172a1f;
+      --verde: #22c55e;
+      --verde-d: #16a34a;
+      --verde-xs: #052e16;
+      --cyan: #06b6d4;
+      --amber: #f59e0b;
+      --rojo: #ef4444;
+      --txt: #f0fdf4;
+      --txt2: #86efac;
+      --txt3: #4ade80;
+      --border: rgba(34, 197, 94, .12);
+      --border2: rgba(34, 197, 94, .22);
+      --radius: 12px;
+      --glow: 0 0 30px rgba(34, 197, 94, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: rgba(17, 31, 24, .95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--verde);
+      box-shadow: 0 0 8px var(--verde);
+      animation: pulse 2s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    .logo-txt {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--txt)
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      color: var(--txt2);
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    #last-update {
+      font-size: 11px;
+      color: var(--txt2);
+      opacity: .7
+    }
+
+    .btn-refresh {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--verde);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-refresh:hover {
+      background: rgba(34, 197, 94, .1)
+    }
+
+    /* ── LAYOUT ── */
+    .main {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 24px 20px 60px
+    }
+
+    /* ── FILTRO PERIODO ── */
+    .periodo-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .periodo-bar label {
+      font-size: 12px;
+      color: var(--txt2);
+      font-weight: 500
+    }
+
+    .periodo-bar select {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--txt);
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      padding: 6px 10px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .periodo-bar select:focus {
+      border-color: var(--verde)
+    }
+
+    .btn-aplicar {
+      padding: 7px 16px;
+      border-radius: 8px;
+      background: var(--verde-d);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all .15s;
+    }
+
+    .btn-aplicar:hover {
+      background: var(--verde)
+    }
+
+    /* ── KPI CARDS ── */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px
+    }
+
+    .kpi {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+
+    .kpi:hover {
+      border-color: var(--border2)
+    }
+
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .kpi-verde::before {
+      background: linear-gradient(90deg, var(--verde), var(--cyan))
+    }
+
+    .kpi-amber::before {
+      background: linear-gradient(90deg, var(--amber), #f97316)
+    }
+
+    .kpi-rojo::before {
+      background: linear-gradient(90deg, var(--rojo), #ec4899)
+    }
+
+    .kpi-cyan::before {
+      background: linear-gradient(90deg, var(--cyan), #818cf8)
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--txt2);
+      margin-bottom: 8px
+    }
+
+    .kpi-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--txt);
+      line-height: 1
+    }
+
+    .kpi-value.verde {
+      color: var(--verde)
+    }
+
+    .kpi-value.amber {
+      color: var(--amber)
+    }
+
+    .kpi-value.rojo {
+      color: var(--rojo)
+    }
+
+    .kpi-value.cyan {
+      color: var(--cyan)
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--txt2);
+      margin-top: 6px;
+      opacity: .8
+    }
+
+    .kpi-delta {
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .delta-up {
+      color: #4ade80
+    }
+
+    .delta-down {
+      color: var(--rojo)
+    }
+
+    .delta-neu {
+      color: var(--txt2)
+    }
+
+
+
+    /* ── GRID GRÁFICOS ── */
+    .charts-grid {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .row-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .row-3 {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    .chart-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--glow);
+      min-width: 0; /* Prevent flex/grid blowout */
+    }
+
+    .chart-card.full {
+      grid-column: 1/-1
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chart-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--txt)
+    }
+
+    .chart-sub {
+      font-size: 11px;
+      color: var(--txt2);
+      margin-top: 2px;
+      opacity: .8
+    }
+
+    .chart-badge {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-verde {
+      background: rgba(34, 197, 94, .15);
+      color: var(--verde)
+    }
+
+    .badge-amber {
+      background: rgba(245, 158, 11, .15);
+      color: var(--amber)
+    }
+
+    .badge-rojo {
+      background: rgba(239, 68, 68, .15);
+      color: var(--rojo)
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 220px;
+      width: 100%;
+    }
+
+    .chart-wrap.tall {
+      height: 280px;
+    }
+
+    .chart-wrap.short {
+      height: 180px;
+    }
+
+    .ranking-wrap {
+      overflow-y: auto;
+      max-height: 300px;
+    }
+
+    /* ── RANKING TABLE ── */
+    .ranking-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px
+    }
+
+    .ranking-table th {
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--txt2);
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ranking-table td {
+      padding: 9px 10px;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(34, 197, 94, .06)
+    }
+
+    .ranking-table tr:last-child td {
+      border-bottom: none
+    }
+
+    .ranking-table tr:hover td {
+      background: rgba(34, 197, 94, .04)
+    }
+
+    .rank-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      color: var(--txt2);
+      font-weight: 600
+    }
+
+    .rank-depto {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      color: var(--verde);
+      font-weight: 700
+    }
+
+    .rank-prop {
+      font-size: 11px;
+      color: var(--txt2);
+      margin-top: 1px
+    }
+
+    .rank-deuda {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: right
+    }
+
+    .rank-bar-wrap {
+      height: 4px;
+      background: rgba(255, 255, 255, .06);
+      border-radius: 2px;
+      margin-top: 4px
+    }
+
+    .rank-bar {
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--rojo), #f97316)
+    }
+
+    .rank-meses {
+      font-size: 10px;
+      color: var(--txt2);
+      text-align: center
+    }
+
+    .badge-mora {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .mora-alta {
+      background: rgba(239, 68, 68, .2);
+      color: #fca5a5
+    }
+
+    .mora-med {
+      background: rgba(245, 158, 11, .2);
+      color: #fcd34d
+    }
+
+
+    /* ── SELECTOR DEPTO ── */
+    .depto-selector {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .depto-selector label {
+      font-size: 11px;
+      color: var(--txt2)
+    }
+
+    .depto-selector select {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 7px;
+      color: var(--txt);
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      padding: 5px 9px;
+      outline: none;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    /* ── SPINNER ── */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+      gap: 12px;
+      color: var(--txt2);
+      font-size: 12px;
+    }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--border);
+      border-top-color: var(--verde);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* ── SIN DATOS ── */
+    .sin-datos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+      color: var(--txt2);
+      font-size: 12px;
+      opacity: .6;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      .kpis {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .row-2,
+      .row-3 {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:500px) {
+      .kpis {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .kpi-value {
+        font-size: 22px
+      }
+
+      .main {
+        padding: 16px 12px 60px
+      }
+    }
+
+    /* ── IMPRESIÓN ── */
+    @media print {
+      @page { margin: 1.5cm; }
+      body { background: white !important; color: black !important; }
+      header, .periodo-bar { display: none !important; }
+      .main { padding: 0 !important; max-width: 100% !important; margin: 0 !important; }
+      .kpis { grid-template-columns: repeat(4, 1fr) !important; gap: 8px !important; }
+      .charts-grid { display: block !important; margin-bottom: 0 !important; }
+      .chart-card { margin-bottom: 20px !important; border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; color: black !important; page-break-inside: avoid; }
+      .kpi { border: 1px solid #ccc !important; box-shadow: none !important; background: white !important; color: black !important; page-break-inside: avoid; padding: 12px 14px !important; }
+      .kpi-value, .chart-title, .kpi-label, .kpi-sub, .chart-sub { color: black !important; }
+      .rank-depto, .rank-prop { color: black !important; }
+      .rank-num { color: #555 !important; }
+      .chart-wrap { height: 260px !important; width: 100% !important; }
+      canvas { max-width: 100% !important; max-height: 100% !important; }
+      .ranking-wrap { max-height: none !important; overflow: visible !important; }
+      .ranking-table { border: 1px solid #eee; margin-top: 10px; }
+      .ranking-table th { color: #333 !important; border-bottom: 2px solid #ccc !important; }
+      .ranking-table td { border-bottom: 1px solid #eee !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a class="logo-link" href="https://joseluisgch.github.io/multifam_laslimas/" title="Inicio">
+      <span class="logo-dot"></span>
+      <div>
+        <div class="logo-txt">Las Limas</div>
+        <div class="logo-sub">Dashboard</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span id="last-update"></span>
+      <button class="btn-refresh" onclick="window.print()" title="Imprimir" style="padding:6px 10px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+      </button>
+      <button class="btn-refresh" onclick="cargarTodo()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="1 4 1 10 7 10" />
+          <path d="M3.51 15a9 9 0 1 0 .49-3.66" />
+        </svg>
+        Actualizar
+      </button>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- FILTRO -->
+    <div class="periodo-bar">
+      <label>Depto:</label>
+      <select id="sel-depto" style="background:var(--bg3);border:1px solid var(--border2);border-radius:7px;color:var(--txt);font-size:12px;padding:6px 10px;outline:none;min-width:140px;" onchange="cargarTodo()">
+        <option value="">Todos los departamentos</option>
+      </select>
+      <label style="margin-left:8px;">Desde:</label>
+      <select id="f-ini-mes">
+        <option value="1">Ene</option>
+        <option value="2">Feb</option>
+        <option value="3">Mar</option>
+        <option value="4">Abr</option>
+        <option value="5">May</option>
+        <option value="6">Jun</option>
+        <option value="7">Jul</option>
+        <option value="8">Ago</option>
+        <option value="9">Sep</option>
+        <option value="10">Oct</option>
+        <option value="11" selected>Nov</option>
+        <option value="12">Dic</option>
+      </select>
+      <select id="f-ini-anio">
+        <option value="2024" selected>2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+      </select>
+      <label>Hasta:</label>
+      <select id="f-fin-mes">
+        <option value="1">Ene</option>
+        <option value="2">Feb</option>
+        <option value="3" selected>Mar</option>
+        <option value="4">Abr</option>
+        <option value="5">May</option>
+        <option value="6">Jun</option>
+        <option value="7">Jul</option>
+        <option value="8">Ago</option>
+        <option value="9">Sep</option>
+        <option value="10">Oct</option>
+        <option value="11">Nov</option>
+        <option value="12">Dic</option>
+      </select>
+      <select id="f-fin-anio">
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026" selected>2026</option>
+      </select>
+      <button class="btn-aplicar" onclick="cargarTodo()">Aplicar</button>
+    </div>
+
+
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi kpi-verde">
+        <div class="kpi-label">Consumo total (período)</div>
+        <div class="kpi-value verde" id="k-consumo">—</div>
+        <div class="kpi-sub" id="k-consumo-sub">m³ según medidores</div>
+      </div>
+      <div class="kpi kpi-cyan">
+        <div class="kpi-label">Tarifa promedio</div>
+        <div class="kpi-value cyan" id="k-tarifa">—</div>
+        <div class="kpi-sub" id="k-tarifa-sub">S/. por m³</div>
+        <div class="kpi-delta" id="k-tarifa-delta"></div>
+      </div>
+      <div class="kpi kpi-amber">
+        <div class="kpi-label">Total cobrado</div>
+        <div class="kpi-value amber" id="k-cobrado">—</div>
+        <div class="kpi-sub" id="k-cobrado-sub">en el período</div>
+      </div>
+      <div class="kpi kpi-rojo">
+        <div class="kpi-label">Deuda acumulada</div>
+        <div class="kpi-value rojo" id="k-deuda">—</div>
+        <div class="kpi-sub" id="k-deuda-sub">pendiente de pago</div>
+      </div>
+    </div>
+
+    <!-- FILA 1: Consumo + Precio -->
+    <div class="charts-grid row-2" style="margin-bottom:16px">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Consumo mensual del edificio</div>
+            <div class="chart-sub">m³ según suma de medidores</div>
+          </div>
+          <span class="chart-badge badge-verde">m³</span>
+        </div>
+        <div class="chart-wrap"><canvas id="chart-consumo"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Precio unitario S/./m³</div>
+            <div class="chart-sub">Sube cuando hay pérdidas en comunes</div>
+          </div>
+          <span class="chart-badge badge-amber" id="badge-tarifa">—</span>
+        </div>
+        <div class="chart-wrap"><canvas id="chart-tarifa"></canvas></div>
+      </div>
+    </div>
+
+
+    <!-- FILA 2: Monto cobrado/deuda + Ranking deudores -->
+    <div class="charts-grid row-2" style="margin-bottom:16px">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Cobrado vs. deuda mensual</div>
+            <div class="chart-sub">S/. cobrado (agua + mantenimiento) y saldo pendiente</div>
+          </div>
+          <span class="chart-badge badge-amber">S/.</span>
+        </div>
+        <div class="chart-wrap tall"><canvas id="chart-montos"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Ranking deudores</div>
+            <div class="chart-sub">Deuda acumulada total</div>
+          </div>
+          <span class="chart-badge badge-rojo" id="badge-ranking">—</span>
+        </div>
+        <div class="ranking-wrap">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Departamento</th>
+                <th>Meses</th>
+                <th style="text-align:right">Deuda</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body">
+              <tr>
+                <td colspan="4">
+                  <div class="loading">
+                    <div class="spinner"></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════════
+    // CONFIG
+    // ══════════════════════════════════════════════════
+    const SUPABASE_URL = 'https://ajfkujusscauhzmzaebr.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_FCh04HooP5LbRgAmWSd83Q__WwAYr8u';
+
+    const MESES = ['', 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+    // Estado de gráficos
+    const charts = {};
+    let datosGlobales = {};
+    let filtrosInicializados = false;
+
+    // ══════════════════════════════════════════════════
+    // COLORES CHART.JS (tema oscuro)
+    // ══════════════════════════════════════════════════
+    Chart.defaults.color = '#86efac';
+    Chart.defaults.borderColor = 'rgba(34,197,94,.1)';
+    Chart.defaults.font.family = 'Inter';
+
+    const C = {
+      verde: '#22c55e', verdeA: 'rgba(34,197,94,.15)',
+      cyan: '#06b6d4', cyanA: 'rgba(6,182,212,.15)',
+      amber: '#f59e0b', amberA: 'rgba(245,158,11,.15)',
+      rojo: '#ef4444', rojoA: 'rgba(239,68,68,.15)',
+      gris: 'rgba(134,239,172,.25)',
+    };
+
+    // ══════════════════════════════════════════════════
+    // INIT
+    // ══════════════════════════════════════════════════
+    document.addEventListener('DOMContentLoaded', cargarTodo);
+
+    async function cargarTodo() {
+      document.getElementById('last-update').textContent = 'Cargando...';
+
+      const numero = document.getElementById('sel-depto').value;
+      const apiConsumo = numero ? `v_dashboard_departamento?numero=eq.${numero}&order=anio.asc,mes.asc` : `v_dashboard_consumo?order=anio.asc,mes.asc`;
+
+      try {
+        let [consumo, ranking, deptos] = await Promise.all([
+          sbGet(apiConsumo),
+          sbGet(`v_ranking_deudores?order=deuda_total.desc`),
+          sbGet(`departamentos?select=id,numero,propietario&activo=eq.true&order=numero.asc`),
+        ]);
+
+        // Ocultar periodos futuros o vacíos (sin recíbos ni lecturas)
+        consumo = consumo.filter(c => c.total_cargado > 0 || c.deptos_con_lectura > 0);
+
+        if (!filtrosInicializados && consumo.length > 0) {
+          const primer = consumo[0];
+          const ultimo = consumo[consumo.length - 1];
+          document.getElementById('f-ini-mes').value = primer.mes;
+          document.getElementById('f-ini-anio').value = primer.anio;
+          document.getElementById('f-fin-mes').value = ultimo.mes;
+          document.getElementById('f-fin-anio').value = ultimo.anio;
+          filtrosInicializados = true;
+        }
+
+        const mesIni = +document.getElementById('f-ini-mes').value;
+        const anioIni = +document.getElementById('f-ini-anio').value;
+        const mesFin = +document.getElementById('f-fin-mes').value;
+        const anioFin = +document.getElementById('f-fin-anio').value;
+
+        const filteredRanking = numero ? ranking.filter(r => r.numero === numero) : ranking.slice(0, 15);
+
+        // Filtrar por rango
+        const datos = consumo.filter(p => {
+          const f = p.anio * 100 + p.mes;
+          return f >= anioIni * 100 + mesIni && f <= anioFin * 100 + mesFin;
+        });
+
+        datosGlobales = { datos, ranking: filteredRanking, deptos };
+
+        if (!document.getElementById('sel-depto').options.length || document.getElementById('sel-depto').options.length === 1) {
+          poblarSelectDeptos(deptos);
+        }
+
+        renderKPIs(datos, filteredRanking);
+        renderConsumo(datos, numero);
+        renderTarifa(datos);
+        renderMontos(datos);
+        renderRanking(filteredRanking);
+
+        document.getElementById('last-update').textContent =
+          'Actualizado: ' + new Date().toLocaleTimeString('es-PE');
+
+      } catch (e) {
+        if (e.message === 'DEMO') {
+          cargarDemo();
+        } else {
+          console.error(e);
+          document.getElementById('last-update').textContent = 'Error: ' + e.message;
+        }
+      }
+    }
+
+    // ══════════════════════════════════════════════════
+    // KPIs
+    // ══════════════════════════════════════════════════
+    function renderKPIs(datos, ranking) {
+      const consumoTotal = datos.reduce((s, d) => s + (d.consumo_medidores_m3 || 0), 0);
+      const tarifas = datos.filter(d => d.tarifa_sol_m3).map(d => +d.tarifa_sol_m3);
+      const tarifaProm = tarifas.length ? tarifas.reduce((a, b) => a + b, 0) / tarifas.length : 0;
+      const cobrado = datos.reduce((s, d) => s + (+d.total_cargado || 0), 0);
+      const deuda = datos.reduce((s, d) => s + (+d.deuda_mes || 0), 0);
+
+      document.getElementById('k-consumo').textContent = consumoTotal.toFixed(1) + ' m³';
+      document.getElementById('k-consumo-sub').textContent = `${datos.length} periodos · ${datos.reduce((s, d) => s + (+d.deptos_con_lectura || 0), 0)} lecturas`;
+      document.getElementById('k-tarifa').textContent = tarifaProm > 0 ? 'S/. ' + tarifaProm.toFixed(2) : '—';
+
+      // Delta tarifa: comparar primer vs último mes
+      if (tarifas.length >= 2) {
+        const d = tarifas[tarifas.length - 1] - tarifas[0];
+        const pct = ((d / tarifas[0]) * 100).toFixed(1);
+        const el = document.getElementById('k-tarifa-delta');
+        el.innerHTML = d >= 0
+          ? `<span class="delta-up">▲ ${pct}% vs inicio período</span>`
+          : `<span class="delta-down">▼ ${Math.abs(pct)}% vs inicio período</span>`;
+      }
+
+      document.getElementById('k-cobrado').textContent = 'S/. ' + cobrado.toFixed(2);
+      document.getElementById('k-cobrado-sub').textContent = `${datos.filter(d => d.total_cargado > 0).length} meses con cargos`;
+      document.getElementById('k-deuda').textContent = 'S/. ' + Math.max(0, deuda).toFixed(2);
+
+      // Badge ranking
+      const conDeuda = ranking.filter(r => r.deuda_total > 0).length;
+      document.getElementById('badge-ranking').textContent = `${conDeuda} deudores`;
+    }
+
+
+    // ══════════════════════════════════════════════════
+    // GRÁFICO: CONSUMO MENSUAL
+    // ══════════════════════════════════════════════════
+    function renderConsumo(datos, numero) {
+      const labels = datos.map(d => `${MESES[d.mes]} ${String(d.anio).slice(2)}`);
+      const vals = datos.map(d => +(d.consumo_medidores_m3 || 0));
+      // Media móvil 3 meses
+      const media = vals.map((_, i) => {
+        const s = vals.slice(Math.max(0, i - 2), i + 1);
+        return +(s.reduce((a, b) => a + b, 0) / s.length).toFixed(2);
+      });
+
+      crearChart('chart-consumo', {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: numero ? `Consumo m³ Depto ${numero}` : 'Consumo m³ (Suma Medidores)', data: vals, backgroundColor: C.verdeA,
+              borderColor: C.verde, borderWidth: 1.5, borderRadius: 4, order: 2
+            },
+            {
+              label: 'Media móvil', data: media, type: 'line',
+              borderColor: C.cyan, borderWidth: 2, pointRadius: 0,
+              tension: .4, fill: false, order: 1
+            },
+          ]
+        },
+        options: baseOptions('m³')
+      });
+    }
+
+    // ══════════════════════════════════════════════════
+    // GRÁFICO: PRECIO UNITARIO
+    // ══════════════════════════════════════════════════
+    function renderTarifa(datos) {
+      const conTarifa = datos.filter(d => d.tarifa_sol_m3);
+      const labels = conTarifa.map(d => `${MESES[d.mes]} ${String(d.anio).slice(2)}`);
+      const vals = conTarifa.map(d => +d.tarifa_sol_m3);
+      const prom = vals.length ? vals.reduce((a, b) => a + b) / vals.length : 0;
+
+      const ultima = vals[vals.length - 1];
+      const badge = document.getElementById('badge-tarifa');
+      badge.textContent = ultima ? `S/. ${ultima.toFixed(2)}/m³` : '—';
+      badge.className = `chart-badge ${ultima > prom * 1.1 ? 'badge-rojo' : 'badge-amber'}`;
+
+      crearChart('chart-tarifa', {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Tarifa S/./m³', data: vals,
+              borderColor: C.amber, borderWidth: 2.5,
+              backgroundColor: ctx => {
+                const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 220);
+                g.addColorStop(0, 'rgba(245,158,11,.25)');
+                g.addColorStop(1, 'rgba(245,158,11,0)');
+                return g;
+              },
+              fill: true, tension: .4, pointRadius: 4,
+              pointBackgroundColor: C.amber, pointBorderColor: '#0b1512'
+            },
+            {
+              label: 'Promedio', data: Array(vals.length).fill(+prom.toFixed(2)),
+              borderColor: 'rgba(134,239,172,.3)', borderWidth: 1.5,
+              borderDash: [4, 4], pointRadius: 0, fill: false
+            },
+          ]
+        },
+        options: baseOptions('S/./m³')
+      });
+    }
+
+
+    // ══════════════════════════════════════════════════
+    // GRÁFICO: COBRADO VS DEUDA
+    // ══════════════════════════════════════════════════
+    function renderMontos(datos) {
+      const labels = datos.map(d => `${MESES[d.mes]} ${String(d.anio).slice(2)}`);
+      const cobrado = datos.map(d => +(d.total_cargado || 0));
+      const pagado = datos.map(d => +(d.total_pagado || 0));
+      const deuda = datos.map(d => Math.max(0, (+d.deuda_mes || 0)));
+
+      crearChart('chart-montos', {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Total cobrado', data: cobrado,
+              backgroundColor: C.amberA, borderColor: C.amber, borderWidth: 1.5, borderRadius: 4, order: 3
+            },
+            {
+              label: 'Pagado', data: pagado,
+              backgroundColor: C.verdeA, borderColor: C.verde, borderWidth: 1.5, borderRadius: 4, order: 2
+            },
+            {
+              label: 'Deuda', data: deuda,
+              type: 'line', borderColor: C.rojo, borderWidth: 2,
+              backgroundColor: 'rgba(239,68,68,.08)', fill: true,
+              tension: .4, pointRadius: 4, pointBackgroundColor: C.rojo, order: 1
+            },
+          ]
+        },
+        options: baseOptions('S/.')
+      });
+    }
+
+    // ══════════════════════════════════════════════════
+    // RANKING DEUDORES
+    // ══════════════════════════════════════════════════
+    function renderRanking(ranking) {
+      const deudores = ranking.filter(r => r.deuda_total > 0);
+      const maxDeuda = deudores.length ? deudores[0].deuda_total : 1;
+      const tbody = document.getElementById('ranking-body');
+
+      if (!deudores.length) {
+        tbody.innerHTML = `<tr><td colspan="4"><div class="sin-datos">✓ Sin deudores activos</div></td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = deudores.map((r, i) => {
+        const pct = (+r.deuda_total / maxDeuda * 100).toFixed(0);
+        const mora = r.meses_deuda >= 3 ? 'mora-alta' : 'mora-med';
+        const meses = r.meses_deuda;
+        return `<tr>
+      <td><div class="rank-num">${i + 1}</div></td>
+      <td>
+        <div class="rank-depto">${r.numero}</div>
+        <div class="rank-prop">${r.propietario}</div>
+        <div class="rank-bar-wrap"><div class="rank-bar" style="width:${pct}%"></div></div>
+      </td>
+      <td class="rank-meses">
+        <span class="badge-mora ${mora}">${meses}m</span>
+      </td>
+      <td><div class="rank-deuda" style="color:${+r.deuda_total > 200 ? C.rojo : C.amber}">
+        S/. ${parseFloat(r.deuda_total).toFixed(2)}
+      </div></td>
+    </tr>`;
+      }).join('');
+    }
+
+    // ══════════════════════════════════════════════════
+    // CONSUMO POR DEPARTAMENTO
+    // ══════════════════════════════════════════════════
+    function poblarSelectDeptos(deptos) {
+      const sel = document.getElementById('sel-depto');
+      const val = sel.value;
+      sel.innerHTML = '<option value="">Todos los departamentos</option>' +
+        deptos.map(d => `<option value="${d.numero}">${d.numero} — ${d.propietario}</option>`).join('');
+      sel.value = val;
+    }
+
+    // ══════════════════════════════════════════════════
+    // HELPERS CHART
+    // ══════════════════════════════════════════════════
+    function baseOptions(unidad) {
+      return {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { labels: { font: { size: 11 }, color: '#86efac', boxWidth: 12, padding: 12 } },
+          tooltip: {
+            backgroundColor: 'rgba(11,21,18,.95)', borderColor: 'rgba(34,197,94,.2)',
+            borderWidth: 1, padding: 10, titleFont: { size: 12 }, bodyFont: { size: 11 },
+            callbacks: { label: ctx => ` ${ctx.dataset.label}: ${unidad === 'S/.' || unidad === 'S/./m³' ? 'S/. ' : ''}${ctx.raw}${unidad === 'm³' || unidad === '%' ? ' ' + unidad : ''}` }
+          }
+        },
+        scales: {
+          x: { grid: { color: 'rgba(34,197,94,.06)' }, ticks: { font: { size: 10 }, maxRotation: 45 } },
+          y: {
+            grid: { color: 'rgba(34,197,94,.06)' }, ticks: {
+              font: { size: 10 },
+              callback: v => unidad === 'S/.' ? 'S/. ' + v : v + ' ' + (unidad !== 'S/./m³' ? unidad : '')
+            }
+          }
+        }
+      };
+    }
+
+    function crearChart(id, config) {
+      if (charts[id]) { charts[id].destroy(); }
+      const canvas = document.getElementById(id);
+      if (!canvas) return;
+      charts[id] = new Chart(canvas, config);
+    }
+
+    // ══════════════════════════════════════════════════
+    // SUPABASE HELPER
+    // ══════════════════════════════════════════════════
+    async function sbGet(path) {
+      if (SUPABASE_URL.includes('TU_PROYECTO')) throw new Error('DEMO');
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+      });
+      if (!r.ok) throw new Error(await r.text());
+      return r.json();
+    }
+
+    // ══════════════════════════════════════════════════
+    // DEMO (sin Supabase)
+    // ══════════════════════════════════════════════════
+    function cargarDemo() {
+      const meses = [
+        { mes: 11, anio: 2024, consumo_medidores_m3: 480.2, consumo_sedapal_m3: 498.5, perdida_pct: 3.7, tarifa_sol_m3: 3.92, total_cargado: 3840, total_pagado: 3480, deuda_mes: 360 },
+        { mes: 12, anio: 2024, consumo_medidores_m3: 495.8, consumo_sedapal_m3: 520.1, perdida_pct: 4.7, tarifa_sol_m3: 4.05, total_cargado: 3960, total_pagado: 3600, deuda_mes: 360 },
+        { mes: 1, anio: 2025, consumo_medidores_m3: 503.4, consumo_sedapal_m3: 545.2, perdida_pct: 7.7, tarifa_sol_m3: 4.12, total_cargado: 4020, total_pagado: 3420, deuda_mes: 600 },
+        { mes: 2, anio: 2025, consumo_medidores_m3: 488.1, consumo_sedapal_m3: 510.8, perdida_pct: 4.4, tarifa_sol_m3: 4.08, total_cargado: 3905, total_pagado: 3660, deuda_mes: 245 },
+        { mes: 3, anio: 2025, consumo_medidores_m3: 512.6, consumo_sedapal_m3: 578.4, perdida_pct: 11.4, tarifa_sol_m3: 4.35, total_cargado: 4100, total_pagado: 3280, deuda_mes: 820 },
+        { mes: 4, anio: 2025, consumo_medidores_m3: 498.3, consumo_sedapal_m3: 524.1, perdida_pct: 4.9, tarifa_sol_m3: 4.20, total_cargado: 3985, total_pagado: 3750, deuda_mes: 235 },
+        { mes: 5, anio: 2025, consumo_medidores_m3: 521.7, consumo_sedapal_m3: 548.9, perdida_pct: 5.0, tarifa_sol_m3: 4.28, total_cargado: 4175, total_pagado: 3900, deuda_mes: 275 },
+        { mes: 6, anio: 2025, consumo_medidores_m3: 509.2, consumo_sedapal_m3: 531.6, perdida_pct: 4.2, tarifa_sol_m3: 4.15, total_cargado: 4074, total_pagado: 3840, deuda_mes: 234 },
+        { mes: 7, anio: 2025, consumo_medidores_m3: 531.8, consumo_sedapal_m3: 614.5, perdida_pct: 13.5, tarifa_sol_m3: 4.68, total_cargado: 4255, total_pagado: 3600, deuda_mes: 655 },
+        { mes: 8, anio: 2025, consumo_medidores_m3: 518.4, consumo_sedapal_m3: 542.3, perdida_pct: 4.4, tarifa_sol_m3: 4.42, total_cargado: 4147, total_pagado: 3960, deuda_mes: 187 },
+        { mes: 9, anio: 2025, consumo_medidores_m3: 506.9, consumo_sedapal_m3: 528.7, perdida_pct: 4.1, tarifa_sol_m3: 4.38, total_cargado: 4055, total_pagado: 3840, deuda_mes: 215 },
+        { mes: 10, anio: 2025, consumo_medidores_m3: 524.3, consumo_sedapal_m3: 552.8, perdida_pct: 5.2, tarifa_sol_m3: 4.55, total_cargado: 4195, total_pagado: 3780, deuda_mes: 415 },
+        { mes: 11, anio: 2025, consumo_medidores_m3: 502.8, consumo_sedapal_m3: 529.4, perdida_pct: 5.0, tarifa_sol_m3: 4.48, total_cargado: 4022, total_pagado: 3600, deuda_mes: 422 },
+        { mes: 12, anio: 2025, consumo_medidores_m3: 519.6, consumo_sedapal_m3: 547.2, perdida_pct: 5.0, tarifa_sol_m3: 4.60, total_cargado: 4157, total_pagado: 3720, deuda_mes: 437 },
+        { mes: 1, anio: 2026, consumo_medidores_m3: 511.2, consumo_sedapal_m3: 538.9, perdida_pct: 5.1, tarifa_sol_m3: 4.52, total_cargado: 4090, total_pagado: 3600, deuda_mes: 490 },
+        { mes: 2, anio: 2026, consumo_medidores_m3: 502.9, consumo_sedapal_m3: null, perdida_pct: null, tarifa_sol_m3: 5.08, total_cargado: 4023, total_pagado: 3200, deuda_mes: 823 },
+        { mes: 3, anio: 2026, consumo_medidores_m3: 495.4, consumo_sedapal_m3: null, perdida_pct: null, tarifa_sol_m3: 4.04, total_cargado: 3963, total_pagado: 0, deuda_mes: 3963 },
+      ];
+      const ranking = [
+        { numero: '103', propietario: 'Mamani Quispe, Pedro', deuda_total: 486, meses_deuda: 4 },
+        { numero: '202', propietario: 'Sánchez Lima, María', deuda_total: 362, meses_deuda: 3 },
+        { numero: '302', propietario: 'Castro Neyra, Elena', deuda_total: 244, meses_deuda: 2 },
+        { numero: '304', propietario: 'Alarcón Ruiz, Patricia', deuda_total: 218, meses_deuda: 2 },
+        { numero: '601', propietario: 'Villanueva Ríos, Hugo', deuda_total: 162, meses_deuda: 1 },
+        { numero: '108', propietario: 'Flores Ccasa, Rosa', deuda_total: 148, meses_deuda: 1 },
+      ];
+      const deptos = meses.map((_, i) => ({ id: i + 1, numero: String(100 + i + 1), propietario: 'Demo ' + i }));
+
+      renderKPIs(meses, ranking);
+      renderAlertaFuga(meses);
+      renderConsumo(meses);
+      renderTarifa(meses);
+      renderPerdida(meses);
+      renderGauge(meses);
+      renderMontos(meses);
+      renderRanking(ranking);
+      poblarSelectDeptos(deptos);
+      document.getElementById('last-update').textContent = '⚠ Datos de demostración';
+    }
+  </script>
+</body>
+
+</html>
